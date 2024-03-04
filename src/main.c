@@ -11,7 +11,8 @@ int main(void)
 			exit(0);
 		if(input[0] == '\0')
 			continue;
-		printf("your message: %s \n", input);
+		printf("your message: %s your message len: %ld \n", input, ft_strlen(input));
+		
 	}
 	free(input);
 }
