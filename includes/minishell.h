@@ -7,6 +7,19 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+
+typedef struct s_core
+{
+	char *input;
+}	t_core;
+
+
+typedef enum e_bool
+{
+	FALSE,
+	TRUE
+}	t_bool;
+
 # define COLOR_PINK "\001\x1B[1;35m\002"
 # define COLOR_GREEN "\001\x1B[1;32m\002"
 # define COLOR_RED "\001\x1B[1;31m\002"
