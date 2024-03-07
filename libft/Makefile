@@ -39,7 +39,8 @@ SOURCES = \
 	ft_strtrim.c \
 	ft_substr.c \
 	ft_tolower.c \
-	ft_toupper.c
+	ft_toupper.c \
+	ft_strstr.c
 
 
 BONUS_SOURCES = \

@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 11:24:34 by csilva-m          #+#    #+#             */
-/*   Updated: 2023/10/10 18:59:09 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/03/07 16:13:33 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 int					ft_putnbr_base(long int nb, char *base);
+char				*ft_strstr(const char *big, const char *find);
 
 #endif

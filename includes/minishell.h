@@ -8,9 +8,17 @@
 #include <readline/history.h>
 
 
+typedef struct s_token
+{
+	char	*comand;
+	int		token;
+}	t_token;
+
+
 typedef struct s_core
 {
-	char *input;
+	char	*input;
+	t_token *token;
 }	t_core;
 
 
