@@ -1,6 +1,6 @@
 HIDE	=	@
 CC		=	cc
-CFLAGS	=	-Wall -Werror -Wextra -I. -I./$(INCDIR)
+CFLAGS	=	-Wall -Werror -Wextra -g -I. -I./$(INCDIR)
 RFLAGS	=	-lreadline -lhistory
 
 RM		=	rm -rf

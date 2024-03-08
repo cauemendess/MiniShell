@@ -10,7 +10,7 @@
 
 typedef struct s_token
 {
-	char	*comand;
+	char	*command;
 	int		token;
 	struct	s_token *prev;
 	struct	s_token *next;
@@ -22,9 +22,6 @@ typedef struct s_core
 	char	*input;
 	t_token *token;
 }	t_core;
-
-
-
 
 
 enum
