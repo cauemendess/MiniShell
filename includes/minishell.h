@@ -12,6 +12,8 @@ typedef struct s_token
 {
 	char	*comand;
 	int		token;
+	struct	s_token *prev;
+	struct	s_token *next;
 }	t_token;
 
 
@@ -20,6 +22,22 @@ typedef struct s_core
 	char	*input;
 	t_token *token;
 }	t_core;
+
+
+
+
+
+enum
+{
+	WORD = 1,
+	REDIRECT,
+	APPEND,
+	PIPE,
+	HEREDOC,
+	SPACES,
+	VAR,
+	TRUNC,
+};
 
 
 typedef enum e_bool

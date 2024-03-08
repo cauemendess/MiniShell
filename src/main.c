@@ -16,6 +16,7 @@ t_bool	simple_error(void)
 	if (temp[0] == '|')
 	{
 		ft_putendl_fd("bash: syntax error near unexpected token `newline'", 2);
+		free(temp);
 		return (TRUE);
 	}
 	while (temp[i])
@@ -23,75 +24,101 @@ t_bool	simple_error(void)
 	if (temp[i - 1] == '<' || temp[i - 1] == '>' || temp[i - 1] == '|')
 	{
 		ft_putendl_fd("bash: syntax error near unexpected token `newline'", 2);
+		free(temp);
+
 		return (TRUE);
 	}
+	free(temp);
 	return (FALSE);
 }
 
 
-char	*replace_occ(char *res, char *ptr, char *old, char *new)
-{
-	size_t	len;
-	char	*subtemp;
-	char	*tmp;
+//void	add_token(char *command, int type)
+//{
 
-	len = ptr - res;
-	subtemp = ft_substr(res, 0, len);
-	tmp = ft_strjoin(subtemp, new);
-	free(subtemp);
-	subtemp = ft_strjoin(tmp, ptr + ft_strlen(old));
-	free(res);
-	free(tmp);
-	return (subtemp);
+//}
+
+void	save_words(char *input, int start, int end)
+{
+	char *str;
+	str = malloc(start - end * sizeof(char));
+	
+	add_token(str, 0);
+	free(str);
+
 }
 
-char	*ft_replace(char *str, char *old, char *replace)
+void	save_separator(char *input, int pos, int type)
 {
-	char	*ptr;
-	char	*res;
-	size_t	len_str;
-	size_t	count;
-
-	len_str = ft_strlen(str);
-	res = ft_strdup(str);
-	ptr = res;
-	while (*ptr)
+	char *str;
+	if(type == APPEND || type == HEREDOC)
 	{
-		ptr = ft_strstr(ptr, old);
-		if (!ptr)
-			break ;
-		count = ptr - res;
-		res = replace_occ(res, ptr, old, replace);
-		ptr += count + ft_strlen(replace);
+		str = malloc(3 * sizeof(char));
+		add_token();
+		free(str);
 	}
-	//free(str);
-	return (res);
+	else
+	{
+		str = malloc(2 * sizeof(char));
+		add_token();
+		free(str);
+	}
 }
 
-void	lexing(void)
+
+int	check_token(char *str)
 {
+	if(!ft_strncmp(str, ">>", 2))
+		return(APPEND);
+	else if(!ft_strncmp(str, "<<", 2))
+		return(HEREDOC);
+	else if(!ft_strncmp(str, ">", 1))
+		return (REDIRECT);
+	else if(!ft_strncmp(str, "<", 1))
+		return(TRUNC);
+	else if(!ft_strncmp(str, "|", 1))
+		return(PIPE);
+	else if(!ft_strncmp(str, " ", 1))
+		return(SPACES);
+	else
+		return(0);
+	
+}
 
-	char	c;
-	char	d;
-	char	*str;
-	char *temp;
-
-	c = -1;
-	d = -2;
-	temp = ft_calloc(1, 2);
-	temp[0] = c;
-
-	str = get_core()->input;
-	str = ft_replace(str, ">", temp);
-	printf("[%s]\n", str);
+void	lexing(char *input)
+{
+	int	type;
+	int start = 0;
+	int i;
+	i = -1;
+	while (++i < ft_strlen(input) + 1)
+	{
+		type = check_token(&input[i]);
+		if(type)
+		{
+			if(type != VAR && type != SPACES)
+			{
+				save_separator(input, i, type);
+				i++;
+				if(type == HEREDOC || type == APPEND)
+					i++;
+			}
+			if(!check_token(&input[i - 1]) && i != 0)
+				save_words(input, start, i);
+		}
+		start = i;
+	}
 }
 
 void	process(void)
 {
-	if (!simple_error())
+	t_core *this;
+	this = get_core();
+	if (simple_error())
 		return ;
 	//if(!check_quotes())
 	//	return ;
+	lexing(this->input);
 }
 
 void	readlines(void)
@@ -102,13 +129,12 @@ void	readlines(void)
 	while (1)
 	{
 		core->input = readline(COLOR_PINK "MINI_SHELL:" COLOR_RESET " ");
-		lexing();
-		//add_history(core->input);
-		//if (!core->input)
-		//	exit(0);
-		//if (core->input[0] == '\0')
-		//	continue ;
-		//process();
+		process();
+		add_history(core->input);
+		if (!core->input)
+			exit(0);
+		if (core->input[0] == '\0')
+			continue ;
 	}
 }
 
