@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <math.h>
 #include "../libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -34,6 +36,7 @@ enum
 	SPACES,
 	VAR,
 	TRUNC,
+	END
 };
 
 
@@ -42,6 +45,20 @@ typedef enum e_bool
 	FALSE,
 	TRUE
 }	t_bool;
+
+
+// Tokenizer
+
+t_core	*get_core(void);
+void	ft_translate_type(int type, int i);
+void	ft_print_stack(void);
+t_token	*create_tkn_lst(char *command, int type);
+void	add_token(t_token **token, t_token *new);
+void	save_words(char *input, int start, int end);
+void	save_separator(char *input, int pos, int type);
+int		check_token(char *str);
+void	lexing(char *input);
+
 
 # define COLOR_PINK "\001\x1B[1;35m\002"
 # define COLOR_GREEN "\001\x1B[1;32m\002"

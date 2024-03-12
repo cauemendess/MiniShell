@@ -9,7 +9,7 @@ NAME	=	minishell
 LIBFT	=	libft/libft.a
 
 SRCDIR	=	src/
-SRCS	=	$(SRCDIR)main.c
+SRCS	=	$(SRCDIR)main.c $(SRCDIR)tokenizer.c 
 
 OBJDIR	=	bin/
 OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
