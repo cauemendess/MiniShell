@@ -9,7 +9,9 @@ NAME	=	minishell
 LIBFT	=	libft/libft.a
 
 SRCDIR	=	src/
-SRCS	=	$(SRCDIR)main.c $(SRCDIR)tokenizer.c 
+PARSER	=	parser/
+CLEAR	=	clear/
+SRCS	=	$(SRCDIR)main.c $(SRCDIR)$(PARSER)tokenizer.c $(SRCDIR)$(CLEAR)clear.c $(SRCDIR)$(PARSER)syntax_error.c
 
 OBJDIR	=	bin/
 OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
@@ -21,9 +23,10 @@ INC		=	$(INCDIR)minishell.h
 all: $(OBJDIR) $(OBJS) $(LIBFT) $(NAME)
 
 $(LIBFT):
-	$(HIDE)make -C ./libft
+	$(HIDE)make -C ./libft --no-print-directory
 
 $(OBJS): $(OBJDIR)%.o : $(SRCDIR)%.c $(INC) | $(OBJDIR)
+	$(HIDE)mkdir -p $(dir $@)
 	$(HIDE)$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS) $(LIBFT)
