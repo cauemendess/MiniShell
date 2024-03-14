@@ -1,63 +1,53 @@
 #include "minishell.h"
 
+int	ft_isspace(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	return (0);
+}
+
+t_bool	only_spaces(void)
+{
+	unsigned long	i;
+	char			*line;
+
+	line = get_core()->input;
+	i = 0;
+	while (line[i])
+	{
+		if (!ft_isspace(line[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
 t_core	*get_core(void)
 {
 	static t_core	core;
 
 	return (&core);
 }
-t_bool	simple_error(void)
-{
-	char	*temp;
-	int		i;
 
-	i = 0;
-	temp = ft_strtrim(get_core()->input, " ");
-	if (temp[0] == '|')
-	{
-		ft_putendl_fd("bash: syntax error near unexpected token `|'", 2);
-		free(temp);
-		return (TRUE);
-	}
-	while (temp[i])
-		i++;
-	if (temp[i - 1] == '<' || temp[i - 1] == '>' || temp[i - 1] == '|')
-	{
-		ft_putendl_fd("bash: syntax error near unexpected token `newline'", 2);
-		free(temp);
-
-		return (TRUE);
-	}
-	free(temp);
-	return (FALSE);
-}
-
+//t_bool	parser(void)
+//{
+//	if(simple_error())
+//		return(FALSE);
+//	lexing(get_core()->input);
+//}
 
 void	process(void)
 {
-	t_core *this;
+	t_core	*this;
+
 	this = get_core();
+	if (only_spaces())
+		return ;
 	if (simple_error())
 		return ;
 	//if(!check_quotes())
 	//	return ;
 	lexing(this->input);
-}
-
-void	clear_tkn_lst(t_token **token)
-{
-	t_token	*temp;
-
-	if (token != NULL)
-	{
-		while (*token)
-		{
-			temp = *token;
-			*token = (*token)->next;
-			free(temp);
-		}
-		*token = NULL;
-	}
 }
 
 void	readlines(void)
@@ -68,16 +58,20 @@ void	readlines(void)
 	while (1)
 	{
 		core->input = readline(COLOR_PINK "MINI_SHELL:" COLOR_RESET " ");
+		if (!core->input)
+			break ;
+		if (core->input[0] == '\0')
+		{
+			free(core->input);
+			continue ;
+		}
 		process();
 		ft_print_stack();
-
 		add_history(core->input);
-		if (!core->input)
-			exit(0);
-		if (core->input[0] == '\0')
-			continue ;
+		free(core->input);
 		clear_tkn_lst(&core->token);
 	}
+	free(core->input);
 }
 
 int	main(void)
@@ -86,5 +80,4 @@ int	main(void)
 
 	core = get_core();
 	readlines();
-	free(core->input);
 }
