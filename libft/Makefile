@@ -61,22 +61,22 @@ BONUS_OBJECTS = $(addprefix $(OBJ_PATH), $(BONUS_SOURCES:%.c=%.o))
 all: $(OBJ_PATH) $(NAME)
 
 $(NAME): $(OBJECTS)
-	ar -rcs $(NAME) $?
+	@ar -rcs $(NAME) $?
 
 $(OBJ_PATH)%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(HEADER)
+	@$(CC) $(CFLAGS) -c $< -o $@ -I $(HEADER)
 	
 $(OBJ_PATH):
-	mkdir -p $(OBJ_PATH)
+	@mkdir -p $(OBJ_PATH)
 
 bonus:
 	@make OBJECTS="$(BONUS_OBJECTS)" --no-print-directory
 
 clean:
-	rm -rf $(OBJ_PATH)
+	@rm -rf $(OBJ_PATH)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 
