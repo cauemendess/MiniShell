@@ -23,6 +23,8 @@ typedef struct s_core
 {
 	char	*input;
 	t_token *token;
+	t_list	*garbage;
+	int		exit_status;
 }	t_core;
 
 
@@ -58,6 +60,14 @@ void	save_words(char *input, int start, int end);
 void	save_separator(char *input, int pos, int type);
 int		check_token(char *str);
 void	lexing(char *input);
+
+// Syntax errors
+
+t_bool	simple_error(void);
+
+
+// Clear
+void	clear_tkn_lst(t_token **token);
 
 
 # define COLOR_PINK "\001\x1B[1;35m\002"
