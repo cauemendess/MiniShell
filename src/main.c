@@ -45,9 +45,15 @@ void	process(void)
 		return ;
 	if (simple_error())
 		return ;
-	//if(!check_quotes())
-	//	return ;
+	if(open_quotes())
+		return ;
+	if(forbiden_token())
+		return ;
 	lexing(this->input);
+	if(check_start_pipe())
+		return ;
+	if(check_pipe_pipe())
+		return ;
 }
 
 void	readlines(void)
@@ -57,7 +63,7 @@ void	readlines(void)
 	core = get_core();
 	while (1)
 	{
-		core->input = readline(COLOR_PINK "MINI_SHELL:" COLOR_RESET " ");
+		core->input = readline(COLOR_PINK "MINI_SHELL$" COLOR_RESET " ");
 		if (!core->input)
 			break ;
 		if (core->input[0] == '\0')
