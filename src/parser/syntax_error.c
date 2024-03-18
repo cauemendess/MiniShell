@@ -9,19 +9,20 @@ void	split_quotes(char *str, int * i)
 	while(str[*i] && str[*i] != quote)
 		(*i)++;
 }
+
 t_bool	check_start_pipe(void)
 {
 	t_token *token;
 	token = get_core()->token;
 	if(token->token == PIPE)
 	{
-		ft_putendl_fd("MiniShell: syntax error near unexpected token `|'", 2);
+		ft_putendl_fd("syntax error: near unexpected token `|'", 2);
 		return(TRUE);
 	}
 	return(FALSE);
 }
 
-t_bool	check_pipe_pipe(void)
+t_bool	check_op_op(void)
 {
 	t_token *cur;
 	cur = get_core()->token;
@@ -29,13 +30,13 @@ t_bool	check_pipe_pipe(void)
 	{
 		if(cur->token == PIPE && cur->next->token == PIPE)
 		{
-			ft_putendl_fd("MiniShell: syntax error near unexpected token `||'", 2);
+			ft_putendl_fd("syntax error: near unexpected token `||'", 2);
 			return(TRUE);
 		}
-		else if ((cur->token == TRUNC || cur->token == APPEND || cur->token == HEREDOC
-                || cur->token == WORD) && cur->next->token == PIPE)
+		else if ((cur->token == TRUNC || cur->token == APPEND || cur->token == HEREDOC || cur->token == REDIRECT) \
+        && cur->next->token != WORD)
 		{
-			ft_putendl_fd("MiniShell: syntax error near unexpected token `||'", 2);
+			ft_putendl_fd("syntax error: unexpected token after operator", 2);
             return (TRUE);
 		}
 		cur = cur->next;
@@ -44,7 +45,7 @@ t_bool	check_pipe_pipe(void)
 }
 
 
-t_bool	simple_error(void)
+t_bool	check_end_op(void)
 {
 	char	*temp;
 	int		i;
@@ -55,7 +56,7 @@ t_bool	simple_error(void)
 		i++;
 	if (temp[i - 1] == '<' || temp[i - 1] == '>' || temp[i - 1] == '|')
 	{
-		ft_putendl_fd("MiniShell: syntax error near unexpected token `newline'",
+		ft_putendl_fd("syntax error: near unexpected token `newline'",
 						2);
 		free(temp);
 		return (TRUE);
@@ -67,37 +68,15 @@ t_bool	simple_error(void)
 char	*get_error_message(char token)
 {
 	if (token == '&')
-		return ("MiniShell: syntax error near unexpected token `&`");
+		return ("syntax error: near unexpected token `&`");
 	else if (token == '\\')
-		return ("MiniShell: syntax error near unexpected token `\\`");
+		return ("syntax error: near unexpected token `\\`");
 	else if (token == ';')
-		return ("MiniShell: syntax error near unexpected token `;`");
+		return ("syntax error: near unexpected token `;`");
 	else
 		return (NULL);
 }
 
-t_bool	inside_quotes(char *input, int index)
-{
-	int		i;
-	char	quote;
-
-	i = 0;
-	quote = '\0';
-	while (i < index)
-	{
-		if (input[i] == '\'' || input[i] == '"')
-		{
-			if (quote == input[i])
-				quote = '\0';
-			else if (quote == '\0')
-				quote = input[i];
-		}
-		i++;
-	}
-	if (quote != '\0')
-		return (TRUE);
-	return (FALSE);
-}
 
 t_bool	forbiden_token(void)
 {
@@ -123,32 +102,25 @@ t_bool	forbiden_token(void)
 	return (FALSE);
 }
 
-t_bool	open_quotes(void)
+t_bool	check_close_quotes(void)
 {
-	char	*input;
-	int		open_single;
-	int		open_double;
+	char	*str;
 	int		i;
 
-	open_single = 0;
-	open_double = 0;
-	i = -1;
-	input = get_core()->input;
-	while (input[++i])
+	str = get_core()->input;
+	i = 0;
+	while (str[i] != '\0')
 	{
-		if (input[i] == '\"' && open_double == 0)
-			open_double = 1;
-		else if (input[i] == '\"' && open_double == 1)
-			open_double = 0;
-		else if (input[i] == '\'' && open_single == 0)
-			open_single = 1;
-		else if (input[i] == '\'' && open_single == 1)
-			open_single = 0;
-	}
-	if (open_single != 0 || open_double != 0)
-	{
-		ft_putendl_fd("MiniShell: syntax error near unexpected token `);`", 2);
-		return (TRUE);
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			skip_quotes(str, &i);
+			if (str[i] == '\0')
+            {
+                ft_putendl_fd("syntax error: unspected end of file", 2);
+				return (TRUE);
+            }
+		}
+		i++;
 	}
 	return (FALSE);
 }

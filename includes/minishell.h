@@ -58,11 +58,11 @@ void				lexing(char *input);
 
 // Syntax errors
 
-t_bool				simple_error(void);
+t_bool				check_end_op(void);
 t_bool				forbiden_token(void);
 t_bool				open_quotes(void);
 t_bool				check_start_pipe(void);
-t_bool				check_pipe_pipe(void);
+t_bool				check_op_op(void);
 
 // Clear
 void				clear_tkn_lst(t_token **token);

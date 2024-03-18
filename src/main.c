@@ -29,12 +29,6 @@ t_core	*get_core(void)
 	return (&core);
 }
 
-//t_bool	parser(void)
-//{
-//	if(simple_error())
-//		return(FALSE);
-//	lexing(get_core()->input);
-//}
 
 void	process(void)
 {
@@ -43,7 +37,7 @@ void	process(void)
 	this = get_core();
 	if (only_spaces())
 		return ;
-	if (simple_error())
+	if (check_end_op())
 		return ;
 	if(open_quotes())
 		return ;
@@ -52,7 +46,7 @@ void	process(void)
 	lexing(this->input);
 	if(check_start_pipe())
 		return ;
-	if(check_pipe_pipe())
+	if(check_op_op())
 		return ;
 }
 
