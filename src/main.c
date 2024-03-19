@@ -37,15 +37,15 @@ void	process(void)
 	this = get_core();
 	if (only_spaces())
 		return ;
+	if(check_start_pipe())
+		return ;
 	if (check_end_op())
 		return ;
-	if(open_quotes())
+	if(check_close_quotes())
 		return ;
 	if(forbiden_token())
 		return ;
 	lexing(this->input);
-	if(check_start_pipe())
-		return ;
 	if(check_op_op())
 		return ;
 }
@@ -65,9 +65,10 @@ void	readlines(void)
 			free(core->input);
 			continue ;
 		}
+
+		add_history(core->input);
 		process();
 		ft_print_stack();
-		add_history(core->input);
 		free(core->input);
 		clear_tkn_lst(&core->token);
 	}

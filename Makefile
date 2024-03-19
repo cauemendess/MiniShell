@@ -9,9 +9,9 @@ NAME	=	minishell
 LIBFT	=	libft/libft.a
 
 SRCDIR	=	src/
-PARSER	=	parser/
+LEXER	=	lexer/
 CLEAR	=	clear/
-SRCS	=	$(SRCDIR)main.c $(SRCDIR)$(PARSER)tokenizer.c $(SRCDIR)$(CLEAR)clear.c $(SRCDIR)$(PARSER)syntax_error.c
+SRCS	=	$(SRCDIR)main.c $(SRCDIR)$(LEXER)tokenizer.c $(SRCDIR)$(CLEAR)clear.c $(SRCDIR)$(LEXER)syntax_error.c
 
 OBJDIR	=	bin/
 OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))

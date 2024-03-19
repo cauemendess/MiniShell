@@ -23,12 +23,11 @@ void	ft_translate_type(int type, int i)
 		printf("END \n");
 }
 
-
-
 void	ft_print_stack(void)
 {
-	int	i;
-	t_token *stack;
+	int		i;
+	t_token	*stack;
+
 	stack = get_core()->token;
 	i = 0;
 	while (stack)
@@ -46,10 +45,9 @@ void	ft_print_stack(void)
 
 t_token	*create_tkn_lst(char *command, int type)
 {
-	t_token *node;
+	t_token	*node;
+
 	node = ft_calloc(sizeof(t_token), 1);
-	if(!node)
-		printf("Error!\n");
 	node->command = ft_strdup(command);
 	node->token = type;
 	node->next = NULL;
@@ -59,43 +57,43 @@ t_token	*create_tkn_lst(char *command, int type)
 
 void	add_token(t_token **token, t_token *new)
 {
-	t_token *cur;
+	t_token	*cur;
 
-	if(!*token)
+	if (!*token)
 	{
 		*token = new;
 		return ;
 	}
 	cur = *token;
-	while(cur->next)
+	while (cur->next)
 		cur = cur->next;
 	cur->next = new;
 	cur->next->prev = cur;
-
 }
+
 
 void	save_words(char *input, int start, int end)
 {
-	t_core *core;
+	t_core	*core;
+	char	*str;
+
 	core = get_core();
-	char *str;
 	str = ft_calloc(end - start + 1, sizeof(char));
 	ft_memmove(str, &input[start], end - start);
 	add_token(&core->token, create_tkn_lst(str, WORD));
 	free(str);
-
 }
 
 void	save_separator(char *input, int pos, int type)
 {
-	char *str;
-	t_core *core;
+	char	*str;
+	t_core	*core;
+
 	core = get_core();
-	if(type == APPEND || type == HEREDOC)
+	if (type == APPEND || type == HEREDOC)
 	{
 		str = ft_calloc(3, sizeof(char));
 		ft_memmove(str, &input[pos], 2);
-
 		add_token(&core->token, create_tkn_lst(str, type));
 		free(str);
 	}
@@ -108,51 +106,70 @@ void	save_separator(char *input, int pos, int type)
 	}
 }
 
-
 int	check_token(char *str)
 {
-	if(!ft_strncmp(str, ">>", 2))
-		return(APPEND);
-	else if(!ft_strncmp(str, "<<", 2))
-		return(HEREDOC);
-	else if(!ft_strncmp(str, ">", 1))
+	if (!ft_strncmp(str, ">>", 2))
+		return (APPEND);
+	else if (!ft_strncmp(str, "<<", 2))
+		return (HEREDOC);
+	else if (!ft_strncmp(str, ">", 1))
 		return (REDIRECT);
-	else if(!ft_strncmp(str, "<", 1))
-		return(TRUNC);
-	else if(!ft_strncmp(str, "|", 1))
-		return(PIPE);
-	else if(!ft_strncmp(str, " ", 1))
-		return(SPACES);
-	else if(!ft_strncmp(str, "\0", 1))
-		return(END);
+	else if (!ft_strncmp(str, "<", 1))
+		return (TRUNC);
+	else if (!ft_strncmp(str, "|", 1))
+		return (PIPE);
+	else if (!ft_strncmp(str, " ", 1))
+		return (SPACES);
+	else if (!ft_strncmp(str, "\0", 1))
+		return (END);
 	else
-		return(0);
+		return (0);
 }
+
+void    ft_strip(char *str)
+{
+    size_t    len;
+    size_t    start;
+    size_t    end;
+
+    if (str == NULL || *str == '\0')
+        return ;
+    len = ft_strlen(str);
+    start = 0;
+    end = len - 1;
+    while (start < len && ft_isspace(str[start]))
+        start++;
+    while (end > start && ft_isspace(str[end]))
+        end--;
+    ft_memmove(str, str + start, end - start + 1);
+    str[end - start + 1] = '\0';
+}
+
 
 void	lexing(char *input)
 {
-	int	type;
-	int start;
-	size_t i;
+	int		type;
+	int		start;
+	size_t	i;
+
 	start = 0;
 	i = -1;
 	while (++i < ft_strlen(input) + 1)
 	{
+		if(input[i] == '\'' || input[i] == '"')
+			split_quotes(input, (int *)&i);
 		type = check_token(&input[i]);
-		if(type)
+		if (type)
 		{
 			if(!check_token(&input[i - 1]) && i != 0)
-			{
 				save_words(input, start, i);
-			}
 			if(type != VAR && type != SPACES)
 			{
 				save_separator(input, i, type);
-				if(type == HEREDOC || type == APPEND)
+				if (type == HEREDOC || type == APPEND)
 					i++;
 			}
 			start = i + 1;
 		}
 	}
 }
-

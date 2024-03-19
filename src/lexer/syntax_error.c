@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-void	split_quotes(char *str, int * i)
+
+void	split_quotes(char *str, int *i)
 {
 	char quote;
-
 	quote = str[*i];
 	(*i)++;
 	while(str[*i] && str[*i] != quote)
@@ -12,9 +12,10 @@ void	split_quotes(char *str, int * i)
 
 t_bool	check_start_pipe(void)
 {
-	t_token *token;
-	token = get_core()->token;
-	if(token->token == PIPE)
+	char *temp;
+	temp = get_core()->input;
+	ft_strip(temp);
+	if(temp[0] == '|')
 	{
 		ft_putendl_fd("syntax error: near unexpected token `|'", 2);
 		return(TRUE);
@@ -33,7 +34,7 @@ t_bool	check_op_op(void)
 			ft_putendl_fd("syntax error: near unexpected token `||'", 2);
 			return(TRUE);
 		}
-		else if ((cur->token == TRUNC || cur->token == APPEND || cur->token == HEREDOC || cur->token == REDIRECT) \
+		else if ((cur->token == TRUNC || cur->token == APPEND || cur->token == HEREDOC || cur->token == PIPE) \
         && cur->next->token != WORD)
 		{
 			ft_putendl_fd("syntax error: unexpected token after operator", 2);
@@ -51,17 +52,16 @@ t_bool	check_end_op(void)
 	int		i;
 
 	i = 0;
-	temp = ft_strtrim(get_core()->input, " ");
+	temp = get_core()->input;
+	ft_strip(temp);
 	while (temp[i])
 		i++;
 	if (temp[i - 1] == '<' || temp[i - 1] == '>' || temp[i - 1] == '|')
 	{
 		ft_putendl_fd("syntax error: near unexpected token `newline'",
 						2);
-		free(temp);
 		return (TRUE);
 	}
-	free(temp);
 	return (FALSE);
 }
 
@@ -113,7 +113,7 @@ t_bool	check_close_quotes(void)
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 		{
-			skip_quotes(str, &i);
+			split_quotes(str, &i);
 			if (str[i] == '\0')
             {
                 ft_putendl_fd("syntax error: unspected end of file", 2);

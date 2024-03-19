@@ -60,9 +60,13 @@ void				lexing(char *input);
 
 t_bool				check_end_op(void);
 t_bool				forbiden_token(void);
-t_bool				open_quotes(void);
+t_bool				check_close_quotes(void);
 t_bool				check_start_pipe(void);
 t_bool				check_op_op(void);
+
+void				split_quotes(char *str, int *i);
+void				ft_strip(char *str);
+int					ft_isspace(char c);
 
 // Clear
 void				clear_tkn_lst(t_token **token);
