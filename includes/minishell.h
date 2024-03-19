@@ -21,6 +21,7 @@ typedef struct s_core
 {
 	char			*input;
 	t_token			*token;
+	char			**env;
 	t_list			*garbage;
 	int				exit_status;
 }					t_core;
