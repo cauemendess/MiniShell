@@ -17,10 +17,19 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+
+}					t_env;
+
 typedef struct s_core
 {
 	char			*input;
 	t_token			*token;
+	t_env			*env_list;
 	char			**env;
 	t_list			*garbage;
 	int				exit_status;
@@ -69,8 +78,13 @@ void				split_quotes(char *str, int *i);
 void				ft_strip(char *str);
 int					ft_isspace(char c);
 
+void				ft_print_env(void);
+
 // Clear
 void				clear_tkn_lst(t_token **token);
+void				ft_free_matrice(char **matrice);
+
+void				get_env_vars(t_core *core);
 
 # define COLOR_PINK "\001\x1B[1;35m\002"
 # define COLOR_GREEN "\001\x1B[1;32m\002"

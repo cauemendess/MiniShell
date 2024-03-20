@@ -80,5 +80,11 @@ int	main(void)
 	t_core	*core;
 
 	core = get_core();
+	get_env_vars(core);
+	ft_print_env();
+
+
 	readlines();
+
+	
 }

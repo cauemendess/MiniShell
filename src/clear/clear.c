@@ -17,6 +17,18 @@ void	clear_tkn_lst(t_token **token)
 		*token = NULL;
 	}
 }
+void	ft_free_matrice(char **matrice)
+{
+	int	i;
+
+	i = 0;
+	while (matrice[i])
+	{
+		free(matrice[i]);
+		i++;
+	}
+	free(matrice);
+}
 
 void	garbage_collect(void *ptr)
 {

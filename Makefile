@@ -11,7 +11,13 @@ LIBFT	=	libft/libft.a
 SRCDIR	=	src/
 LEXER	=	lexer/
 CLEAR	=	clear/
-SRCS	=	$(SRCDIR)main.c $(SRCDIR)$(LEXER)tokenizer.c $(SRCDIR)$(CLEAR)clear.c $(SRCDIR)$(LEXER)syntax_error.c
+INIT	=	init/
+
+SRCS	=	$(SRCDIR)main.c \
+			$(SRCDIR)$(LEXER)tokenizer.c \
+			$(SRCDIR)$(CLEAR)clear.c \
+			$(SRCDIR)$(LEXER)syntax_error.c \
+			$(SRCDIR)$(INIT)init_env.c
 
 OBJDIR	=	bin/
 OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
