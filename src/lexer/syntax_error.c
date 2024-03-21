@@ -17,6 +17,7 @@ t_bool	check_start_pipe(void)
 	ft_strip(temp);
 	if(temp[0] == '|')
 	{
+		get_core()->exit_status = 2;
 		ft_putendl_fd("syntax error: near unexpected token `|'", 2);
 		return(TRUE);
 	}
@@ -31,12 +32,14 @@ t_bool	check_op_op(void)
 	{
 		if(cur->token == PIPE && cur->next->token == PIPE)
 		{
+			get_core()->exit_status = 2;
 			ft_putendl_fd("syntax error: near unexpected token `||'", 2);
 			return(TRUE);
 		}
 		else if ((cur->token == TRUNC || cur->token == APPEND || cur->token == HEREDOC || cur->token == PIPE) \
         && cur->next->token != WORD)
 		{
+			get_core()->exit_status = 2;
 			ft_putendl_fd("syntax error: unexpected token after operator", 2);
             return (TRUE);
 		}
@@ -58,6 +61,7 @@ t_bool	check_end_op(void)
 		i++;
 	if (temp[i - 1] == '<' || temp[i - 1] == '>' || temp[i - 1] == '|')
 	{
+		get_core()->exit_status = 2;
 		ft_putendl_fd("syntax error: near unexpected token `newline'",
 						2);
 		return (TRUE);
@@ -94,6 +98,7 @@ t_bool	forbiden_token(void)
 			split_quotes(temp, &i);
 		if (error_message != NULL)
 		{
+			get_core()->exit_status = 2;
 			ft_putendl_fd(error_message, 2);
 			return (TRUE);
 		}
@@ -117,6 +122,7 @@ t_bool	check_close_quotes(void)
 			if (str[i] == '\0')
             {
                 ft_putendl_fd("syntax error: unspected end of file", 2);
+				get_core()->exit_status = 2;
 				return (TRUE);
             }
 		}

@@ -33,7 +33,7 @@ void	ft_print_stack(void)
 	while (stack)
 	{
 		printf("-----------------------------\n");
-		printf("| Token[%d]:%s.\n", i, stack->command);
+		printf("| Token[%d]:%s.\n", i, stack->str);
 		ft_translate_type(stack->token, i);
 		printf("| Next [%d]:%p\n", i, stack->next);
 		printf("| Prev [%d]:%p\n", i, stack->prev);
@@ -43,12 +43,12 @@ void	ft_print_stack(void)
 	}
 }
 
-t_token	*create_tkn_lst(char *command, int type)
+t_token	*create_tkn_lst(char *str, int type)
 {
 	t_token	*node;
 
 	node = ft_calloc(sizeof(t_token), 1);
-	node->command = ft_strdup(command);
+	node->str = ft_strdup(str);
 	node->token = type;
 	node->next = NULL;
 	node->prev = NULL;
