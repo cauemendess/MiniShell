@@ -11,7 +11,7 @@
 
 typedef struct s_token
 {
-	char			*command;
+	char			*str;
 	int				token;
 	struct s_token	*prev;
 	struct s_token	*next;
@@ -59,7 +59,7 @@ typedef enum e_bool
 t_core				*get_core(void);
 void				ft_translate_type(int type, int i);
 void				ft_print_stack(void);
-t_token				*create_tkn_lst(char *command, int type);
+t_token				*create_tkn_lst(char *str, int type);
 void				add_token(t_token **token, t_token *new);
 void				save_words(char *input, int start, int end);
 void				save_separator(char *input, int pos, int type);
@@ -78,11 +78,14 @@ void				split_quotes(char *str, int *i);
 void				ft_strip(char *str);
 int					ft_isspace(char c);
 
+void				parsing_vars(void);
 void				ft_print_env(void);
 
 // Clear
 void				clear_tkn_lst(t_token **token);
 void				ft_free_matrice(char **matrice);
+void				garbage_collect(void *ptr);
+void				clear_garbage(void);
 
 void				get_env_vars(t_core *core);
 

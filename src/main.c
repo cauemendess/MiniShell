@@ -48,6 +48,7 @@ void	process(void)
 	lexing(this->input);
 	if(check_op_op())
 		return ;
+	parsing_vars();
 }
 
 void	readlines(void)
@@ -72,6 +73,7 @@ void	readlines(void)
 		free(core->input);
 		clear_tkn_lst(&core->token);
 	}
+	clear_garbage();
 	free(core->input);
 }
 
@@ -81,7 +83,7 @@ int	main(void)
 
 	core = get_core();
 	get_env_vars(core);
-	ft_print_env();
+	//ft_print_env();
 
 
 	readlines();
