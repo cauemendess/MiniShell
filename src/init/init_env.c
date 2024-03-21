@@ -25,9 +25,9 @@ t_env	*create_env_lst(char *key, char *value)
 {
 	t_env	*node;
 
-	node = ft_calloc(sizeof(t_token), 1);
-	node->key = ft_strdup(key);
-	node->value = ft_strdup(value);
+	garbage_collect(node = ft_calloc(sizeof(t_token), 1));
+	garbage_collect(node->key = ft_strdup(key));
+	garbage_collect(node->value = ft_strdup(value));
 	node->next = NULL;
 	return (node);
 }
