@@ -8,7 +8,7 @@ void	clear_tkn_lst(t_token **token)
 	{
 		while (*token)
 		{
-			temp_str = (*token)->command;
+			temp_str = (*token)->str;
 			temp = *token;
 			*token = (*token)->next;
 			free(temp_str);
