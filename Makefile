@@ -38,7 +38,7 @@ $(OBJS): $(OBJDIR)%.o : $(SRCDIR)%.c $(INC) | $(OBJDIR)
 	$(HIDE)$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(HIDE)$(CC) $(CFLAGS) $(RFLAGS) -o $@ $^
+	$(HIDE)$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(RFLAGS) -o $@
 
 
 $(OBJDIR):

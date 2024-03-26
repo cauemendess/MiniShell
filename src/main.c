@@ -82,6 +82,7 @@ int	main(void)
 	t_core	*core;
 
 	core = get_core();
+	core->exit_status = 0;
 	get_env_vars(core);
 	//ft_print_env();
 
