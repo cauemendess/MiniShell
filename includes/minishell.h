@@ -8,6 +8,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <unistd.h>
 
 typedef struct s_token
 {
@@ -88,6 +89,7 @@ void				garbage_collect(void *ptr);
 void				clear_garbage(void);
 
 void				get_env_vars(t_core *core);
+int					ft_quotes_status(char c, int status);
 
 # define COLOR_PINK "\001\x1B[1;35m\002"
 # define COLOR_GREEN "\001\x1B[1;32m\002"
