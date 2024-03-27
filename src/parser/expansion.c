@@ -1,111 +1,86 @@
 #include "minishell.h"
 
-char	*replace_occurrence(char *result, char *ptr, char *old, char *new)
+char	*find_var(char *str)
 {
-	size_t	len;
-	char	*subtemp;
-	char	*tmp;
-
-	len = ptr - result;
-	subtemp = ft_substr(result, 0, len);
-	tmp = ft_strjoin(subtemp, new);
-	free(subtemp);
-	subtemp = ft_strjoin(tmp, ptr + ft_strlen(old));
-	free(result);
-	free(tmp);
-	return (subtemp);
-}
-
-char	*ft_replace(char *str, char *old, char *new)
-{
-	char	*result;
-	char	*ptr;
 	int		i;
+	char	*line;
 
-	i = 0;
-	if (ft_strlen(old) == 0)
-		return (ft_strdup(str));
-	result = ft_strdup(str);
-	ptr = result;
-	while (*ptr)
-	{
-		ptr = ft_strstr(ptr, old);
-		if (!ptr)
-			break ;
-		i = ptr - result;
-		result = replace_occurrence(result, ptr, old, new);
-		ptr = result + ft_strlen(new) + i;
-	}
-	free(str);
-	return (result);
+	line = ft_strchr(str, '$');
+	if (!line)
+		return (NULL);
+	i = 1;
+	while (line[i] && (ft_isalnum(line[i])))
+		i++;
+	if (line[i] == '?')
+		i++;
+	return (ft_substr(line, 0, i));
 }
 
 
-char *my_get_env(char *key)
-{
-	t_env *env;
-	env = get_core()->env_list;
-	if(!key)
-		return(NULL);
-	while(env)
-	{
-		if(!ft_strncmp(env->key, key, ft_strlen(key)))
-			return(ft_strdup(env->value));
-		if(!ft_strncmp(key, "?", 2))
-			return(ft_itoa(get_core()->exit_status));
-		if(!ft_strncmp(key, "$", 3))
-			return(ft_strdup("$"));
 
+char	*my_get_env(char *key)
+{
+	t_env	*env;
+
+	env = get_core()->env_list;
+	if (!key)
+		return (NULL);
+	while (env)
+	{
+		if (!ft_strncmp(env->key, key, ft_strlen(key)))
+			return (ft_strdup(env->value));
+		if (!ft_strncmp(key, "?", 2))
+			return (ft_itoa(get_core()->exit_status));
+		if (!ft_strncmp(key, "$", 3))
+			return (ft_strdup("$"));
 		env = env->next;
 	}
-	return(ft_strdup(""));
+	return (ft_strdup(""));
 }
 
-//void	expansion_domain()
-//{
-
-//}
-
-
-//void	split_token(t_token *token)
-//{
-
-//}
-
-t_bool have_dollar(char *str, int *status)
+t_bool	have_dollar(char *str, int *i, int *status)
 {
-	int i = 0;
-	while(str[i])
+	while (str[(*i)])
 	{
-		status = ft_quotes_status(str[i], status);
-		if(str[i] == '$' && status == 0)
-			return(TRUE);
-		i++;
+		(*status) = ft_quotes_status(str[(*i)], (*status));
+		if (str[(*i)] == '$' && str[(*i) + 1] == '$' && ((*status) == 0
+				|| (*status) == 1))
+		{
+			(*i)++;
+			return (TRUE);
+		}
+		if (str[(*i)] == '$' && ((*status) == 0 || (*status) == 1)
+			&& ft_isalpha(str[(*i) + 1]))
+			return (TRUE);
+		if (str[(*i)] == '$' && str[(*i) + 1] == '?')
+			return (TRUE);
+		(*i)++;
 	}
 	return (FALSE);
-
 }
-
-
 
 void	parsing_vars(void)
 {
-	t_token *cur;
-	static int status;
+	t_token		*cur;
+	char		*var;
+	static int	status;
+	static int	i;
+
 	cur = get_core()->token;
-	char *res;
 	while (cur)
 	{
-		if(cur->token == WORD)
+		if (have_dollar(cur->str, &i, &status))
 		{
-			if(have_dollar(cur->str, &status))
-			{
-				res = my_get_env(cur->str + 1);
-				free(cur->str);
-				cur->str = res;
-				cur->token = VAR;
-			}
+			garbage_collect(var = find_var(cur->str));
+			cur->str = ft_replace(cur->str, var, my_get_env(var + 1));
+			cur->token = VAR;
+			continue ;
 		}
-		cur = cur->next; 	
+		i = 0;
+		remove_quote(cur->str);
+		status = 0;
+		cur = cur->next;
 	}
 }
+
+
