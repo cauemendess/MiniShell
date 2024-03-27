@@ -13,13 +13,17 @@ LEXER	=	lexer/
 PARSER	=	parser/
 CLEAR	=	clear/
 INIT	=	init/
+BUILTINS=	builtins/
 
 SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(LEXER)tokenizer.c \
-			$(SRCDIR)$(CLEAR)clear.c \
 			$(SRCDIR)$(LEXER)syntax_error.c \
+			$(SRCDIR)$(CLEAR)clear.c \
 			$(SRCDIR)$(INIT)init_env.c \
 			$(SRCDIR)$(PARSER)expansion.c \
+			$(SRCDIR)$(PARSER)quotes.c \
+			$(SRCDIR)$(BUILTINS)env.c \
+			$(SRCDIR)$(BUILTINS)pwd.c \
 
 OBJDIR	=	bin/
 OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))

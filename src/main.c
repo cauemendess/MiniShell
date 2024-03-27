@@ -1,12 +1,5 @@
 #include "minishell.h"
 
-int	ft_isspace(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r')
-		return (1);
-	return (0);
-}
-
 t_bool	only_spaces(void)
 {
 	unsigned long	i;
@@ -82,12 +75,7 @@ int	main(void)
 	t_core	*core;
 
 	core = get_core();
-	core->exit_status = 0;
 	get_env_vars(core);
-	//ft_print_env();
-
-
 	readlines();
-
-	
+	return (core->exit_status);
 }
