@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 void	split_quotes(char *str, int *i)
 {
 	char quote;
@@ -36,7 +35,7 @@ t_bool	check_op_op(void)
 			ft_putendl_fd("syntax error: near unexpected token `||'", 2);
 			return(TRUE);
 		}
-		else if ((cur->token == TRUNC || cur->token == APPEND || cur->token == HEREDOC || cur->token == PIPE) \
+		else if ((cur->token == TRUNC || cur->token == APPEND || cur->token == HEREDOC || cur->token == PIPE || cur->token == REDIRECT) \
         && cur->next->token != WORD)
 		{
 			get_core()->exit_status = 2;
