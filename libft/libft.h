@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 11:24:34 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/03/07 16:13:33 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/03/27 17:16:51 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 int					ft_putnbr_base(long int nb, char *base);
 char				*ft_strstr(const char *big, const char *find);
+char				*ft_replace(char *str, char *old, char *new);
+int					ft_isspace(int c);
 
 #endif
