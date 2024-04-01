@@ -1,4 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clear.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/01 11:33:06 by csilva-m          #+#    #+#             */
+/*   Updated: 2024/04/01 17:45:19 by csilva-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
+
+
+void	clear_env_lst(t_env **env)
+{
+	t_env	*temp;
+	char	*temp_key;
+	char	*temp_value;
+
+	if (env != NULL)
+	{
+		while (*env)
+		{
+			temp_key = (*env)->key;
+			temp_value = (*env)->value;
+			temp = *env;
+			*env = (*env)->next;
+			free(temp_key);
+			free(temp_value);
+			free(temp);
+		}
+		*env = NULL;
+	}
+}
 
 void	clear_tkn_lst(t_token **token)
 {
@@ -41,7 +76,6 @@ void	garbage_collect(void *ptr)
 	get_core()->garbage = gc;
 	
 }
-
 
 void	clear_garbage(void)
 {

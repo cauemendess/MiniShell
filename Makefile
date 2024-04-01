@@ -14,6 +14,8 @@ PARSER	=	parser/
 CLEAR	=	clear/
 INIT	=	init/
 BUILTINS=	builtins/
+PROMPT	=	prompt/
+
 
 SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(LEXER)tokenizer.c \
@@ -24,6 +26,9 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(PARSER)quotes.c \
 			$(SRCDIR)$(BUILTINS)env.c \
 			$(SRCDIR)$(BUILTINS)pwd.c \
+			$(SRCDIR)$(PROMPT)prompt_loop.c \
+			$(SRCDIR)$(PROMPT)process.c \
+			$(SRCDIR)$(BUILTINS)exit.c \
 
 OBJDIR	=	bin/
 OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))

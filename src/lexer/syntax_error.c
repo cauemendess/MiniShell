@@ -1,13 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   syntax_error.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/01 11:31:37 by csilva-m          #+#    #+#             */
+/*   Updated: 2024/04/01 11:34:45 by csilva-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	split_quotes(char *str, int *i)
-{
-	char quote;
-	quote = str[*i];
-	(*i)++;
-	while(str[*i] && str[*i] != quote)
-		(*i)++;
-}
+#include "minishell.h"
 
 t_bool	check_start_pipe(void)
 {

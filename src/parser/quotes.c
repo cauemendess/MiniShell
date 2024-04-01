@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/01 11:32:43 by csilva-m          #+#    #+#             */
+/*   Updated: 2024/04/01 11:35:04 by csilva-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int    ft_quotes_status(char c, int status)
@@ -34,4 +46,13 @@ void	remove_quote(char *str)
 		else
 			str++;
 	}
+}
+
+void	split_quotes(char *str, int *i)
+{
+	char quote;
+	quote = str[*i];
+	(*i)++;
+	while(str[*i] && str[*i] != quote)
+		(*i)++;
 }

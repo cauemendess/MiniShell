@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
+/*   Updated: 2024/04/01 17:20:47 by csilva-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -55,41 +67,49 @@ typedef enum e_bool
 	TRUE
 }					t_bool;
 
-// Tokenizer
-
+// core
 t_core				*get_core(void);
+void				prompt_loop(void);
+void				process(void);
 void				ft_translate_type(int type, int i);
 void				ft_print_stack(void);
+
+//tokenizer
 t_token				*create_tkn_lst(char *str, int type);
+void				lexing(char *input);
 void				add_token(t_token **token, t_token *new);
 void				save_words(char *input, int start, int end);
 void				save_separator(char *input, int pos, int type);
 int					check_token(char *str);
-void				lexing(char *input);
 
-// Syntax errors
-
+// syntax errors
+t_bool				syntax_errors(void);
+t_bool				only_spaces(void);
 t_bool				check_end_op(void);
 t_bool				forbiden_token(void);
 t_bool				check_close_quotes(void);
 t_bool				check_start_pipe(void);
 t_bool				check_op_op(void);
-
 void				split_quotes(char *str, int *i);
-void				ft_strip(char *str);
-int					ft_isspace(char c);
+void				remove_quote(char *str);
 
+// parser
 void				parsing_vars(void);
 void				ft_print_env(void);
+void				get_env_vars(t_core *core);
+void				split_quotes(char *str, int *i);
+int					ft_quotes_status(char c, int status);
 
-// Clear
+// clenup
 void				clear_tkn_lst(t_token **token);
-void				ft_free_matrice(char **matrice);
+void				clear_env_lst(t_env **env);
 void				garbage_collect(void *ptr);
 void				clear_garbage(void);
+void				ft_free_matrice(char **matrice);
 
-void				get_env_vars(t_core *core);
-int					ft_quotes_status(char c, int status);
+// builtins
+
+void				exit_shell(void);
 
 # define COLOR_PINK "\001\x1B[1;35m\002"
 # define COLOR_GREEN "\001\x1B[1;32m\002"

@@ -1,5 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_env.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/01 11:32:21 by csilva-m          #+#    #+#             */
+/*   Updated: 2024/04/01 17:18:12 by csilva-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minishell.h"
 
 void	ft_print_env(void)
 {
@@ -26,9 +37,9 @@ t_env	*create_env_lst(char *key, char *value)
 	t_env	*node;
 	if(!key || !value)
 		return (NULL);
-	garbage_collect(node = ft_calloc(sizeof(t_token), 1));
-	garbage_collect(node->key = ft_strdup(key));
-	garbage_collect(node->value = ft_strdup(value));
+	node = ft_calloc(sizeof(t_token), 1);
+	node->key = ft_strdup(key);
+	node->value = ft_strdup(value);
 	node->next = NULL;
 	return (node);
 }

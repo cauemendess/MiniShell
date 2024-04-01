@@ -1,45 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strip.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/01 11:32:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/01 16:33:01 by csilva-m         ###   ########.fr       */
+/*   Created: 2024/04/01 11:36:29 by csilva-m          #+#    #+#             */
+/*   Updated: 2024/04/01 11:36:55 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-t_bool	only_spaces(void)
+void	ft_strip(char *str)
 {
-	unsigned long	i;
-	char			*line;
+	size_t	len;
+	size_t	start;
+	size_t	end;
 
-	line = get_core()->input;
-	i = 0;
-	while (line[i])
-	{
-		if (!ft_isspace(line[i]))
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
-}
-t_core	*get_core(void)
-{
-	static t_core	core;
-
-	return (&core);
-}
-
-int	main(void)
-{
-	t_core	*core;
-
-	core = get_core();
-	get_env_vars(core);
-	prompt_loop();
-	return (core->exit_status);
+	if (str == NULL || *str == '\0')
+		return ;
+	len = ft_strlen(str);
+	start = 0;
+	end = len - 1;
+	while (start < len && ft_isspace(str[start]))
+		start++;
+	while (end > start && ft_isspace(str[end]))
+		end--;
+	ft_memmove(str, str + start, end - start + 1);
+	str[end - start + 1] = '\0';
 }

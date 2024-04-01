@@ -1,45 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   prompt_loop.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/01 11:32:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/01 16:33:01 by csilva-m         ###   ########.fr       */
+/*   Created: 2024/04/01 11:42:43 by csilva-m          #+#    #+#             */
+/*   Updated: 2024/04/01 17:39:33 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bool	only_spaces(void)
-{
-	unsigned long	i;
-	char			*line;
-
-	line = get_core()->input;
-	i = 0;
-	while (line[i])
-	{
-		if (!ft_isspace(line[i]))
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
-}
-t_core	*get_core(void)
-{
-	static t_core	core;
-
-	return (&core);
-}
-
-int	main(void)
+void	prompt_loop(void)
 {
 	t_core	*core;
 
 	core = get_core();
-	get_env_vars(core);
-	prompt_loop();
-	return (core->exit_status);
+	while (1)
+	{
+		core->input = readline(COLOR_PINK "MINI_SHELL$" COLOR_RESET " ");
+		garbage_collect(core->input);
+		if (!core->input)
+			exit_shell();
+		if (core->input[0] == '\0')
+			continue ;
+
+		add_history(core->input);
+		process();
+		ft_print_stack();
+		clear_tkn_lst(&core->token);
+		clear_garbage();
+	}
+	rl_clear_history();
 }
