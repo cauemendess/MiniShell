@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/01 17:20:47 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:02:37 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_core
 	char			**env;
 	t_list			*garbage;
 	int				exit_status;
+	char			invalid;
 }					t_core;
 
 enum
@@ -111,6 +112,9 @@ void				ft_free_matrice(char **matrice);
 
 void				exit_shell(void);
 
+
+// colors
+
 # define COLOR_PINK "\001\x1B[1;35m\002"
 # define COLOR_GREEN "\001\x1B[1;32m\002"
 # define COLOR_RED "\001\x1B[1;31m\002"
@@ -121,5 +125,7 @@ void				exit_shell(void);
 # define COLOR_BLACK "\001\x1B[1;30m\002"
 # define COLOR_GRAY "\001\x1B[1;90m\002"
 # define COLOR_RESET "\001\x1B\033[0m\002"
+
+
 
 #endif

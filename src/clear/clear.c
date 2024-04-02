@@ -6,12 +6,11 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:33:06 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/01 17:45:19 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:08:17 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	clear_env_lst(t_env **env)
 {
@@ -93,4 +92,3 @@ void	clear_garbage(void)
 	}
 	get_core()->garbage = NULL; 
 }
-

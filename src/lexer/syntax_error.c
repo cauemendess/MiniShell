@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:37 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/01 11:34:45 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:27:14 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_bool	check_op_op(void)
 			ft_putendl_fd("syntax error: near unexpected token `||'", 2);
 			return(TRUE);
 		}
-		else if ((cur->token == TRUNC || cur->token == APPEND || cur->token == HEREDOC || cur->token == PIPE || cur->token == REDIRECT) \
+		else if ((cur->token == TRUNC || cur->token == APPEND || cur->token == HEREDOC || cur->token == REDIRECT) \
         && cur->next->token != WORD)
 		{
 			get_core()->exit_status = 2;

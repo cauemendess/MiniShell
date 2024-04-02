@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:07:01 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/01 17:27:25 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 16:28:23 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@ void	exit_shell(void)
 	clear_env_lst(&get_core()->env_list);
 	if(get_core()->token)
 		clear_tkn_lst(&get_core()->token);
+	clear_garbage();
 	exit(get_core()->exit_status);
 }

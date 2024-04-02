@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/01 17:02:45 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:07:34 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*my_get_env(char *key)
 		if (!ft_strncmp(key, "?", 2))
 			return (ft_itoa(get_core()->exit_status));
 		if (!ft_strncmp(key, "$", 3))
-			return (ft_strdup("$"));
+			return (ft_strdup(&get_core()->invalid));
 		env = env->next;
 	}
 	return (ft_strdup(""));
@@ -69,6 +69,39 @@ t_bool	have_dollar(char *str, int *i, int *status)
 	return (FALSE);
 }
 
+t_bool mult_dollar(char *str, char **var)
+{
+	int	i;
+	char *line;
+	i = 0;
+	line = str;
+	while (str[i])
+	{
+		if (str[i] == '$' && str[i + 1] == '$')
+		{
+			line = ft_strchr(line, '$');
+			(*var) = ft_substr(line, 0, 2);
+			return (FALSE);
+		}
+		line++;
+		i++;
+	}
+	return (TRUE);
+}
+
+void replace_invalid(t_token *cur, char c)
+{
+	int	i;
+
+	i = 0;
+	while (cur->str[i])
+	{
+		if (cur->str[i] == c)
+			cur->str[i] = '$';
+		i++;
+	}
+}
+
 void	parsing_vars(void)
 {
 	t_token		*cur;
@@ -81,16 +114,16 @@ void	parsing_vars(void)
 	{
 		if (have_dollar(cur->str, &i, &status))
 		{
-			garbage_collect(var = find_var(cur->str));
+			if(mult_dollar(cur->str, &var))
+				garbage_collect(var = find_var(cur->str));
 			cur->str = ft_replace(cur->str, var, my_get_env(var + 1));
 			cur->token = VAR;
 			continue ;
 		}
+		replace_invalid(cur, get_core()->invalid);
 		i = 0;
-		remove_quote(cur->str);
 		status = 0;
+		remove_quote(cur->str);
 		cur = cur->next;
 	}
 }
-
-

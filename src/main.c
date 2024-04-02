@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/01 16:33:01 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:04:08 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ t_core	*get_core(void)
 int	main(void)
 {
 	t_core	*core;
-
 	core = get_core();
+	core->invalid = -1;
 	get_env_vars(core);
 	prompt_loop();
 	return (core->exit_status);
