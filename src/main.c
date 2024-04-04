@@ -6,11 +6,22 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/02 17:04:08 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/04 18:05:16 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int matrice_len(char **matrice)
+{
+	int i;
+
+	i = 0;
+	while (matrice[i])
+		i++;
+	return (i);
+}
+
 
 t_bool	only_spaces(void)
 {

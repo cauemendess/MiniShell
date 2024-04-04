@@ -15,6 +15,7 @@ CLEAR	=	clear/
 INIT	=	init/
 BUILTINS=	builtins/
 PROMPT	=	prompt/
+SIGNALS	=	signals/
 
 
 SRCS	=	$(SRCDIR)main.c \
@@ -29,6 +30,7 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(PROMPT)prompt_loop.c \
 			$(SRCDIR)$(PROMPT)process.c \
 			$(SRCDIR)$(BUILTINS)exit.c \
+			$(SRCDIR)$(SIGNALS)signals.c \
 
 OBJDIR	=	bin/
 OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))

@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/02 17:02:37 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/04 18:40:32 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <math.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -110,8 +111,15 @@ void				ft_free_matrice(char **matrice);
 
 // builtins
 
+void				env(char **argv);
 void				exit_shell(void);
 
+// signals
+void				signal_handler(void);
+
+// utils
+
+int					matrice_len(char **matrice);
 
 // colors
 
@@ -125,7 +133,5 @@ void				exit_shell(void);
 # define COLOR_BLACK "\001\x1B[1;30m\002"
 # define COLOR_GRAY "\001\x1B[1;90m\002"
 # define COLOR_RESET "\001\x1B\033[0m\002"
-
-
 
 #endif
