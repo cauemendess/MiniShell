@@ -1,40 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt_loop.c                                      :+:      :+:    :+:   */
+/*   cmd_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/01 11:42:43 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/05 19:48:57 by csilva-m         ###   ########.fr       */
+/*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
+/*   Updated: 2024/04/09 19:05:26 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	prompt_loop(void)
-{
-	t_core	*core;
-
-	core = get_core();
-	while (1)
-	{
-		//signal_handler();
-		garbage_collect(core->input = readline(COLOR_PINK "MINI_SHELL$" COLOR_RESET " "));
-		if (!core->input)
-			exit_shell();
-		if (core->input[0] == '\0')
-			continue ;
-
-		add_history(core->input);
-
-		
-		process();
-
-		
-		ft_print_stack();
-		clear_tkn_lst(&core->token);
-		clear_garbage();
-	}
-	rl_clear_history();
-}
+//void	cmd_parse(t_token *token)
+//{
+	
+//}

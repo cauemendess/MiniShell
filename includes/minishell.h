@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/04 18:40:32 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:39:26 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void				prompt_loop(void);
 void				process(void);
 void				ft_translate_type(int type, int i);
 void				ft_print_stack(void);
+void				error(char *msg, int status, int fd);
+
 
 //tokenizer
 t_token				*create_tkn_lst(char *str, int type);

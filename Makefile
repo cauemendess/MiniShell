@@ -16,21 +16,24 @@ INIT	=	init/
 BUILTINS=	builtins/
 PROMPT	=	prompt/
 SIGNALS	=	signals/
-
+OPERATORS=	operators/
+EXEC	=	exec/
 
 SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(LEXER)tokenizer.c \
 			$(SRCDIR)$(LEXER)syntax_error.c \
 			$(SRCDIR)$(CLEAR)clear.c \
 			$(SRCDIR)$(INIT)init_env.c \
-			$(SRCDIR)$(PARSER)expansion.c \
-			$(SRCDIR)$(PARSER)quotes.c \
+			$(SRCDIR)$(LEXER)expansion.c \
+			$(SRCDIR)$(LEXER)quotes.c \
 			$(SRCDIR)$(BUILTINS)env.c \
 			$(SRCDIR)$(BUILTINS)pwd.c \
 			$(SRCDIR)$(PROMPT)prompt_loop.c \
 			$(SRCDIR)$(PROMPT)process.c \
 			$(SRCDIR)$(BUILTINS)exit.c \
 			$(SRCDIR)$(SIGNALS)signals.c \
+			$(SRCDIR)$(CLEAR)error.c \
+			$(SRCDIR)$(OPERATORS)redirect.c \
 
 OBJDIR	=	bin/
 OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
