@@ -6,13 +6,13 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:32:43 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/13 15:53:34 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/13 18:16:09 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int count_args(char **argv)
+static int count_args(char **argv)
 {
 	int i = 0;
 	while(argv[i])
@@ -20,7 +20,7 @@ int count_args(char **argv)
 	return i;
 }
 
-int is_flag(char *str)
+static int is_flag(char *str)
 {
 	int i = 0;
 	int flag = 0;
