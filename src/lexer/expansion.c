@@ -6,18 +6,19 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/02 17:07:34 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/17 18:34:53 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*find_var(char *str)
+char	*find_var(char *str, int j)
 {
 	int		i;
 	char	*line;
 
-	line = ft_strchr(str, '$');
+	line = str;
+	line += j;
 	if (!line)
 		return (NULL);
 	i = 1;
@@ -69,10 +70,11 @@ t_bool	have_dollar(char *str, int *i, int *status)
 	return (FALSE);
 }
 
-t_bool mult_dollar(char *str, char **var)
+t_bool	mult_dollar(char *str, char **var)
 {
-	int	i;
-	char *line;
+	int		i;
+	char	*line;
+
 	i = 0;
 	line = str;
 	while (str[i])
@@ -89,7 +91,7 @@ t_bool mult_dollar(char *str, char **var)
 	return (TRUE);
 }
 
-void replace_invalid(t_token *cur, char c)
+void	replace_invalid(t_token *cur, char c)
 {
 	int	i;
 
@@ -114,9 +116,9 @@ void	parsing_vars(void)
 	{
 		if (have_dollar(cur->str, &i, &status))
 		{
-			if(mult_dollar(cur->str, &var))
-				garbage_collect(var = find_var(cur->str));
-			cur->str = ft_replace(cur->str, var, my_get_env(var + 1));
+			if (mult_dollar(cur->str, &var))
+				garbage_collect(var = find_var(cur->str, i));
+			cur->str = ft_replace(cur->str, var, my_get_env(var + 1), i);
 			cur->token = VAR;
 			continue ;
 		}
