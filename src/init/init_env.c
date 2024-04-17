@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:21 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/01 17:18:12 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/17 18:47:14 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_env	*create_env_lst(char *key, char *value)
 	node = ft_calloc(sizeof(t_token), 1);
 	node->key = ft_strdup(key);
 	node->value = ft_strdup(value);
+	node->prev = NULL;
 	node->next = NULL;
 	return (node);
 }
@@ -57,6 +58,7 @@ void	add_env(t_env **env, t_env *new)
 	while (cur->next)
 		cur = cur->next;
 	cur->next = new;
+	new->prev = cur;
 }
 
 void	split_env_vars(void)

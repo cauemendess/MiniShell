@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/09 15:39:26 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/17 18:43:31 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_env
 {
 	char			*key;
 	char			*value;
+	struct s_env	*prev;
 	struct s_env	*next;
 
 }					t_env;
@@ -103,6 +104,7 @@ void				ft_print_env(void);
 void				get_env_vars(t_core *core);
 void				split_quotes(char *str, int *i);
 int					ft_quotes_status(char c, int status);
+char				*my_get_env(char *key);
 
 // clenup
 void				clear_tkn_lst(t_token **token);
