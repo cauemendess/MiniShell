@@ -27,11 +27,12 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(LEXER)expansion.c \
 			$(SRCDIR)$(LEXER)quotes.c \
 			$(SRCDIR)$(BUILTINS)env.c \
+			$(SRCDIR)$(BUILTINS)unset.c \
 			$(SRCDIR)$(BUILTINS)pwd.c \
 			$(SRCDIR)$(BUILTINS)echo.c \
+			$(SRCDIR)$(BUILTINS)exit.c \
 			$(SRCDIR)$(PROMPT)prompt_loop.c \
 			$(SRCDIR)$(PROMPT)process.c \
-			$(SRCDIR)$(BUILTINS)exit.c \
 			$(SRCDIR)$(SIGNALS)signals.c \
 			$(SRCDIR)$(CLEAR)error.c \
 			$(SRCDIR)$(OPERATORS)redirect.c \
