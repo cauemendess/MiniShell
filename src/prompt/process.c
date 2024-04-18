@@ -6,23 +6,32 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:48:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/01 12:03:13 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:19:22 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <string.h>
+
 
 void	process(void)
 {
-	t_core	*this;
+	t_core	*core;
+	char **str;
 
-	this = get_core();
+	str = ft_split("", ' ');
+	core = get_core();
 	if (syntax_errors())
 		return ;
-	lexing(this->input);
+	lexing(core->input);
 	if (check_op_op())
 		return ;
 	parsing_vars();
+	if(strcmp("cd", core->token->str) == 0)
+		cd(str);
+	else if(strcmp("pwd", core->token->str) == 0)
+		pwd(str);
+	
 }
 
 t_bool	syntax_errors(void)

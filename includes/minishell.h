@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/17 18:43:31 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:41:54 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void				ft_translate_type(int type, int i);
 void				ft_print_stack(void);
 void				error(char *msg, int status, int fd);
 
-
 //tokenizer
 t_token				*create_tkn_lst(char *str, int type);
 void				lexing(char *input);
@@ -117,6 +116,10 @@ void				ft_free_matrice(char **matrice);
 
 void				env(char **argv);
 void				exit_shell(void);
+void				unset(char **argv);
+void				pwd(char **argv);
+void				unset(char **argv);
+void				cd(char **argv);
 
 // signals
 void				signal_handler(void);

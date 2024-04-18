@@ -30,6 +30,8 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(BUILTINS)unset.c \
 			$(SRCDIR)$(BUILTINS)pwd.c \
 			$(SRCDIR)$(BUILTINS)echo.c \
+			$(SRCDIR)$(BUILTINS)cd.c \
+			$(SRCDIR)$(BUILTINS)export.c \
 			$(SRCDIR)$(BUILTINS)exit.c \
 			$(SRCDIR)$(PROMPT)prompt_loop.c \
 			$(SRCDIR)$(PROMPT)process.c \
