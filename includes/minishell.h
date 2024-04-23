@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/18 16:41:54 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/23 14:54:36 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <math.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <sys/stat.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -50,6 +51,15 @@ typedef struct s_core
 	int				exit_status;
 	char			invalid;
 }					t_core;
+
+typedef struct s_cmd
+{
+	char			*name;
+	char			**args;
+	int				redirect;
+	t_bool			has_pipe;
+	struct s_cmd	*next;
+}					t_cmd;
 
 enum
 {
