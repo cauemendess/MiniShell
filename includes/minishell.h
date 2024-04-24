@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/23 14:54:36 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:35:04 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+
+typedef enum e_bool
+{
+	FALSE,
+	TRUE
+}					t_bool;
 
 typedef struct s_token
 {
@@ -41,17 +47,6 @@ typedef struct s_env
 
 }					t_env;
 
-typedef struct s_core
-{
-	char			*input;
-	t_token			*token;
-	t_env			*env_list;
-	char			**env;
-	t_list			*garbage;
-	int				exit_status;
-	char			invalid;
-}					t_core;
-
 typedef struct s_cmd
 {
 	char			*name;
@@ -60,6 +55,19 @@ typedef struct s_cmd
 	t_bool			has_pipe;
 	struct s_cmd	*next;
 }					t_cmd;
+
+typedef struct s_core
+{
+	char			*input;
+	t_token			*token;
+	t_env			*env_list;
+	t_cmd			*cmd;
+	char			**env;
+	t_list			*garbage;
+	int				exit_status;
+	char			invalid;
+}					t_core;
+
 
 enum
 {
@@ -74,11 +82,6 @@ enum
 	END
 };
 
-typedef enum e_bool
-{
-	FALSE,
-	TRUE
-}					t_bool;
 
 // core
 t_core				*get_core(void);
@@ -130,6 +133,7 @@ void				unset(char **argv);
 void				pwd(char **argv);
 void				unset(char **argv);
 void				cd(char **argv);
+void				echo(char **argv);
 
 // signals
 void				signal_handler(void);

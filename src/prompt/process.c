@@ -6,20 +6,21 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:48:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/23 14:28:50 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:37:08 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <string.h>
 
+void	exec_builtins(char **args);
 
 void	process(void)
 {
 	t_core	*core;
-	char **args;
+	char	**args;
 
-	args = ft_split("", ' ');
+	garbage_collect(args = ft_split("env vefv", ' '));
 	core = get_core();
 	if (syntax_errors())
 		return ;
@@ -28,7 +29,6 @@ void	process(void)
 		return ;
 	parsing_vars();
 	exec_builtins(args);
-	
 }
 
 t_bool	syntax_errors(void)
@@ -50,17 +50,17 @@ void	exec_builtins(char **args)
 {
 	t_core *core;
 	core = get_core();
-	
-	if(strcmp("cd", core->token->str) == 0)
+
+	if (strcmp("cd", core->token->str) == 0)
 		cd(args);
-	else if(strcmp("pwd", core->token->str) == 0)
+	else if (strcmp("pwd", core->token->str) == 0)
 		pwd(args);
-	else if(strcmp("unset", core->token->str) == 0)
+	else if (strcmp("unset", core->token->str) == 0)
 		unset(args);
-	else if(strcmp("echo", core->token->str) == 0)
+	else if (strcmp("echo", core->token->str) == 0)
 		echo(args);
-	else if(strcmp("env", core->token->str) == 0)
+	else if (strcmp("env", core->token->str) == 0)
 		env(args);
-	else if(strcmp("exit", core->token->str) == 0)
+	else if (strcmp("exit", core->token->str) == 0)
 		exit_shell();
 }
