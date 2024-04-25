@@ -38,6 +38,7 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(SIGNALS)signals.c \
 			$(SRCDIR)$(CLEAR)error.c \
 			$(SRCDIR)$(OPERATORS)redirect.c \
+			$(SRCDIR)$(EXEC)exec_builtins.c \
 
 OBJDIR	=	bin/
 OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))

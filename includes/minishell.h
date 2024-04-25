@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/24 17:35:04 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:16:20 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 # include <math.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <sys/stat.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/stat.h>
 # include <unistd.h>
 
 typedef enum e_bool
@@ -68,7 +68,6 @@ typedef struct s_core
 	char			invalid;
 }					t_core;
 
-
 enum
 {
 	WORD = 1,
@@ -81,7 +80,6 @@ enum
 	TRUNC,
 	END
 };
-
 
 // core
 t_core				*get_core(void);
@@ -117,6 +115,10 @@ void				get_env_vars(t_core *core);
 void				split_quotes(char *str, int *i);
 int					ft_quotes_status(char c, int status);
 char				*my_get_env(char *key);
+
+// exec
+
+void				exec_builtins(char **args);
 
 // clenup
 void				clear_tkn_lst(t_token **token);
