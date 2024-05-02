@@ -6,13 +6,13 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:28:19 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/09 16:56:31 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:16:18 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//void	redirect(t_token *token)
-//{
+t_bool	handle_redirect(void)
+{
 	
-//}
+}

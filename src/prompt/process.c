@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:48:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/24 17:37:08 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/02 16:57:02 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <string.h>
 
 void	exec_builtins(char **args);
+t_bool	tokenizer(char *input);
 
 void	process(void)
 {
@@ -24,11 +25,20 @@ void	process(void)
 	core = get_core();
 	if (syntax_errors())
 		return ;
-	lexing(core->input);
-	if (check_op_op())
+	if(tokenizer(core->input))
 		return ;
-	parsing_vars();
+	if(cmd_parse())
+		return ;
 	exec_builtins(args);
+}
+
+t_bool	tokenizer(char *input)
+{
+	lexing(input);
+	if (check_op_op())
+		return (TRUE);
+	parsing_vars();
+	return(FALSE);
 }
 
 t_bool	syntax_errors(void)
@@ -44,23 +54,4 @@ t_bool	syntax_errors(void)
 	if (forbiden_token())
 		return (TRUE);
 	return (FALSE);
-}
-
-void	exec_builtins(char **args)
-{
-	t_core *core;
-	core = get_core();
-
-	if (strcmp("cd", core->token->str) == 0)
-		cd(args);
-	else if (strcmp("pwd", core->token->str) == 0)
-		pwd(args);
-	else if (strcmp("unset", core->token->str) == 0)
-		unset(args);
-	else if (strcmp("echo", core->token->str) == 0)
-		echo(args);
-	else if (strcmp("env", core->token->str) == 0)
-		env(args);
-	else if (strcmp("exit", core->token->str) == 0)
-		exit_shell();
 }
