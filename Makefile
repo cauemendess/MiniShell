@@ -38,6 +38,7 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(SIGNALS)signals.c \
 			$(SRCDIR)$(CLEAR)error.c \
 			$(SRCDIR)$(OPERATORS)redirect.c \
+			$(SRCDIR)$(OPERATORS)heredoc.c \
 			$(SRCDIR)$(EXEC)exec_builtins.c \
 			$(SRCDIR)$(PARSER)cmd_parse.c \
 

@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/02 17:16:42 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/06 19:01:52 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,21 @@
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 # include <unistd.h>
+
+typedef enum
+{
+	WORD = 1,
+	REDIRECT,
+	APPEND,
+	PIPE,
+	HEREDOC,
+	SPACES,
+	VAR,
+	TRUNC,
+	END
+}						t_type;
 
 typedef enum e_bool
 {
@@ -56,22 +70,22 @@ typedef struct s_cmd
 	struct s_cmd		*next;
 }						t_cmd;
 
-typedef struct s_redir_in
-{
-	char				*file_name;
-	int					fd;
-	t_type				tkn_type;
-	t_bool				is_heredoc;
-	struct s_redir_in	next;
-}						t_redir_in;
+//typedef struct s_redir_in
+//{
+//	char				*file_name;
+//	int					fd;
+//	t_type				tkn_type;
+//	t_bool				is_heredoc;
+//	struct s_redir_in	next;
+//}						t_redir_in;
 
-typedef struct s_redir_out
-{
-	char				*file_name;
-	int					fd;
-	t_type				tkn_type;
-	struct s_redir_out	next;
-}						t_redir_out;
+//typedef struct s_redir_out
+//{
+//	char				*file_name;
+//	int					fd;
+//	t_type				tkn_type;
+//	struct s_redir_out	next;
+//}						t_redir_out;
 
 typedef struct s_core
 {
@@ -81,22 +95,10 @@ typedef struct s_core
 	t_cmd				*cmd;
 	char				**env;
 	t_list				*garbage;
+	t_bool				is_heredoc;
 	int					exit_status;
 	char				invalid;
 }						t_core;
-
-typedef enum
-{
-	WORD = 1,
-	REDIRECT,
-	APPEND,
-	PIPE,
-	HEREDOC,
-	SPACES,
-	VAR,
-	TRUNC,
-	END
-}						t_type;
 
 // core
 t_core					*get_core(void);
@@ -135,6 +137,7 @@ char					*my_get_env(char *key);
 
 // operators
 
+void					handle_heredoc(void);
 t_bool					handle_redirect(void);
 
 // exec

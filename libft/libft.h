@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 11:24:34 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/17 18:35:50 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:32:27 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ char				*ft_strstr(const char *big, const char *find);
 char				*ft_replace(char *str, char *old, char *new, int count);
 int					ft_isspace(char c);
 void				ft_strip(char *str);
+int					ft_strcmp(const char *s1, const char *s2);
 
 #endif

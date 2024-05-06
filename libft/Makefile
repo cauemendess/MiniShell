@@ -43,7 +43,8 @@ SOURCES = \
 	ft_strstr.c \
 	ft_replace.c \
 	ft_isspace.c \
-	ft_strip.c
+	ft_strip.c \
+	ft_strcmp.c 
 
 
 BONUS_SOURCES = \
