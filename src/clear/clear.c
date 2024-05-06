@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:33:06 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/02 17:08:17 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/06 15:31:12 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	clear_tkn_lst(t_token **token)
 {
 	t_token	*temp;
 	char	*temp_str;
+
 	if (token != NULL)
 	{
 		while (*token)
@@ -51,6 +52,7 @@ void	clear_tkn_lst(t_token **token)
 		*token = NULL;
 	}
 }
+
 void	ft_free_matrice(char **matrice)
 {
 	int	i;
@@ -66,29 +68,52 @@ void	ft_free_matrice(char **matrice)
 
 void	garbage_collect(void *ptr)
 {
-	t_list *gc;
+	t_list	*gc;
+
 	gc = malloc(sizeof(t_list));
-	if(!gc)
+	if (!gc)
 		return ;
 	gc->content = ptr;
 	gc->next = get_core()->garbage;
 	get_core()->garbage = gc;
-	
 }
 
 void	clear_garbage(void)
 {
-	t_list *garbage;
-	t_list *next;
+	t_list	*garbage;
+	t_list	*next;
+
 	garbage = get_core()->garbage;
-	while(garbage)
+	while (garbage)
 	{
 		next = garbage->next;
-		if(garbage->content != NULL)
+		if (garbage->content != NULL)
 			free(garbage->content);
-		if(garbage != NULL)
+		if (garbage != NULL)
 			free(garbage);
 		garbage = next;
 	}
-	get_core()->garbage = NULL; 
+	get_core()->garbage = NULL;
+}
+
+void	remove_token(t_token **list, t_token *target)
+{
+	t_token *cur;
+	cur = *list;
+	while(cur)
+	{
+		if(cur == target)
+		{
+			if (cur->prev)
+				cur->prev->next = cur->next;
+			else
+				*list = cur->next;
+			if (cur->next)
+				cur->next->prev = cur->prev;
+			free(cur->str);
+			free(cur);
+			break;
+		}
+		cur = cur->next;
+	}
 }
