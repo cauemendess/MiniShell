@@ -6,11 +6,13 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:33:06 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/06 15:31:12 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:19:18 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	close_fds(void);
 
 void	clear_env_lst(t_env **env)
 {
@@ -115,5 +117,31 @@ void	remove_token(t_token **list, t_token *target)
 			break;
 		}
 		cur = cur->next;
+	}
+}
+void	clear_child(void)
+{
+	if(get_core()->token != NULL)
+		clear_tkn_lst(&get_core()->token);
+	if(get_core()->env_list)
+		clear_env_lst(&get_core()->env_list);
+	rl_clear_history();
+	
+	clear_garbage();
+	close_fds();
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	exit(get_core()->exit_status);
+}
+
+void	close_fds(void)
+{
+	size_t	index;
+
+	index = 4;
+	while (index <= 1024)
+	{
+		close(index);
+		index++;
 	}
 }

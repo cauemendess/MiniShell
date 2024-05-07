@@ -6,12 +6,11 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:42:56 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/06 19:12:23 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:32:10 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <fcntl.h>
 
 void	child_process(int doc_fd, char *limiter);
 void	wait_child(pid_t pid);
@@ -83,5 +82,6 @@ void	prompt_heredoc(int doc_fd, char *limiter)
 		ft_putendl_fd(line, doc_fd);
 		free(line);
 	}
+	clear_child();
 	close(doc_fd);
 }
