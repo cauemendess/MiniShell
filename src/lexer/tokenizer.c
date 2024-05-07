@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:33 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/09 15:53:03 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:40:17 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ void	lexing(char *input)
 		type = check_token(&input[i]);
 		if (type)
 		{
-			if(!check_token(&input[i - 1]) && i != 0)
+			if(i != 0 && !check_token(&input[i - 1]))
 				save_words(input, start, i);
 			if(type != VAR && type != SPACES)
 			{
