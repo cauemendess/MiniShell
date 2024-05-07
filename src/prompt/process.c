@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:48:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/06 19:09:30 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:22:29 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ t_bool	tokenizer(char *input);
 void	process(void)
 {
 	t_core	*core;
-	char	**args;
+	//char	**args;
 
-	garbage_collect(args = ft_split("env vefv", ' '));
+	//garbage_collect(args = ft_split("env vefv", ' '));
 	core = get_core();
 	if (syntax_errors())
 		return ;
@@ -30,7 +30,7 @@ void	process(void)
 	handle_heredoc();
 	//if(cmd_parse())
 	//	return ;
-	exec_builtins(args);
+	//exec_builtins(args);
 }
 
 t_bool	tokenizer(char *input)

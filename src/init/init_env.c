@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:21 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/06 19:04:34 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/07 15:18:01 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,11 @@ void	add_env(t_env **env, t_env *new)
 	cur = *env;
 	while (cur->next)
 		cur = cur->next;
-	cur->next = new;
-	new->prev = cur;
+	if (new)
+	{
+		cur->next = new;
+		new->prev = cur;
+	}
 }
 
 void	split_env_vars(void)
