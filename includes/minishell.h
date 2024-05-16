@@ -134,6 +134,7 @@ void				get_env_vars(t_core *core);
 void				split_quotes(char *str, int *i);
 int					ft_quotes_status(char c, int status);
 char				*my_get_env(char *key);
+char				*find_var(char *str, int j);
 
 // operators
 

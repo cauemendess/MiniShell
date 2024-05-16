@@ -15,7 +15,7 @@
 void	child_process(int doc_fd, char *limiter);
 void	wait_child(pid_t pid);
 void	prompt_heredoc(int doc_fd, char *limiter);
-
+char	*expand_on_heredoc(char *line);
 
 void	handle_heredoc(void)
 {
@@ -56,7 +56,7 @@ void	wait_child(pid_t pid)
 	if (WIFEXITED(wstatus))
 	{
 		exit_status = WEXITSTATUS(wstatus);
-		if (exit_status == 130)
+		if (exit_status != 0)
 		{
 			if (get_core()->exit_status != 130)
 				get_core()->is_heredoc = TRUE;
@@ -79,9 +79,29 @@ void	prompt_heredoc(int doc_fd, char *limiter)
 			free(line);
 			break ;
 		}
+		else if(ft_strcmp(line, "$"))
+			line = expand_on_heredoc(line);
 		ft_putendl_fd(line, doc_fd);
 		free(line);
 	}
 	clear_child();
 	close(doc_fd);
+}
+
+char *expand_on_heredoc(char *line)
+{
+	char	*res;
+	char	*var;
+	int		i;
+	i = 0;
+	while(line[i])
+	{
+		if(line[i] == '$')
+		{
+			garbage_collect(var = find_var(line, i));
+			res = ft_replace(line, var, my_get_env(var + 1), i);
+		}
+		i++;
+	}
+	return (res);
 }
