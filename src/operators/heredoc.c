@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:42:56 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/07 16:32:10 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/18 16:33:37 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	child_process(int doc_fd, char *limiter)
 		prompt_heredoc(doc_fd, limiter);
 	else
 		wait_child(pid);
+	close(doc_fd);
 }
 
 void	wait_child(pid_t pid)
@@ -83,25 +84,53 @@ void	prompt_heredoc(int doc_fd, char *limiter)
 			line = expand_on_heredoc(line);
 		ft_putendl_fd(line, doc_fd);
 		free(line);
+		close(doc_fd);
 	}
 	clear_child();
-	close(doc_fd);
+}
+
+char	*has_var(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '$' && line[i + 1])
+		{
+			if (line[i + 1] == '?' || ft_isalnum(line[i + 1]))
+				return (line + i);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+char	*search_var(char *str)
+{
+	int		i;
+	char	*line;
+
+	line = has_var(str);
+	if (!line)
+		return (NULL);
+	i = 1;
+	while (line[i] && (ft_isalnum(line[i])))
+		i++;
+	if (line[i] == '?')
+		i++;
+	return (ft_substr(line, 0, i));
 }
 
 char *expand_on_heredoc(char *line)
 {
-	char	*res;
+
 	char	*var;
-	int		i;
-	i = 0;
-	while(line[i])
+	
+	while(has_var(line))
 	{
-		if(line[i] == '$')
-		{
-			garbage_collect(var = find_var(line, i));
-			res = ft_replace(line, var, my_get_env(var + 1), i);
-		}
-		i++;
+		garbage_collect(var = search_var(line));
+		line = ft_replace(line, var, my_get_env(var + 1));
 	}
-	return (res);
+	return (line);
 }
