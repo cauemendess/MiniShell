@@ -42,6 +42,7 @@ SOURCES = \
 	ft_toupper.c \
 	ft_strstr.c \
 	ft_replace.c \
+	ft_replace_index.c \
 	ft_isspace.c \
 	ft_strip.c \
 	ft_strcmp.c 

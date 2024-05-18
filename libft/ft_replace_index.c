@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/18 15:31:20 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/18 15:33:36 by csilva-m         ###   ########.fr       */
+/*   Created: 2024/03/27 12:06:59 by csilva-m          #+#    #+#             */
+/*   Updated: 2024/05/18 15:28:57 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	*replace_occurrence(char *result, char *ptr, char *old, char *new)
 	return (subtemp);
 }
 
-char	*ft_replace(char *str, char *old, char *new)
+char	*ft_replace_index(char *str, char *old, char *new, int count)
 {
 	char	*result;
 	char	*ptr;
@@ -41,7 +41,7 @@ char	*ft_replace(char *str, char *old, char *new)
 	ptr = result;
 	while (*ptr)
 	{
-		ptr = ft_strstr(ptr, old);
+		ptr += count;
 		if (!ptr)
 			break ;
 		i = ptr - result;
