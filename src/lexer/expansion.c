@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/17 18:34:53 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/18 17:23:22 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	parsing_vars(void)
 		{
 			if (mult_dollar(cur->str, &var))
 				garbage_collect(var = find_var(cur->str, i));
-			cur->str = ft_replace(cur->str, var, my_get_env(var + 1), i);
+			cur->str = ft_replace_index(cur->str, var, my_get_env(var + 1), i);
 			cur->token = VAR;
 			continue ;
 		}
