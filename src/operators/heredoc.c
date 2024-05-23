@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:42:56 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/18 16:33:37 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:41:12 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	wait_child(pid_t pid);
 void	prompt_heredoc(int doc_fd, char *limiter);
 char	*expand_on_heredoc(char *line);
 
-void	handle_heredoc(void)
+void	capture_heredoc(void)
 {
 	char	*limiter;
 	t_token	*cur;
@@ -84,8 +84,8 @@ void	prompt_heredoc(int doc_fd, char *limiter)
 			line = expand_on_heredoc(line);
 		ft_putendl_fd(line, doc_fd);
 		free(line);
-		close(doc_fd);
 	}
+	close(doc_fd);
 	clear_child();
 }
 

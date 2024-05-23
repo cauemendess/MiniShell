@@ -6,13 +6,13 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:28:19 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/06 19:02:07 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:22:47 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//t_bool	handle_redirect(void)
-//{
+t_bool	handle_redirects(void)
+{
 	
-//}
+}

@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/07 16:19:51 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:40:12 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ char				*find_var(char *str, int j);
 
 // operators
 
-void				handle_heredoc(void);
+void				capture_heredoc(void);
 t_bool				handle_redirect(void);
 
 // exec

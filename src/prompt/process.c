@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:48:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/07 16:22:29 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/23 14:27:47 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	process(void)
 		return ;
 	if(tokenizer(core->input))
 		return ;
-	handle_heredoc();
+	capture_heredoc();
 	//if(cmd_parse())
 	//	return ;
 	//exec_builtins(args);
