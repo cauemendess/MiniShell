@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/23 13:40:12 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/24 16:49:15 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,24 @@ typedef struct s_env
 
 }					t_env;
 
+typedef struct s_redir_in
+{
+	char				*file_name;
+	int					fd;
+	t_type				tkn_type;
+	t_bool				is_heredoc;
+	struct s_redir_in	next;
+}						t_redir_in;
+
 typedef struct s_cmd
 {
 	char			*name;
 	char			**args;
-	int				redirect;
+	t_redir_in		*redir_in;
 	t_bool			has_pipe;
 	struct s_cmd	*next;
 }					t_cmd;
 
-//typedef struct s_redir_in
-//{
-//	char				*file_name;
-//	int					fd;
-//	t_type				tkn_type;
-//	t_bool				is_heredoc;
-//	struct s_redir_in	next;
-//}						t_redir_in;
 
 //typedef struct s_redir_out
 //{
@@ -139,7 +140,7 @@ char				*find_var(char *str, int j);
 // operators
 
 void				capture_heredoc(void);
-t_bool				handle_redirect(void);
+void				handle_redirect(void);
 
 // exec
 
@@ -151,8 +152,9 @@ void				clear_env_lst(t_env **env);
 void				garbage_collect(void *ptr);
 void				clear_garbage(void);
 void				ft_free_matrice(char **matrice);
-void				clear_child(void);
+void				remove_token(t_token **list, t_token *target);
 
+void				clear_child(void);
 
 // builtins
 
