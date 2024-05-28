@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:28:19 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/24 18:25:45 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:21:14 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,24 @@ void	handle_redirects(void)
 	}
 }
 
-//void	handle_heredoc(t_token *token, t_redir_in **redir_list)
+void	handle_heredoc(t_token *token, t_redir_in **redir_list)
+{
+	t_redir_in *cur_redir;
+	cur_redir = *redir_list;
+	
+	if(cur_redir->next == NULL)
+	{
+		create_redir_in_list("heredoc_tmp", token->token);
+	}
+}
+
+//void	handle_redir_out(t_token *token, t_redir_out **redir_list)
 //{
 	
 //}
 
-//void	handle_redir_out(t_token *token)
-//{
-	
-//}
 
-
-//void	handle_redir_in(t_token *token)
+//void	handle_redir_in(t_token *token, t_redir_in **redir_list)
 //{
 	
 //}
