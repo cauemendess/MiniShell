@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danielefrade <danielefrade@student.42.f    +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/26 18:31:27 by danielefrad      ###   ########.fr       */
+/*   Updated: 2024/05/30 20:16:26 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,64 @@ void	exec_one_cmd(t_token *cmd);
 t_bool	is_builtin(t_token *cmd);
 char	*build_path(char *cmd);
 int		cmd_has_path(char *cmd);
-char	**cmd_to_matrix(t_token *cmd);
+char	**cmd_to_matrix(void);
 char	**env_to_matrix(void);
 int		cmd_count();
+t_cmd	*init_cmd_table(void);
 
-// void	cmd_parse(void)
-// {
-// 	t_token	*list;
-// 	list = get_core()->token;
-// }
+
+void	cmd_table(void)
+{
+	int	i;
+
+	i = 0;
+	get_core()->nb_cmd_table = cmd_count();
+	if (get_core()->nb_cmd_table == 0)
+		return ;
+	get_core()->cmd_table = init_cmd_table(); // inicializa todos os cmd_table que existe com valores padrões e salva no array cmd_table
+	if (get_core()->cmd_table == NULL)
+		return ;
+	while(i < get_core()->nb_cmd_table)
+	{
+		// Redirects é com o Cauê
+		get_core()->cmd_table[i].cmd = ft_strdup(get_core()->token->str);
+		get_core()->cmd_table[i].args = cmd_to_matrix();
+		// free até o pipe (ou até NULL)
+		
+		
+		
+		i++;
+	}
+	
+	
+	
+
+
+}
+
+t_cmd	*init_cmd_table(void)
+{
+	t_cmd	*commands;
+	int		nb_of_cmds;
+
+	nb_of_cmds = cmd_count();
+	commands = malloc(nb_of_cmds * sizeof(t_cmd));
+	if (commands == NULL)
+		return (NULL);
+	while (nb_of_cmds > 0)
+	{
+		commands[nb_of_cmds - 1].cmd = NULL;
+		commands[nb_of_cmds - 1].args = NULL;
+		commands[nb_of_cmds - 1].envp = NULL;
+		commands[nb_of_cmds - 1].fork_pid = 0;
+		commands[nb_of_cmds - 1].is_builtin = FALSE;
+		// t_redir_in	*redir_in;
+		// t_redir_out	*redir_out;
+		// t_proc		process_location; talvez use ou não
+		nb_of_cmds--;
+	}
+	return(commands);
+}
 
 void handle_cmd_number() // decidir qual função chamar de acordo com o nb de comandos
 {
@@ -158,7 +207,7 @@ void exec_one_cmd(t_token *cmd)
 				exit(1); // tem que dar o número certo do erro
 			}
 			
-			cmd_matrix[0] = build_path(cmd_matrix[0]);
+			cmd = build_path(cmd);
 			
 			// se encontrei o comando
 			if (cmd_matrix[0] == NULL)
@@ -213,17 +262,17 @@ t_bool is_builtin(t_token *cmd)
 	return (FALSE);
 }
 
-char	**cmd_to_matrix(t_token *cmd)
+char	**cmd_to_matrix(void)
 {
-	t_token	*temp_count;
+	t_token	*ptr_token_list;
 	char	**matrix;
 	int		lenght;
 	int		i;
 
-	temp_count = cmd; // ou poderia fazer fora daqui
-	while (temp_count != NULL) // contar quantos tokens
+	ptr_token_list = get_core()->token; // ou poderia fazer fora daqui
+	while (ptr_token_list != NULL && ptr_token_list->token != (int)PIPE) // contar quantos tokens
 	{
-		temp_count = temp_count->next;
+		ptr_token_list = ptr_token_list->next;
 		lenght++;
 	}
 	
@@ -232,15 +281,16 @@ char	**cmd_to_matrix(t_token *cmd)
 		return (NULL);
 	
 	i = 0;
-	while (cmd != NULL)
+	ptr_token_list = get_core()->token;
+	while (ptr_token_list != NULL && ptr_token_list->token != (int)PIPE)
 	{
-		matrix[i] = ft_strdup(cmd->str);
+		matrix[i] = ft_strdup(ptr_token_list->str);
 		if (matrix[i] == NULL)
 		{
-			// Free em tudo	
+			ft_free_matrice(matrix);
 			return (NULL);
 		}
-		cmd = cmd->next;
+		ptr_token_list = ptr_token_list->next;
 		i++;
 	}
 	matrix[i] = NULL;	

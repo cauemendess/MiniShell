@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/09 15:39:26 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:42:58 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,19 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+
+typedef struct s_cmd
+{
+	int			fork_pid;
+	t_bool		is_builtin;
+	char		*cmd;
+	char		**args;
+	char		**envp;
+	// t_redir_in	*redir_in;
+	// t_redir_out	*redir_out;
+	// t_proc		process_location; talvez use ou não
+}				t_cmd;
+
 
 typedef struct s_token
 {
@@ -48,6 +61,8 @@ typedef struct s_core
 	t_list			*garbage;
 	int				exit_status;
 	char			invalid;
+	int				nb_cmd_table;
+	t_cmd			*cmd_table;
 }					t_core;
 
 enum
@@ -68,6 +83,7 @@ typedef enum e_bool
 	FALSE,
 	TRUE
 }					t_bool;
+
 
 // core
 t_core				*get_core(void);
