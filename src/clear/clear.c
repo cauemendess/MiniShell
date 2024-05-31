@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:33:06 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/07 16:19:18 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/31 20:47:25 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,36 @@ void	clear_child(void)
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	exit(get_core()->exit_status);
+}
+
+void	clear_child_exec(void)
+{
+	t_core	*core;
+	
+	core = get_core();
+
+	free(core->input);
+	clear_tkn_lst(core->token);	
+	clear_env_lst(core->env_list);
+	ft_free_matrice(core->env);
+	clear_garbage();
+	clear_cmd_table(core->cmd_table);
+}
+
+void	clear_cmd_table(t_cmd *cmd_table)
+{
+	int	i;
+
+	i = 0;
+	while(i < get_core()->number_of_cmds_in_cmd_table)
+	{
+		free(cmd_table[i].cmd);
+		ft_free_matrice(cmd_table[i].args);
+		ft_free_matrice(cmd_table[i].envp);
+		// redirects ???
+		i++;
+	}
+	free(cmd_table);
 }
 
 void	close_fds(void)

@@ -43,6 +43,8 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(OPERATORS)validate_files.c \
 			$(SRCDIR)$(EXEC)exec_builtins.c \
 			$(SRCDIR)$(PARSER)cmd_parse.c \
+			$(SRCDIR)$(PARSER)cmd_parse_utils.c \
+			$(SRCDIR)$(PARSER)build_path.c \
 
 OBJDIR	=	bin/
 OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
