@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/24 16:49:15 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:26:02 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,28 @@ typedef struct s_redir_in
 	char				*file_name;
 	int					fd;
 	t_type				tkn_type;
-	t_bool				is_heredoc;
 	struct s_redir_in	next;
 }						t_redir_in;
+
+typedef struct s_redir_out
+{
+	char				*file_name;
+	int					fd;
+	t_type				tkn_type;
+	struct s_redir_out	next;
+}						t_redir_out;
+
 
 typedef struct s_cmd
 {
 	char			*name;
 	char			**args;
 	t_redir_in		*redir_in;
-	t_bool			has_pipe;
+	t_redir_out		*redir_out;
 	struct s_cmd	*next;
 }					t_cmd;
 
 
-//typedef struct s_redir_out
-//{
-//	char				*file_name;
-//	int					fd;
-//	t_type				tkn_type;
-//	struct s_redir_out	next;
-//}						t_redir_out;
 
 typedef struct s_core
 {
@@ -140,7 +141,20 @@ char				*find_var(char *str, int j);
 // operators
 
 void				capture_heredoc(void);
-void				handle_redirect(void);
+
+void				handle_heredoc(t_token *token, t_redir_in **redir_list);
+void				handle_redir_in(t_token *token, t_redir_in **redir_list);
+
+void				add_redir_in(t_redir_in **redir, t_redir_in *new);
+void				add_redir_out(t_redir_out **redir, t_redir_out *new);
+
+
+t_redir_in			*create_redir_in_list(char *file_name, t_type token_type);
+t_redir_out			*create_redir_out_list(char *file_name, t_type token_type);
+t_bool				validate_redir_in_file(char *file);
+t_bool				validate_redir_out_file(char *file);
+
+
 
 // exec
 
