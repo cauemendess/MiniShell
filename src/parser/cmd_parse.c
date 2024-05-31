@@ -6,27 +6,28 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/31 14:32:31 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/05/31 18:22:51 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/stat.h>
 
-void	handle_cmd_number();
-void	exec_one_cmd(t_token *cmd);
-void	exec_mult_cmd(int cmd_nb);
+void	handle_cmd_number(void);
+void	exec_one_cmd(t_cmd *cmd_table);
+void	exec_mult_cmd(int cmd_number);
 t_bool	is_builtin(char *cmd);
 char	*build_path(char *cmd);
 int		cmd_has_path(char *cmd);
 char	**cmd_to_matrix(t_token **ptr_token);
 char	**env_to_matrix(void);
-int		cmd_count();
+int		cmd_count(void);
+void	clear_child(void);
 void	fill_cmd_table(void);
 t_cmd	*create_cmd_table(void);
 
 
-void handle_cmd_number() // decidir qual função chamar de acordo com o nb de comandos
+void handle_cmd_number(void) // decidir qual função chamar de acordo com o nb de comandos
 {
 	int cmd_number;
 
@@ -34,165 +35,119 @@ void handle_cmd_number() // decidir qual função chamar de acordo com o nb de c
 	if (cmd_number == 0)
 		clear_garbage(); // escolher a função correta para free em tudo até aqui
 	else if (cmd_number == 1)
-		exec_one_cmd(get_core()->token);
+		exec_one_cmd(get_core()->cmd_table);
 	else if (cmd_number > 1)
 		exec_mult_cmd(cmd_number);
 	//free nas coisas que tem que dar free
 }
 
-void exec_one_cmd(t_token *cmd)
+void exec_one_cmd(t_cmd *cmd_table)
 {
-	// execução de redirect
-	// expansão de variáveis
-	char	**cmd_matrix;
-	char	**env_matrix;
-	int		fork_return;
-
-	if (is_builtin(cmd))
+	int fork_pid;
+	
+	if (cmd_table->is_builtin == TRUE)
 	{
 		// chama a função de builtin de acordo com a builtin (talvez pode ser um ponteiro direto para a função, mas aqui o prototipo tem que ser igual)	
 	}
 	else
 	{	
-		fork_return = fork();
-		if (fork_return == 0)
+		fork_pid = fork();
+		if (cmd_table->fork_pid == 0)
 		{
+			// execução de redirect (Trocar os fd pros redirects, se for necessário)
+
+
 			// se o retorno da função está ok
-			cmd_matrix = cmd_to_matrix(cmd);
-			if (cmd_matrix == NULL)
-			{
-				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
-				exit(1); // tem que dar o número certo do erro
-			}
-			
-			cmd = build_path(cmd);
+			cmd_table->cmd = build_path(cmd_table->cmd);
 			
 			// se encontrei o comando
-			if (cmd_matrix[0] == NULL)
+			if (cmd_table->cmd == NULL)
 			{
 				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
 				exit(1); // tem que dar o número certo do erro
 			}
 			
 			// se é diretório
-			struct stat	path_status; //já tem no sistema, só importar a lib utilizar 
-			stat(cmd_matrix[0], &path_status);
-			if (S_ISDIR(path_status.st_mode) != 0)
+			struct stat	cmd_is_dir; //já tem no sistema, só importar a lib utilizar 
+			stat(cmd_table->cmd, &cmd_is_dir); // preencher a struct
+			if (S_ISDIR(cmd_is_dir.st_mode) != 0) // saber se é diretório ou não
 			{
 				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
 				exit(1); // tem que dar o número certo do erro
 			}
 		
 			// se posso executar
-			if (access(cmd_matrix[0], X_OK) != 0)
+			if (access(cmd_table->cmd, X_OK) != 0)
 			{
 				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
 				exit(1); // tem que dar o número certo do erro
 			}
 			
-			// se o retorno da função está ok
-			env_matrix = env_to_matrix();
-			if (env_matrix == NULL)
-			{
-				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
-				exit(1); // tem que dar o número certo do erro
-			}
-			execve(cmd_matrix[0], cmd_matrix, env_matrix);
+			execve(cmd_table->cmd, cmd_table->args, cmd_table->envp);
 			// free em tudo
-			exit(126); // tem o numero certo, aqui o exit, como em todos, é um tratamento de erro, pois o execve já mata a criança caso dê certo
+			exit(126); // tem o numero certo
 		}
 		wait(&get_core()->exit_status);
 	}
 }
 
-void	exec_mult_cmd(int cmd_nb)
+void	exec_mult_cmd(int cmd_number)
 {
-	int *fork_return;
-	int cmd_number;
-	int	i;
-	t_token *token;
-	t_token *cmd;
-	int	pipes[2];
-	int	pipes_backup;
-	
-	cmd_number = cmd_nb;
-	// Mallocar espaço para guardar a resposta de todos os forks
-	fork_return = malloc((cmd_number) * sizeof (int));
-	if (fork_return == NULL)
-	{
-		ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
-		return ;
-	}
-	
+	int		i;
+	int		cmd_number_2;
+	int		pipes[2];
+	int		pipes_backup;
+	t_cmd	*cmd_table_temp;
+	t_cmd	*cmd_table;
+
 	// Loop para criação do fork
 	i = 0;
-	token = get_core()->token;
+	cmd_number_2 = cmd_number;
+	cmd_table = get_core()->cmd_table;
 	pipes_backup = STDIN_FILENO;
-	while (cmd_number > 0)
+	
+	while (cmd_number_2 > 0)
 	{
-		if (cmd_number > 1)
-			// Abrir pipe (Quando necessário)
-			pipe(pipes);
-				// verificar erro depois
-
-		// Fork
-		fork_return[i] = fork();
-		if (fork_return[i] == 0)
+		if (cmd_number_2 > 1)
+			pipe(pipes); // Abrir pipe (Quando necessário), verificar erro depois
+		cmd_table[i].fork_pid = fork(); // Fork
+		if (cmd_table[i].fork_pid  == 0)
 		{
-			cmd = NULL;
-			 
-			// Criar lista de tokens para 1 único comando
-			while (token != NULL && token->token != (int)PIPE)
-			{
-				add_token(&cmd, create_tkn_lst(token->str, token->token));
-				token = token->next;
-			}
-
-			if (cmd_number > 1)
-			{
-				// int dup2(int quero_dup, int quero_apagar)
-				dup2(pipes[1], STDOUT_FILENO);
-				close(pipes[1]);
-				close(pipes[0]);
-			}
+			cmd_table_temp = cmd_table[i];
+			clear_child(); // Free em tudo, exceto o index atual do cmd_table
+			
+			// int dup2(int quero_dup, int quero_apagar)
+			dup2(pipes[1], STDOUT_FILENO);
+			close(pipes[1]);
+			close(pipes[0]);
 
 			dup2(pipes_backup, STDIN_FILENO);
 			if (pipes_backup != 0) // nunca fecha a entrada padrão
 				close(pipes_backup);
 			
-			// copia 1 comando pra variável cmd
-			exec_one_cmd(cmd);
+			exec_one_cmd(&cmd_table[i]);
 			// free nas coisas
-			exit(126); // tem o numero certo, aqui o exit, como em todos, é um tratamento de erro, pois o execve já mata a criança caso dê certo
+			exit(126); // tem o numero certo
 		}
 		if (pipes_backup != 0) // nunca fecha a entrada padrão
 			close(pipes_backup);
-		// backup do pipe
-		if (cmd_number > 1)
+
+		if (cmd_number_2 > 1) // backup do pipe
 		{
 			pipes_backup = pipes[0];
 			close(pipes[1]);
 		}
-
-		// incrementa (próx. cmd), pq o que acontece na criança não altera ou reflete no pai
-		while (token != NULL && token->token != (int)PIPE)
-		{
-			token = token->next; // passando uma palavra de cada vez
-		}
-		if (token != NULL) // garanto que estou no próximo comando, pulando o pipe
-			token = token->next;
-		
-		cmd_number--;
+		cmd_number_2--;
 		i++;
 	}
 	
 	// Loop para esperar todos os forks de cima
 	i = 0;
-	while (cmd_nb > 0)
+	while (cmd_number > 0)
 	{
 		// Esperar TODOS os pids (retorno do fork) na ordem que executamos (waitpid)
-		waitpid(fork_return[i], &(get_core()->exit_status), 0);
-		cmd_nb--;
+		waitpid(cmd_table[i].fork_pid, &(get_core()->exit_status), 0);
+		cmd_number--;
 	}
 }
 
@@ -296,7 +251,7 @@ char	**env_to_matrix(void)
 	return(env_matrix);	
 }
 
-int	cmd_count() // contar o número de comandos 
+int	cmd_count(void) // contar o número de comandos 
 {
 	t_token	*list;
 	int 	i;
@@ -331,13 +286,12 @@ void	fill_cmd_table(void)
 	if (cmd_table == NULL)
 		return ;
 	
+	// Redirects é com o Cauê
 	ptr_temp = get_core()->token;
 	
 	while (i < nb_of_cmds)
 	{
-		// Redirects é com o Cauê
 		cmd_table[i].cmd = ft_strdup(ptr_temp->str);
-		// aqui faltou mandar o caminho do comando
 		cmd_table[i].args = cmd_to_matrix(&ptr_temp);
 		cmd_table[i].envp = env_to_matrix();
 		cmd_table[i].is_builtin = is_builtin(cmd_table[i].cmd);	
@@ -369,9 +323,24 @@ t_cmd	*create_cmd_table(void)
 	return(commands);
 }
 
+void	clear_child(void)
+{
+	t_core	*core;
+	
+	core = get_core();
+
+	free(core->input); // char *input
+	clear_tkn_lst(core->token);	// t_token *token;	
+	clear_env_lst(core->env_list); // t_env *env_list;
+	ft_free_matrice(core->env);	// char **env
+	clear_garbage();// t_list *garbage
+	free(core->cmd_table); // t_cmd *cmd_table
+}
+
 // INFO:
 // - o numero de comandos é pipe + 1 (posso usar para malloc?)
 // - os comandos vão para o execve com os argumentos
 // - cmd da build_path é o core->token->str
 // - tipos não mudam, o que muda é a estrutura (posso ter um array ou um struct ou uma lista com tipos char, int etc...)
 // - strlcpy por padrão copia size -1, por sempre passar size + 1
+// - exit (nb) tem o numero certo, aqui o exit, como em todos, é um tratamento de erro, pois o execve já mata a criança caso dê certo

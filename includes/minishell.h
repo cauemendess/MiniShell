@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/31 13:12:35 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/05/31 15:19:49 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+
+typedef enum e_bool
+{
+	FALSE,
+	TRUE
+}					t_bool;
 
 typedef struct s_cmd
 {
@@ -77,11 +83,6 @@ enum
 	END
 };
 
-typedef enum e_bool
-{
-	FALSE,
-	TRUE
-}					t_bool;
 
 
 // core
