@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/30 17:42:58 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/05/31 13:12:35 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_core
 	t_list			*garbage;
 	int				exit_status;
 	char			invalid;
-	int				nb_cmd_table;
 	t_cmd			*cmd_table;
 }					t_core;
 

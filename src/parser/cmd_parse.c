@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/30 20:16:26 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/05/31 14:32:31 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,67 +15,16 @@
 
 void	handle_cmd_number();
 void	exec_one_cmd(t_token *cmd);
-t_bool	is_builtin(t_token *cmd);
+void	exec_mult_cmd(int cmd_nb);
+t_bool	is_builtin(char *cmd);
 char	*build_path(char *cmd);
 int		cmd_has_path(char *cmd);
-char	**cmd_to_matrix(void);
+char	**cmd_to_matrix(t_token **ptr_token);
 char	**env_to_matrix(void);
 int		cmd_count();
-t_cmd	*init_cmd_table(void);
+void	fill_cmd_table(void);
+t_cmd	*create_cmd_table(void);
 
-
-void	cmd_table(void)
-{
-	int	i;
-
-	i = 0;
-	get_core()->nb_cmd_table = cmd_count();
-	if (get_core()->nb_cmd_table == 0)
-		return ;
-	get_core()->cmd_table = init_cmd_table(); // inicializa todos os cmd_table que existe com valores padrões e salva no array cmd_table
-	if (get_core()->cmd_table == NULL)
-		return ;
-	while(i < get_core()->nb_cmd_table)
-	{
-		// Redirects é com o Cauê
-		get_core()->cmd_table[i].cmd = ft_strdup(get_core()->token->str);
-		get_core()->cmd_table[i].args = cmd_to_matrix();
-		// free até o pipe (ou até NULL)
-		
-		
-		
-		i++;
-	}
-	
-	
-	
-
-
-}
-
-t_cmd	*init_cmd_table(void)
-{
-	t_cmd	*commands;
-	int		nb_of_cmds;
-
-	nb_of_cmds = cmd_count();
-	commands = malloc(nb_of_cmds * sizeof(t_cmd));
-	if (commands == NULL)
-		return (NULL);
-	while (nb_of_cmds > 0)
-	{
-		commands[nb_of_cmds - 1].cmd = NULL;
-		commands[nb_of_cmds - 1].args = NULL;
-		commands[nb_of_cmds - 1].envp = NULL;
-		commands[nb_of_cmds - 1].fork_pid = 0;
-		commands[nb_of_cmds - 1].is_builtin = FALSE;
-		// t_redir_in	*redir_in;
-		// t_redir_out	*redir_out;
-		// t_proc		process_location; talvez use ou não
-		nb_of_cmds--;
-	}
-	return(commands);
-}
 
 void handle_cmd_number() // decidir qual função chamar de acordo com o nb de comandos
 {
@@ -89,6 +38,71 @@ void handle_cmd_number() // decidir qual função chamar de acordo com o nb de c
 	else if (cmd_number > 1)
 		exec_mult_cmd(cmd_number);
 	//free nas coisas que tem que dar free
+}
+
+void exec_one_cmd(t_token *cmd)
+{
+	// execução de redirect
+	// expansão de variáveis
+	char	**cmd_matrix;
+	char	**env_matrix;
+	int		fork_return;
+
+	if (is_builtin(cmd))
+	{
+		// chama a função de builtin de acordo com a builtin (talvez pode ser um ponteiro direto para a função, mas aqui o prototipo tem que ser igual)	
+	}
+	else
+	{	
+		fork_return = fork();
+		if (fork_return == 0)
+		{
+			// se o retorno da função está ok
+			cmd_matrix = cmd_to_matrix(cmd);
+			if (cmd_matrix == NULL)
+			{
+				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
+				exit(1); // tem que dar o número certo do erro
+			}
+			
+			cmd = build_path(cmd);
+			
+			// se encontrei o comando
+			if (cmd_matrix[0] == NULL)
+			{
+				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
+				exit(1); // tem que dar o número certo do erro
+			}
+			
+			// se é diretório
+			struct stat	path_status; //já tem no sistema, só importar a lib utilizar 
+			stat(cmd_matrix[0], &path_status);
+			if (S_ISDIR(path_status.st_mode) != 0)
+			{
+				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
+				exit(1); // tem que dar o número certo do erro
+			}
+		
+			// se posso executar
+			if (access(cmd_matrix[0], X_OK) != 0)
+			{
+				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
+				exit(1); // tem que dar o número certo do erro
+			}
+			
+			// se o retorno da função está ok
+			env_matrix = env_to_matrix();
+			if (env_matrix == NULL)
+			{
+				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
+				exit(1); // tem que dar o número certo do erro
+			}
+			execve(cmd_matrix[0], cmd_matrix, env_matrix);
+			// free em tudo
+			exit(126); // tem o numero certo, aqui o exit, como em todos, é um tratamento de erro, pois o execve já mata a criança caso dê certo
+		}
+		wait(&get_core()->exit_status);
+	}
 }
 
 void	exec_mult_cmd(int cmd_nb)
@@ -182,72 +196,7 @@ void	exec_mult_cmd(int cmd_nb)
 	}
 }
 
-void exec_one_cmd(t_token *cmd)
-{
-	// execução de redirect
-	// expansão de variáveis
-	char	**cmd_matrix;
-	char	**env_matrix;
-	int		fork_return;
-
-	if (is_builtin(cmd))
-	{
-		// chama a função de builtin de acordo com a builtin (talvez pode ser um ponteiro direto para a função, mas aqui o prototipo tem que ser igual)	
-	}
-	else
-	{	
-		fork_return = fork();
-		if (fork_return == 0)
-		{
-			// se o retorno da função está ok
-			cmd_matrix = cmd_to_matrix(cmd);
-			if (cmd_matrix == NULL)
-			{
-				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
-				exit(1); // tem que dar o número certo do erro
-			}
-			
-			cmd = build_path(cmd);
-			
-			// se encontrei o comando
-			if (cmd_matrix[0] == NULL)
-			{
-				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
-				exit(1); // tem que dar o número certo do erro
-			}
-			
-			// se é diretório
-			struct stat	path_status; //já tem no sistema, só importar a lib utilizar 
-			stat(cmd_matrix[0], &path_status);
-			if (S_ISDIR(path_status.st_mode) != 0)
-			{
-				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
-				exit(1); // tem que dar o número certo do erro
-			}
-		
-			// se posso executar
-			if (access(cmd_matrix[0], X_OK) != 0)
-			{
-				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
-				exit(1); // tem que dar o número certo do erro
-			}
-			
-			// se o retorno da função está ok
-			env_matrix = env_to_matrix();
-			if (env_matrix == NULL)
-			{
-				ft_printf("%s\n", "Mensagem de erro de acordo com o erro específico");
-				exit(1); // tem que dar o número certo do erro
-			}
-			execve(cmd_matrix[0], cmd_matrix, env_matrix);
-			// free em tudo
-			exit(126); // tem o numero certo, aqui o exit, como em todos, é um tratamento de erro, pois o execve já mata a criança caso dê certo
-		}
-		wait(&get_core()->exit_status);
-	}
-}
-
-t_bool is_builtin(t_token *cmd)
+t_bool is_builtin(char *cmd)
 {
 	int	i;
 	const char *builtins[] = {"echo", "exit", "pwd", "unset", "export", "env", "cd", NULL};
@@ -255,21 +204,21 @@ t_bool is_builtin(t_token *cmd)
 	i = 0;
 	while (builtins[i] != NULL)
 	{
-		if (ft_strncmp(cmd->str, builtins[i], ft_strlen(cmd->str)) == 0)
+		if (ft_strncmp(cmd, builtins[i], ft_strlen(cmd)) == 0)
 			return (TRUE);
 		i++;
 	}
 	return (FALSE);
 }
 
-char	**cmd_to_matrix(void)
+char	**cmd_to_matrix(t_token **ptr_token)
 {
 	t_token	*ptr_token_list;
 	char	**matrix;
 	int		lenght;
 	int		i;
 
-	ptr_token_list = get_core()->token; // ou poderia fazer fora daqui
+	ptr_token_list = *ptr_token;
 	while (ptr_token_list != NULL && ptr_token_list->token != (int)PIPE) // contar quantos tokens
 	{
 		ptr_token_list = ptr_token_list->next;
@@ -281,7 +230,7 @@ char	**cmd_to_matrix(void)
 		return (NULL);
 	
 	i = 0;
-	ptr_token_list = get_core()->token;
+	ptr_token_list = *ptr_token;
 	while (ptr_token_list != NULL && ptr_token_list->token != (int)PIPE)
 	{
 		matrix[i] = ft_strdup(ptr_token_list->str);
@@ -293,6 +242,9 @@ char	**cmd_to_matrix(void)
 		ptr_token_list = ptr_token_list->next;
 		i++;
 	}
+	*ptr_token = ptr_token_list;
+	if ((*ptr_token)->token == (int)PIPE)
+		*ptr_token = (*ptr_token)->next;
 	matrix[i] = NULL;	
 	return (matrix);
 }
@@ -360,6 +312,61 @@ int	cmd_count() // contar o número de comandos
 		list = list->next;
 	}
 	return (i);
+}
+
+void	fill_cmd_table(void)
+{
+	int		i;
+	int		nb_of_cmds;
+	t_cmd	*cmd_table;
+	t_token	*ptr_temp;
+
+	i = 0;
+	nb_of_cmds = cmd_count();
+	if (nb_of_cmds == 0)
+		return ;
+	
+	get_core()->cmd_table = create_cmd_table(); // inicializa todos os cmd_table que existe com valores padrões e salva no array cmd_table
+	cmd_table = get_core()->cmd_table; // passa o endereço da cmd_table para a var criada localmente
+	if (cmd_table == NULL)
+		return ;
+	
+	ptr_temp = get_core()->token;
+	
+	while (i < nb_of_cmds)
+	{
+		// Redirects é com o Cauê
+		cmd_table[i].cmd = ft_strdup(ptr_temp->str);
+		// aqui faltou mandar o caminho do comando
+		cmd_table[i].args = cmd_to_matrix(&ptr_temp);
+		cmd_table[i].envp = env_to_matrix();
+		cmd_table[i].is_builtin = is_builtin(cmd_table[i].cmd);	
+		i++;
+	}
+}
+
+t_cmd	*create_cmd_table(void)
+{
+	t_cmd	*commands;
+	int		nb_of_cmds;
+
+	nb_of_cmds = cmd_count();
+	commands = malloc(nb_of_cmds * sizeof(t_cmd));
+	if (commands == NULL)
+		return (NULL);
+	while (nb_of_cmds > 0)
+	{
+		commands[nb_of_cmds - 1].cmd = NULL;
+		commands[nb_of_cmds - 1].args = NULL;
+		commands[nb_of_cmds - 1].envp = NULL;
+		commands[nb_of_cmds - 1].fork_pid = 0;
+		commands[nb_of_cmds - 1].is_builtin = FALSE;
+		// t_redir_in	*redir_in;
+		// t_redir_out	*redir_out;
+		// t_proc		process_location; talvez use ou não
+		nb_of_cmds--;
+	}
+	return(commands);
 }
 
 // INFO:
