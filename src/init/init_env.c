@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:21 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/07 15:18:01 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:50:42 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,4 @@ void	get_env_vars(t_core *core)
 	core->env = env;
 	split_env_vars();
 	ft_free_matrice(env);
-
 }

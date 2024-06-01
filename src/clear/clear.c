@@ -6,13 +6,11 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:33:06 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/31 20:47:25 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/01 17:53:50 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	close_fds(void);
 
 void	clear_env_lst(t_env **env)
 {
@@ -60,6 +58,8 @@ void	ft_free_matrice(char **matrice)
 	int	i;
 
 	i = 0;
+	if (matrice == NULL)
+		return ;
 	while (matrice[i])
 	{
 		free(matrice[i]);
@@ -101,6 +101,7 @@ void	clear_garbage(void)
 void	remove_token(t_token **list, t_token *target)
 {
 	t_token *cur;
+	
 	cur = *list;
 	while(cur)
 	{
@@ -126,7 +127,6 @@ void	clear_child(void)
 	if(get_core()->env_list)
 		clear_env_lst(&get_core()->env_list);
 	rl_clear_history();
-	
 	clear_garbage();
 	close_fds();
 	close(STDIN_FILENO);
@@ -139,11 +139,8 @@ void	clear_child_exec(void)
 	t_core	*core;
 	
 	core = get_core();
-
-	free(core->input);
-	clear_tkn_lst(core->token);	
-	clear_env_lst(core->env_list);
-	ft_free_matrice(core->env);
+	clear_tkn_lst(&core->token);	
+	clear_env_lst(&core->env_list);
 	clear_garbage();
 	clear_cmd_table(core->cmd_table);
 }
@@ -153,7 +150,7 @@ void	clear_cmd_table(t_cmd *cmd_table)
 	int	i;
 
 	i = 0;
-	while(i < get_core()->number_of_cmds_in_cmd_table)
+	while(i < get_core()->cmd_table_len)
 	{
 		free(cmd_table[i].cmd);
 		ft_free_matrice(cmd_table[i].args);

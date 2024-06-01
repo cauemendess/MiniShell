@@ -37,14 +37,15 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(PROMPT)process.c \
 			$(SRCDIR)$(SIGNALS)signals.c \
 			$(SRCDIR)$(CLEAR)error.c \
-			$(SRCDIR)$(OPERATORS)redirect.c \
-			$(SRCDIR)$(OPERATORS)heredoc.c \
-			$(SRCDIR)$(OPERATORS)redirect_utils.c \
 			$(SRCDIR)$(OPERATORS)validate_files.c \
+			$(SRCDIR)$(EXEC)executions.c \
 			$(SRCDIR)$(EXEC)exec_builtins.c \
 			$(SRCDIR)$(PARSER)cmd_parse.c \
 			$(SRCDIR)$(PARSER)cmd_parse_utils.c \
 			$(SRCDIR)$(PARSER)build_path.c \
+			# $(SRCDIR)$(OPERATORS)redirect.c \
+			# $(SRCDIR)$(OPERATORS)heredoc.c \
+			# $(SRCDIR)$(OPERATORS)redirect_utils.c \
 
 OBJDIR	=	bin/
 OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
@@ -63,7 +64,7 @@ $(OBJS): $(OBJDIR)%.o : $(SRCDIR)%.c $(INC) | $(OBJDIR)
 	$(HIDE)$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(HIDE)$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(RFLAGS) -o $@
+	$(HIDE)$(CC) $(OBJS) $(LIBFT) -I libft $(CFLAGS) $(RFLAGS) -o $@
 
 
 $(OBJDIR):

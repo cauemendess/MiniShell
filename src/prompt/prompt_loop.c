@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_loop.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:42:43 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/06 19:04:46 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/01 18:23:12 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,12 @@ void	prompt_loop(void)
 			exit_shell();
 		if (core->input[0] == '\0')
 			continue ;
-
 		add_history(core->input);
-
-		
 		process();
-
-		
-		ft_print_stack();
 		clear_tkn_lst(&core->token);
 		clear_garbage();
+		clear_cmd_table(core->cmd_table);
 	}
+	clear_env_lst(&core->env_list);
 	rl_clear_history();
 }

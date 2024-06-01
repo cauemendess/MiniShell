@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/31 20:42:22 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/01 18:35:54 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,13 @@ typedef struct s_core
 	char			*input;
 	t_token			*token;
 	t_env			*env_list;
-	t_cmd			*cmd;
 	char			**env;
 	t_list			*garbage;
 	t_bool			is_heredoc;
 	int				exit_status;
 	char			invalid;
 	t_cmd			*cmd_table;
-	int				number_of_cmds_in_cmd_table; // mudar depois
+	int				cmd_table_len;
 }					t_core;
 
 // core
@@ -119,6 +118,7 @@ void				add_token(t_token **token, t_token *new);
 void				save_words(char *input, int start, int end);
 void				save_separator(char *input, int pos, int type);
 int					check_token(char *str);
+t_bool				tokenizer(char *input);
 
 // syntax errors
 t_bool				syntax_errors(void);
@@ -143,9 +143,6 @@ char				*find_var(char *str, int j);
 // command table
 t_cmd				*create_cmd_table(void);
 void				fill_cmd_table(void);
-void				handle_cmd_number(void);
-void				exec_one_cmd(t_cmd *cmd_table);
-void				exec_mult_cmd(int cmd_number);
 int					cmd_has_path(char *cmd);
 char				*build_path(char *cmd);
 t_bool				is_builtin(char *cmd);
@@ -165,6 +162,9 @@ t_bool				validate_redir_in_file(char *file);
 t_bool				validate_redir_out_file(char *file);
 
 // exec
+void				handle_cmd_number(void);
+void				exec_one_cmd(t_cmd *cmd_table);
+void				exec_mult_cmd(int cmd_number);
 void				exec_builtins(char **args);
 
 // clenup
@@ -176,6 +176,7 @@ void				ft_free_matrice(char **matrice);
 void				remove_token(t_token **list, t_token *target);
 void				clear_child(void);
 void				clear_child_exec(void);
+void				clear_cmd_table(t_cmd *cmd_table);
 void				close_fds(void);
 
 // builtins

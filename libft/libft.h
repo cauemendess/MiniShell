@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 11:24:34 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/18 15:34:08 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/01 13:49:39 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,18 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdarg.h>
+
+# define DEC "0123456789"
+# define HEX_LW "0123456789abcdef"
+# define HEX_UP "0123456789ABCDEF"
 
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
 
 int					ft_isalpha(int c);
 int					ft_isalnum(int c);
@@ -66,7 +72,7 @@ void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
-						void (*del)(void *));
+					void (*del)(void *));
 int					ft_putnbr_base(long int nb, char *base);
 char				*ft_strstr(const char *big, const char *find);
 char				*ft_replace_index(char *str, char *old, char *new, int count);
@@ -74,5 +80,13 @@ char				*ft_replace(char *str, char *old, char *new);
 int					ft_isspace(char c);
 void				ft_strip(char *str);
 int					ft_strcmp(const char *s1, const char *s2);
+
+// ft_printf
+int					ft_printf(const char *string, ...);
+int					ft_format_handler(va_list args, char format);
+int					ft_putchar(char c);
+int					ft_putstr(char *str);
+int					ft_putptr(unsigned long nb, char *base);
+int					ft_putnbr_base(long int nb, char *base);
 
 #endif

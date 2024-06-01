@@ -3,64 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/30 11:41:14 by csilva-m          #+#    #+#             */
-/*   Updated: 2023/09/26 11:31:03 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/01 13:42:19 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-static int	ft_validate(va_list args, const char format, char specifier)
-{
-	int	count;
-
-	count = 0;
-	if (format == 'c')
-		count += ft_putchar(va_arg(args, int));
-	else if (format == 's')
-		count += ft_putstr(va_arg(args, char *));
-	else if (format == 'i' || format == 'd')
-		count += ft_putsig(va_arg(args, int), DEC_BASE, specifier);
-	else if (format == 'u')
-		count += ft_putnbr_base(va_arg(args, unsigned int), DEC_BASE);
-	else if (format == 'p')
-		count += ft_putptr(va_arg(args, unsigned long), HEX_BASE);
-	else if (format == 'x')
-		count += ft_puthex(va_arg(args, unsigned int), HEX_BASE, specifier);
-	else if (format == 'X')
-		count += ft_puthex(va_arg(args, unsigned int), HEX_BASE_UPPER,
-				specifier);
-	else if (format == '%')
-		count += ft_putchar('%');
-	return (count);
-}
-
-int	ft_printf(const char *format, ...)
+int	ft_printf(const char *string, ...)
 {
 	va_list	args;
-	int		i;
-	int		ret;
+	size_t	i;
+	int		length;
 
-	if (format == NULL)
+	if (string == NULL)
 		return (-1);
-	va_start(args, format);
-	ret = 0;
+	va_start(args, string);
 	i = 0;
-	while (format[i] != '\0')
+	length = 0;
+	while (string[i] != '\0')
 	{
-		if (format[i] == '%')
+		if (string[i] == '%')
 		{
 			i++;
-			while (format[i] == '#' || format[i] == '+' || format[i] == ' ')
-				i++;
-			ret += ft_validate(args, format[i], format[i - 1]);
+			length += ft_format_handler(args, string[i]);
 		}
 		else
-			ret += ft_putchar(format[i]);
+			length += ft_putchar(string[i]);
 		i++;
 	}
 	va_end(args);
-	return (ret);
+	return (length);
+}
+
+int	ft_format_handler(va_list args, char format)
+{
+	int	length;
+
+	length = 0;
+	if (format == 'c')
+		length += ft_putchar((char)va_arg(args, int));
+	else if (format == 's')
+		length += ft_putstr(va_arg(args, char *));
+	else if (format == 'p')
+		length += ft_putptr(va_arg(args, unsigned long), HEX_LW);
+	else if (format == 'd' || format == 'i')
+		length += ft_putnbr_base(va_arg(args, int), DEC);
+	else if (format == 'u')
+		length += ft_putnbr_base(va_arg(args, unsigned int), DEC);
+	else if (format == 'x')
+		length += ft_putnbr_base(va_arg(args, unsigned int), HEX_LW);
+	else if (format == 'X')
+		length += ft_putnbr_base(va_arg(args, unsigned int), HEX_UP);
+	else if (format == '%')
+		length += ft_putchar('%');
+	return (length);
 }
