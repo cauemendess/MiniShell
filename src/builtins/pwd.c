@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:57 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/18 15:47:36 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/01 21:18:17 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ void	pwd(char **argv)
 	}
 	cwd = getcwd(NULL, 0);
 	ft_putendl_fd(cwd, 1);
+	free(cwd);
 	get_core()->exit_status = 0;
 }

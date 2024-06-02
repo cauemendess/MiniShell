@@ -6,11 +6,39 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 19:44:29 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/01 15:41:41 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/02 12:43:05 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*build_path(char *cmd)
+{
+	char	**split_env_return;
+	char	*cmd_path;
+	int		i;
+
+	if (cmd_has_path(cmd) == 1)
+		return (cmd);
+	split_env_return = split_env_path();
+	cmd_path = NULL;
+	i = 0;
+	while (split_env_return[i] != NULL)
+	{
+		cmd_path = malloc((ft_strlen(split_env_return[i]) + ft_strlen(cmd) + 2) * sizeof(char));
+		if (!cmd_path)
+			return (NULL);
+		copy_cmd_path(cmd, cmd_path, split_env_return[i]);
+		if (access(cmd_path, F_OK) == 0)
+			break ;
+		free(cmd_path);
+		cmd_path = NULL;
+		i++;
+	}
+	ft_free_matrice(split_env_return);
+	free(cmd);
+	return (cmd_path);
+}
 
 int	cmd_has_path(char *cmd)
 {
@@ -26,36 +54,21 @@ int	cmd_has_path(char *cmd)
 	return (0);
 }
 
-char	*build_path(char *cmd)
+void	copy_cmd_path(char *cmd, char *cmd_path, char *split_path)
 {
-	char	**split_path;
-	char	*path_value;
-	char	*cmd_path;
-	int		i;
+	ft_strlcpy(cmd_path, split_path, ft_strlen(split_path) + 1);
+	ft_strlcpy(&cmd_path[ft_strlen(cmd_path)], "/", 2);
+	ft_strlcpy(&cmd_path[ft_strlen(cmd_path)], cmd, ft_strlen(cmd) + 1);
+}
 
-	cmd_has_path(cmd);
-	if (cmd_has_path(cmd) == 1)
-		return (cmd);
+char	**split_env_path(void)
+{
+	char	**split_return;
+	char	*path_value;
+
 	path_value = my_get_env("PATH");
-	split_path = ft_split(path_value, ':');
+	split_return = ft_split(path_value, ':');
 	free (path_value);
-	i = 0;
-	while (split_path[i] != NULL)
-	{
-		cmd_path = malloc((ft_strlen(split_path[i]) + ft_strlen(cmd) + 2) * sizeof(char));
-		if (!cmd_path)
-			return (NULL);
-		ft_strlcpy(cmd_path, split_path[i], ft_strlen(split_path[i]) + 1);
-		ft_strlcpy(&cmd_path[ft_strlen(cmd_path)], "/", 2);
-		ft_strlcpy(&cmd_path[ft_strlen(cmd_path)], cmd, ft_strlen(cmd) + 1);
-		if (access(cmd_path, F_OK) == 0)
-			break ;
-		free(cmd_path);
-		cmd_path = NULL;
-		i++;
-	}
-	ft_free_matrice(split_path);
-	free(cmd);
-	return (cmd_path);
+	return(split_return);
 }
 

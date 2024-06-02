@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:42:43 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/01 18:23:12 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/01 23:10:14 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	prompt_loop(void)
 	while (1)
 	{
 		signal_handler();
-		garbage_collect(core->input = readline(COLOR_PINK "MINI_SHELL$" COLOR_RESET " "));
+		core->input = readline(COLOR_PINK "MINI_SHELL$" COLOR_RESET " ");
+		garbage_collect(core->input);
 		if (!core->input)
 			exit_shell();
 		if (core->input[0] == '\0')

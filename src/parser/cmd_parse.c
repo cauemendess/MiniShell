@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/01 12:22:55 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/02 12:42:10 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,36 @@ void	fill_cmd_table(void)
 		cmd_table[i].is_builtin = is_builtin(cmd_table[i].cmd);	
 		i++;
 	}
+}
+t_bool is_builtin(char *cmd)
+{
+	int	i;
+	const char *builtins[] = {"echo", "exit", "pwd", "unset", "export", "env", "cd", NULL};
+	
+	i = 0;
+	while (builtins[i] != NULL)
+	{
+		if (ft_strncmp(cmd, builtins[i], ft_strlen(cmd)) == 0)
+			return (TRUE);
+		i++;
+	}
+	return (FALSE);
+}
+
+int	cmd_count(void)
+{
+	t_token	*list;
+	int		i;
+	
+	list = get_core()->token;
+	if (list == NULL)
+		return (0);
+	i = 1;
+	while (list != NULL)
+	{
+		if (list->token == (int)PIPE)
+			i++;
+		list = list->next;
+	}
+	return (i);
 }

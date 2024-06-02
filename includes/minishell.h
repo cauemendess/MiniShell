@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/01 18:35:54 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/02 12:40:21 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_core
 	char			*input;
 	t_token			*token;
 	t_env			*env_list;
+	t_cmd			*cmd;
 	char			**env;
 	t_list			*garbage;
 	t_bool			is_heredoc;
@@ -145,9 +146,14 @@ t_cmd				*create_cmd_table(void);
 void				fill_cmd_table(void);
 int					cmd_has_path(char *cmd);
 char				*build_path(char *cmd);
+void				copy_cmd_path(char *cmd, char *cmd_path, char *split_path);
+char				**split_env_path(void);
 t_bool				is_builtin(char *cmd);
 char				**cmd_to_matrix(t_token **ptr_token);
+int					cmd_list_lenght(t_token *token_list);
 char				**env_to_matrix(void);
+int					env_list_lenght(t_env *env_list);
+void				copy_env_matrix(char *env_matrix, t_env	*env_list);
 int					cmd_count(void);
 
 // operators
@@ -163,9 +169,16 @@ t_bool				validate_redir_out_file(char *file);
 
 // exec
 void				handle_cmd_number(void);
+void				exec_builtins(char **args);
 void				exec_one_cmd(t_cmd *cmd_table);
 void				exec_mult_cmd(int cmd_number);
-void				exec_builtins(char **args);
+void				check_exec(t_cmd *cmd_table);
+void				pipe_redirect(int cmd_number, int *pipes);
+void				dup_pipes_backup(int pipes_backup);
+void				update_pipes_backup(int *pipes, int *pipes_backup);
+void				wait_child(t_cmd *cmd_table, int cmd_number);
+void				child_exec(t_cmd *cmd_table, int cmd_nb, int pipes_backup);
+void				clear_and_exit_child(void);
 
 // clenup
 void				clear_tkn_lst(t_token **token);

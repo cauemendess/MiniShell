@@ -39,6 +39,7 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(CLEAR)error.c \
 			$(SRCDIR)$(OPERATORS)validate_files.c \
 			$(SRCDIR)$(EXEC)executions.c \
+			$(SRCDIR)$(EXEC)executions_utils.c \
 			$(SRCDIR)$(EXEC)exec_builtins.c \
 			$(SRCDIR)$(PARSER)cmd_parse.c \
 			$(SRCDIR)$(PARSER)cmd_parse_utils.c \

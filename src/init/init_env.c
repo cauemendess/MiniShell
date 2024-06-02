@@ -6,31 +6,11 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:21 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/01 17:50:42 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/01 22:59:41 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_print_env(void)
-{
-	int		i;
-	t_env	*stack;
-
-	stack = get_core()->env_list;
-	i = 0;
-	while (stack)
-	{
-		printf("-----------------------------\n");
-		printf("| Key  [%d]:%s.\n", i, stack->key);
-		printf("| Value[%d]:%s.\n", i, stack->value);
-		printf("| Next [%d]:%p\n", i, stack->next);
-		printf("-----------------------------\n");
-		i++;
-		stack = stack->next;
-	}
-}
-
 
 t_env	*create_env_lst(char *key, char *value)
 {
@@ -101,4 +81,23 @@ void	get_env_vars(t_core *core)
 	core->env = env;
 	split_env_vars();
 	ft_free_matrice(env);
+}
+
+void	ft_print_env(void)
+{
+	int		i;
+	t_env	*stack;
+
+	stack = get_core()->env_list;
+	i = 0;
+	while (stack)
+	{
+		printf("-----------------------------\n");
+		printf("| Key  [%d]:%s.\n", i, stack->key);
+		printf("| Value[%d]:%s.\n", i, stack->value);
+		printf("| Next [%d]:%p\n", i, stack->next);
+		printf("-----------------------------\n");
+		i++;
+		stack = stack->next;
+	}
 }
