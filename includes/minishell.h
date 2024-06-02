@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/02 12:40:21 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/02 15:35:08 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-typedef enum
+typedef enum e_type
 {
 	WORD = 1,
 	REDIRECT,
@@ -173,11 +173,11 @@ void				exec_builtins(char **args);
 void				exec_one_cmd(t_cmd *cmd_table);
 void				exec_mult_cmd(int cmd_number);
 void				check_exec(t_cmd *cmd_table);
-void				pipe_redirect(int cmd_number, int *pipes);
+void				pipe_redirect(int *pipes);
 void				dup_pipes_backup(int pipes_backup);
 void				update_pipes_backup(int *pipes, int *pipes_backup);
 void				wait_child(t_cmd *cmd_table, int cmd_number);
-void				child_exec(t_cmd *cmd_table, int cmd_nb, int pipes_backup);
+void				child_exec(t_cmd *cmd_table, int pipes_backup);
 void				clear_and_exit_child(void);
 
 // clenup

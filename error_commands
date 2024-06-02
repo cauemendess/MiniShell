@@ -1,0 +1,25 @@
+# Valgrind flags
+#  valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children-skip=''*/bin/*,*/sbin/*'' --suppressions=suppressions.supp ./minishell
+
+
+
+# Pode haver um problema em organizar os elementos quando tem um pipe.
+# Para entender melhor, vamos quebrar os outputs em 2 momentos, para 2 built-ins diferentes.
+
+# O problema é que o env não envia o que deveria, manda apenas uma linha vazia
+# Talvez o problema esteja na forma que a env está sendo tokenizada, ou parseada, quando tem pipe
+
+env | echo $HOME | awk '{print("apenas um teste " $1)}' | wc
+echo oi |env | wc | cat
+
+# O problema pode ser com todas as built-ins.
+# Esse comando deveria ter o retorno diferente de 0 0 0
+
+echo -n  oi | wc
+
+
+# Erros (double free) comandos com aspas (ocorre quando a sequência é assim):
+# - Qualquer comando com aspas que abre e fecha certo
+# - Qualquer comando com aspas que não fecham
+
+cat file | grep bla | more

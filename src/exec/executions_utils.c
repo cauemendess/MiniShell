@@ -6,13 +6,13 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 11:33:24 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/02 11:34:51 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/02 16:09:18 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pipe_redirect(int cmd_number, int *pipes)
+void	pipe_redirect(int *pipes)
 {
 	dup2(pipes[1], STDOUT_FILENO);
 	close(pipes[1]);

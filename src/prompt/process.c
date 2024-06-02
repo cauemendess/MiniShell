@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:48:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/01 19:00:58 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/02 14:48:14 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	process(void)
 	core = get_core();
 	if (syntax_errors())
 		return ;
-	if(tokenizer(core->input))
+	if (tokenizer(core->input))
 		return ;
 	//capture_heredoc();
 	handle_cmd_number();
@@ -31,7 +31,7 @@ t_bool	tokenizer(char *input)
 	if (check_op_op())
 		return (TRUE);
 	parsing_vars();
-	return(FALSE);
+	return (FALSE);
 }
 
 t_bool	syntax_errors(void)

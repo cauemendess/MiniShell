@@ -23,6 +23,7 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(LEXER)tokenizer.c \
 			$(SRCDIR)$(LEXER)syntax_error.c \
 			$(SRCDIR)$(CLEAR)clear.c \
+			$(SRCDIR)$(CLEAR)clear_aux.c \
 			$(SRCDIR)$(INIT)init_env.c \
 			$(SRCDIR)$(LEXER)expansion.c \
 			$(SRCDIR)$(LEXER)quotes.c \

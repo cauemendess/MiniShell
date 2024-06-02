@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:21 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/01 22:59:41 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/02 15:31:45 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 t_env	*create_env_lst(char *key, char *value)
 {
 	t_env	*node;
-	if(!key || !value)
+
+	if (!key || !value)
 		return (NULL);
 	node = ft_calloc(sizeof(t_token), 1);
 	node->key = ft_strdup(key);
@@ -83,7 +84,7 @@ void	get_env_vars(t_core *core)
 	ft_free_matrice(env);
 }
 
-void	ft_print_env(void)
+void	ft_print_env(void) // Print Function (TO DELETE)
 {
 	int		i;
 	t_env	*stack;

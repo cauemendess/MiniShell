@@ -3,42 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:08:54 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/24 17:19:06 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:49:51 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-t_bool is_path(char *path)
+t_bool	is_path(char *path)
 {
-	struct stat path_stat;
-	if(access(path, F_OK) == -1)
+	struct stat	path_stat;
+
+	if (access(path, F_OK) == -1)
 	{
 		error("cd: No such file or directory", 1, 1);
-		return(FALSE);
+		return (FALSE);
 	}
-	if(lstat(path, &path_stat) == 0)
+	if (lstat(path, &path_stat) == 0)
 	{
 		if (S_ISDIR(path_stat.st_mode))
 			return (TRUE);
 		else
 		{
 			error("cd: Not a directory", 1, 1);
-			return(FALSE);
+			return (FALSE);
 		}
 	}
-	return(FALSE);	
+	return (FALSE);
 }
-
 
 void	cd(char **argv)
 {
 	char	*path;
-	
 	//char	*oldpwd;
 
 	if (matrice_len(argv) > 2)
@@ -55,7 +53,7 @@ void	cd(char **argv)
 			return ;
 		}
 	}
-	else if(argv[0][0] == '-')
+	else if (argv[0][0] == '-')
 	{
 		garbage_collect(path = my_get_env("OLDPWD"));
 		if (path[0] == '\0')

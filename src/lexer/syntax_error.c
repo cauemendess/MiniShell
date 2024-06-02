@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:37 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/09 15:41:56 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:30:59 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ t_bool	check_op_op(void)
 			return (TRUE);
 		}
 		else if ((cur->token == TRUNC || cur->token == APPEND
-					|| cur->token == HEREDOC || cur->token == REDIRECT)
-				&& cur->next->token != WORD)
+				|| cur->token == HEREDOC || cur->token == REDIRECT)
+			&& cur->next->token != WORD)
 		{
 			error("syntax error: unexpected token after operator", 2, 2);
 			return (TRUE);

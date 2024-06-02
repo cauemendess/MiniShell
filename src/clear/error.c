@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:34:35 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/01 19:08:58 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/02 15:32:20 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,12 @@ t_bool	only_spaces(void)
 	return (TRUE);
 }
 
-int matrice_len(char **matrice)
+int	matrice_len(char **matrice)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (matrice[i])
 		i++;
 	return (i);
 }
-

@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/02 12:42:10 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/02 15:26:17 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_cmd	*create_cmd_table(void)
 		// t_redir_out	*redir_out;
 		nb_of_cmds--;
 	}
-	return(commands);
+	return (commands);
 }
 
 void	fill_cmd_table(void)
@@ -53,7 +53,6 @@ void	fill_cmd_table(void)
 	cmd_table = get_core()->cmd_table;
 	if (cmd_table == NULL)
 		return ;
-	
 	// Redirects ???
 	ptr_temp = get_core()->token;
 	while (i < nb_of_cmds)
@@ -61,15 +60,18 @@ void	fill_cmd_table(void)
 		cmd_table[i].cmd = ft_strdup(ptr_temp->str);
 		cmd_table[i].args = cmd_to_matrix(&ptr_temp);
 		cmd_table[i].envp = env_to_matrix();
-		cmd_table[i].is_builtin = is_builtin(cmd_table[i].cmd);	
+		cmd_table[i].is_builtin = is_builtin(cmd_table[i].cmd);
 		i++;
 	}
 }
-t_bool is_builtin(char *cmd)
+
+t_bool	is_builtin(char *cmd)
 {
-	int	i;
-	const char *builtins[] = {"echo", "exit", "pwd", "unset", "export", "env", "cd", NULL};
-	
+	int			i;
+	const char	*builtins[] = {
+		"echo", "exit", "pwd", "unset", "export", "env", "cd", NULL
+	};
+
 	i = 0;
 	while (builtins[i] != NULL)
 	{
@@ -84,7 +86,7 @@ int	cmd_count(void)
 {
 	t_token	*list;
 	int		i;
-	
+
 	list = get_core()->token;
 	if (list == NULL)
 		return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:42:56 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/23 12:41:12 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:53:07 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	capture_heredoc(void)
 		cur = cur->next;
 	}
 }
+
 void	child_process(int doc_fd, char *limiter)
 {
 	pid_t	pid;
@@ -80,7 +81,7 @@ void	prompt_heredoc(int doc_fd, char *limiter)
 			free(line);
 			break ;
 		}
-		else if(ft_strcmp(line, "$"))
+		else if (ft_strcmp(line, "$"))
 			line = expand_on_heredoc(line);
 		ft_putendl_fd(line, doc_fd);
 		free(line);
@@ -122,12 +123,11 @@ char	*search_var(char *str)
 	return (ft_substr(line, 0, i));
 }
 
-char *expand_on_heredoc(char *line)
+char	*expand_on_heredoc(char *line)
 {
-
 	char	*var;
-	
-	while(has_var(line))
+
+	while (has_var(line))
 	{
 		garbage_collect(var = search_var(line));
 		line = ft_replace(line, var, my_get_env(var + 1));

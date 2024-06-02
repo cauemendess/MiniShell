@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 11:24:34 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/01 13:49:39 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/02 15:37:52 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
-
 
 int					ft_isalpha(int c);
 int					ft_isalnum(int c);
@@ -72,10 +71,11 @@ void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
-					void (*del)(void *));
+						void (*del)(void *));
 int					ft_putnbr_base(long int nb, char *base);
 char				*ft_strstr(const char *big, const char *find);
-char				*ft_replace_index(char *str, char *old, char *new, int count);
+char				*ft_replace_index(
+						char *str, char *old, char *new, int count);
 char				*ft_replace(char *str, char *old, char *new);
 int					ft_isspace(char c);
 void				ft_strip(char *str);

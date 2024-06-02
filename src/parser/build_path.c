@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 19:44:29 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/02 12:43:05 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/02 15:19:46 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,29 @@
 
 char	*build_path(char *cmd)
 {
-	char	**split_env_return;
+	char	**split_env;
 	char	*cmd_path;
 	int		i;
 
 	if (cmd_has_path(cmd) == 1)
 		return (cmd);
-	split_env_return = split_env_path();
+	split_env = split_env_path();
 	cmd_path = NULL;
 	i = 0;
-	while (split_env_return[i] != NULL)
+	while (split_env[i] != NULL)
 	{
-		cmd_path = malloc((ft_strlen(split_env_return[i]) + ft_strlen(cmd) + 2) * sizeof(char));
+		cmd_path = malloc(
+				(ft_strlen(split_env[i]) + ft_strlen(cmd) + 2) * sizeof(char));
 		if (!cmd_path)
 			return (NULL);
-		copy_cmd_path(cmd, cmd_path, split_env_return[i]);
+		copy_cmd_path(cmd, cmd_path, split_env[i]);
 		if (access(cmd_path, F_OK) == 0)
 			break ;
 		free(cmd_path);
 		cmd_path = NULL;
 		i++;
 	}
-	ft_free_matrice(split_env_return);
+	ft_free_matrice(split_env);
 	free(cmd);
 	return (cmd_path);
 }
@@ -69,6 +70,5 @@ char	**split_env_path(void)
 	path_value = my_get_env("PATH");
 	split_return = ft_split(path_value, ':');
 	free (path_value);
-	return(split_return);
+	return (split_return);
 }
-

@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:19 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/02 11:37:49 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/02 16:14:33 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	exec_mult_cmd(int cmd_number)
 		if (cmd_table[i].fork_pid == 0)
 		{
 			if (i < cmd_number - 1)
-				pipe_redirect(cmd_number, pipes);
-			child_exec(&cmd_table[i], cmd_number, pipes_backup);
+				pipe_redirect(pipes);
+			child_exec(&cmd_table[i], pipes_backup);
 		}
 		if (pipes_backup != 0)
 			close(pipes_backup);
@@ -75,7 +75,7 @@ void	exec_mult_cmd(int cmd_number)
 	wait_child(cmd_table, cmd_number);
 }
 
-void	child_exec(t_cmd *cmd_table, int cmd_nb, int pipes_backup)
+void	child_exec(t_cmd *cmd_table, int pipes_backup)
 {
 	if (pipes_backup != STDIN_FILENO)
 		dup_pipes_backup(pipes_backup);

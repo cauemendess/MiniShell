@@ -3,57 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:33 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/07 15:40:17 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:01:14 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_translate_type(int type, int i)
-{
-	printf("| Type [%d]:", i);
-	if (type == 1)
-		printf("WORD \n");
-	else if (type == 2)
-		printf("REDIRECT \n");
-	else if (type == 3)
-		printf("APPEND \n");
-	else if (type == 4)
-		printf("PIPE \n");
-	else if (type == 5)
-		printf("HEREDOC \n");
-	else if (type == 6)
-		printf("SPACES \n");
-	else if (type == 7)
-		printf("VAR\n");
-	else if (type == 8)
-		printf("TRUNC \n");
-	else if (type == 9)
-		printf("END \n");
-}
-
-void	ft_print_stack(void)
-{
-	int		i;
-	t_token	*stack;
-
-	stack = get_core()->token;
-	i = 0;
-	while (stack)
-	{
-		printf("-----------------------------\n");
-		printf("| Token[%d]:%s.\n", i, stack->str);
-		ft_translate_type(stack->token, i);
-		printf("| Next [%d]:%p\n", i, stack->next);
-		printf("| Prev [%d]:%p\n", i, stack->prev);
-		printf("-----------------------------\n");
-		i++;
-		stack = stack->next;
-	}
-}
 
 t_token	*create_tkn_lst(char *str, int type)
 {
@@ -82,7 +39,6 @@ void	add_token(t_token **token, t_token *new)
 	cur->next = new;
 	cur->next->prev = cur;
 }
-
 
 void	save_words(char *input, int start, int end)
 {
@@ -148,14 +104,14 @@ void	lexing(char *input)
 	i = -1;
 	while (++i < ft_strlen(input) + 1)
 	{
-		if(input[i] == '\'' || input[i] == '"')
+		if (input[i] == '\'' || input[i] == '"')
 			split_quotes(input, (int *)&i);
 		type = check_token(&input[i]);
 		if (type)
 		{
-			if(i != 0 && !check_token(&input[i - 1]))
+			if (i != 0 && !check_token(&input[i - 1]))
 				save_words(input, start, i);
-			if(type != VAR && type != SPACES)
+			if (type != VAR && type != SPACES)
 			{
 				save_separator(input, i, type);
 				if (type == HEREDOC || type == APPEND)
@@ -163,5 +119,48 @@ void	lexing(char *input)
 			}
 			start = i + 1;
 		}
+	}
+}
+
+void	ft_translate_type(int type, int i) // Print Function (TO DELETE)
+{
+	printf("| Type [%d]:", i);
+	if (type == 1)
+		printf("WORD \n");
+	else if (type == 2)
+		printf("REDIRECT \n");
+	else if (type == 3)
+		printf("APPEND \n");
+	else if (type == 4)
+		printf("PIPE \n");
+	else if (type == 5)
+		printf("HEREDOC \n");
+	else if (type == 6)
+		printf("SPACES \n");
+	else if (type == 7)
+		printf("VAR\n");
+	else if (type == 8)
+		printf("TRUNC \n");
+	else if (type == 9)
+		printf("END \n");
+}
+
+void	ft_print_stack(void) // Print Function (TO DELETE)
+{
+	int		i;
+	t_token	*stack;
+
+	stack = get_core()->token;
+	i = 0;
+	while (stack)
+	{
+		printf("-----------------------------\n");
+		printf("| Token[%d]:%s.\n", i, stack->str);
+		ft_translate_type(stack->token, i);
+		printf("| Next [%d]:%p\n", i, stack->next);
+		printf("| Prev [%d]:%p\n", i, stack->prev);
+		printf("-----------------------------\n");
+		i++;
+		stack = stack->next;
 	}
 }
