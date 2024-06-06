@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:05:57 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/02 15:25:04 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/06 19:35:54 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,17 @@ char	**env_to_matrix(void)
 	i = 0;
 	while (env_list != NULL)
 	{
-		env_matrix[i] = malloc((ft_strlen(env_list->key) \
-			+ ft_strlen(env_list->value) + 2) * sizeof(char *));
-		if (env_matrix[i] == NULL)
+		if (env_list->value != NULL)
 		{
-			ft_free_matrice(env_matrix);
-			return (NULL);
+			env_matrix[i] = malloc((ft_strlen(env_list->key) \
+				+ ft_strlen(env_list->value) + 2) * sizeof(char *));
+			if (env_matrix[i] == NULL)
+			{
+				ft_free_matrice(env_matrix);
+				return (NULL);
+			}
+			copy_env_matrix(env_matrix[i++], env_list);
 		}
-		copy_env_matrix(env_matrix[i++], env_list);
 		env_list = env_list->next;
 	}
 	env_matrix[i] = NULL;

@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:15:19 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/02 14:46:42 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/06 19:48:06 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	exec_builtins(char **args)
 		echo(args);
 	else if (ft_strncmp("env", core->token->str, 3) == 0)
 		env(args);
+	else if (ft_strncmp("export", core->token->str, 7) == 0)
+		export(args);
 	else if (ft_strncmp("exit", core->token->str, 4) == 0)
 		exit_shell();
 }

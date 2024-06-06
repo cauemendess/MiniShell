@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 14:41:50 by csilva-m          #+#    #+#             */
-/*   Updated: 2023/08/18 15:07:28 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/06 20:12:15 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(char *src)
 	char	*new_string;
 
 	index = 0;
+	if (src == NULL)
+		return (NULL);
 	new_string = malloc(ft_strlen(src) + 1);
 	if (!new_string)
 		return (0);

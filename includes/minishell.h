@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/02 15:35:08 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/06 20:31:51 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void				process(void);
 void				ft_translate_type(int type, int i);
 void				ft_print_stack(void);
 void				error(char *msg, int status, int fd);
+t_env				*create_env_lst(char *key, char *value);
+void				add_env(t_env **env, t_env *new);
 
 //tokenizer
 t_token				*create_tkn_lst(char *str, int type);
@@ -200,6 +202,7 @@ void				pwd(char **argv);
 void				unset(char **argv);
 void				cd(char **argv);
 void				echo(char **argv);
+void				export(char **argv);
 
 // signals
 void				signal_handler(void);

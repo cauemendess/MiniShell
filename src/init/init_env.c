@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:21 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/02 15:31:45 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/06 20:23:47 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*create_env_lst(char *key, char *value)
 {
 	t_env	*node;
 
-	if (!key || !value)
+	if (!key && !value)
 		return (NULL);
 	node = ft_calloc(sizeof(t_token), 1);
 	node->key = ft_strdup(key);
