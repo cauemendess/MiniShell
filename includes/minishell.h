@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 12:32:53 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 17:26:33 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_redir_in
 	char				*file_name;
 	int					fd;
 	t_type				tkn_type;
-	// struct s_redir_in	next;
+	struct s_redir_in	*next;
 }						t_redir_in;
 
 typedef struct s_redir_out
@@ -74,7 +74,7 @@ typedef struct s_redir_out
 	char				*file_name;
 	int					fd;
 	t_type				tkn_type;
-	// struct s_redir_out	next;
+	struct s_redir_out	*next;
 }						t_redir_out;
 
 typedef struct s_cmd
@@ -160,7 +160,11 @@ int					cmd_count(void);
 int					malloc_len(char *key, char *value);
 
 // operators
+
+void				print_redirects(t_cmd *cmd);
+
 void				capture_heredoc(void);
+void				handle_redirects(t_cmd *cmd);
 void				handle_heredoc(t_token *token, t_redir_in **redir_list);
 void				handle_redir_in(t_token *token, t_redir_in **redir_list);
 void				add_redir_in(t_redir_in **redir, t_redir_in *new);
@@ -184,6 +188,10 @@ void				child_exec(t_cmd *cmd_table, int pipes_backup);
 void				clear_and_exit_child(void);
 
 // clenup
+void				clear_redir_in(t_redir_in **redir);
+void				clear_redir_out(t_redir_out **redir);
+
+
 void				clear_tkn_lst(t_token **token);
 void				clear_env_lst(t_env **env);
 void				garbage_collect(void *ptr);
