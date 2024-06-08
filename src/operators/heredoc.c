@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:42:56 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/02 16:53:07 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 15:31:51 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	child_process(int doc_fd, char *limiter);
-void	wait_child(pid_t pid);
+void	wait_child_heredoc(pid_t pid);
 void	prompt_heredoc(int doc_fd, char *limiter);
 char	*expand_on_heredoc(char *line);
 
@@ -45,11 +45,11 @@ void	child_process(int doc_fd, char *limiter)
 	if (pid == 0)
 		prompt_heredoc(doc_fd, limiter);
 	else
-		wait_child(pid);
+		wait_child_heredoc(pid);
 	close(doc_fd);
 }
 
-void	wait_child(pid_t pid)
+void	wait_child_heredoc(pid_t pid)
 {
 	int	wstatus;
 	int	exit_status;

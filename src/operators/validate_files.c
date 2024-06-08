@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:45:11 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/31 15:54:53 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/08 16:36:22 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_bool	validate_redir_in_file(char *file)
 {
 	if (!file_exists(file))
 	{
-		error("No such file or directory", 1, 2);
+		error("No such file or directory REDIRIN", 1, 2);
 		return (FALSE);
 	}
 	if (!file_readable(file))
@@ -33,15 +33,13 @@ t_bool	validate_redir_in_file(char *file)
 
 t_bool	validate_redir_out_file(char *file)
 {
-	if (!file_exists(file))
+	if (file_exists(file))
 	{
-		error("No such file or directory", 1, 2);
-		return (FALSE);
-	}
-	if (!file_writable(file))
-	{
-		error("Permission denied", 1, 2);
-		return (FALSE);
+		if (!file_writable(file))
+		{
+			error("Permission denied", 1, 2);
+			return (FALSE);
+		}
 	}
 	return (TRUE);
 }
