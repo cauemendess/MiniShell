@@ -16,11 +16,7 @@ echo oi |env | wc | cat
 echo -n  oi | wc
 
 
-# Erros (double free) comandos com aspas (ocorre quando a sequência é assim):
-# - Qualquer comando com aspas que abre e fecha certo
-# - Qualquer comando com aspas que não fecham
 
-cat file | grep bla | more
 
 -------------------------------------------------------------------------------------
 # Norma:

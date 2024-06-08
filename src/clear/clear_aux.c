@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 15:54:16 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/02 15:57:03 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 18:00:57 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	clear_cmd_table(t_cmd *cmd_table)
 		i++;
 	}
 	free(cmd_table);
+	get_core()->cmd_table = NULL;
+	get_core()->cmd_table_len = 0;
 }
 
 void	close_fds(void)
