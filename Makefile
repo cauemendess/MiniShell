@@ -43,6 +43,7 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(EXEC)executions.c \
 			$(SRCDIR)$(EXEC)executions_utils.c \
 			$(SRCDIR)$(EXEC)exec_builtins.c \
+			$(SRCDIR)$(EXEC)check_redirects.c \
 			$(SRCDIR)$(PARSER)cmd_parse.c \
 			$(SRCDIR)$(PARSER)cmd_parse_utils.c \
 			$(SRCDIR)$(PARSER)build_path.c \

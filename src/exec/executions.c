@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:19 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/02 16:14:33 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 16:44:54 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	exec_one_cmd(t_cmd *cmd_table)
 		fork_pid = fork();
 		if (fork_pid == 0)
 		{
-			// execução de redirect
+			check_redirects(cmd_table);
 			cmd_table->cmd = build_path(cmd_table->cmd);
 			check_exec(cmd_table);
 			execve(cmd_table->cmd, cmd_table->args, cmd_table->envp);

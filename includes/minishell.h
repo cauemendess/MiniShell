@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 12:32:53 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 16:46:42 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ t_bool				validate_redir_out_file(char *file);
 // exec
 void				handle_cmd_number(void);
 void				exec_builtins(char **args);
+void				check_redirects(t_cmd *cmd);
 void				exec_one_cmd(t_cmd *cmd_table);
 void				exec_mult_cmd(int cmd_number);
 void				check_exec(t_cmd *cmd_table);
