@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/06 20:31:51 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/07 22:07:55 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ char				**env_to_matrix(void);
 int					env_list_lenght(t_env *env_list);
 void				copy_env_matrix(char *env_matrix, t_env	*env_list);
 int					cmd_count(void);
+int					get_size_to_malloc(char *key, char *value);
 
 // operators
 void				capture_heredoc(void);

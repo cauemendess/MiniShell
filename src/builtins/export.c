@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:08:59 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/06 20:45:01 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/07 22:24:17 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	print_export(t_env *var_list);
 void	check_and_insert_vars(char **argv);
 t_env	*get_node_with_key_equal_to(char *argv);
 void	print_export_error(char *argv);
+
+char	*valid_sintax_key_and_value_position(char *str);
+void	replace_var_value(t_env *var, char *str);
+void	add_new_var(char *key, char *value);
+
+
 
 void	export(char **argv)
 {
@@ -52,59 +58,29 @@ void	print_export(t_env *var_list)
 void	check_and_insert_vars(char **argv)
 {
 	t_env	*var;
-	t_env	*node;
-	char	*str;
+	char	*str_key;
+	char	*str_value;
 	int		i;
-	int		j;
 
 	i = 1;
-	str = argv[i];
-	while (str != NULL)
-	{ 
-		if (ft_isalpha(str[0]) == 1 || str[0] == '_')
+	str_key = argv[i];
+	while (str_key != NULL)
+	{
+		str_value = valid_sintax_key_and_value_position(str_key);
+		if (*str_value == '=' || *str_value == '\0')
 		{
-			j = 0;
-			while (str[j] != '=' && str[j] != '\0')
+			if (*str_value == '=')
 			{
-				if (ft_isalnum(str[j]) == 1 || str[j] == '_')
-					j++;
-				else
-				{
-					print_export_error(str);
-					break ;
-				}
+				*str_value = '\0';
+				str_value = str_value + 1;
 			}
-			if (str[j] == '=' || str[j] == '\0') // Nome da variável é correto
-			{
-				if (str[j] == '=')
-				{
-					str[j] = '\0';
-					j++;
-				}
-				var = get_node_with_key_equal_to(str);
-				if (var != NULL)
-				{
-					if (str[j] != '\0' || str[j - 1] == '\0')
-					{
-						free(var->value);
-						var->value = malloc((ft_strlen(&str[j]) + 1) * sizeof(char));
-						ft_strlcpy(var->value, &str[j], ft_strlen(&str[j]) + 1);
-					}
-				}
-				else
-				{
-					if (str[j] != '\0' || str[j - 1] == '\0')
-						node = create_env_lst(str, &str[j]);
-					else
-						node = create_env_lst(str, NULL);
-					add_env(&(get_core()->env_list), node);
-				}
-			}	
+			var = get_node_with_key_equal_to(str_key);
+			if ((var != NULL) && (*str_value != '\0' || str_value[0 - 1] == '\0'))
+				replace_var_value(var, str_value);
+			else
+				add_new_var(str_key, str_value);
 		}
-		else
-			print_export_error(str);
-		i++;
-		str = argv[i];
+		str_key = argv[++i];
 	}
 }
 
@@ -124,6 +100,56 @@ t_env	*get_node_with_key_equal_to(char *argv)
 
 void	print_export_error(char *argv)
 {
-	ft_printf("export: `%s': not a valid identifier", argv);
+	char	*message;
+	
+	message = malloc((ft_strlen(argv) + 35 + 1) * sizeof(char));
+	if(message == NULL)
+		return ;
+	ft_strlcpy(message, "export: `", 10);
+	ft_strlcpy(&message[ft_strlen(message)], argv, ft_strlen(argv) + 1);
+	ft_strlcpy(&message[ft_strlen(message)], "': not a valid identifier\n", 29);
+	write(2, message, ft_strlen(message));
+	free(message);
 	get_core()->exit_status = 1;
+}
+
+char	*valid_sintax_key_and_value_position(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[0] != '\0' && (ft_isalpha(str[0]) == 1 || str[0] == '_'))
+	{
+		while (str[i] != '=' && str[i] != '\0')
+		{
+			if (ft_isalnum(str[i]) == 1 || str[i] == '_')
+				i++;
+			else
+			{
+				print_export_error(str);
+				break ;
+			}
+		}
+	}
+	else
+		print_export_error(str);
+	return (&str[i]);
+}
+
+void	replace_var_value(t_env *var, char *str)
+{
+	free(var->value);
+	var->value = malloc((ft_strlen(str) + 1) * sizeof(char));
+	ft_strlcpy(var->value, str, ft_strlen(str) + 1);
+}
+
+void	add_new_var(char *key, char *value)
+{
+	t_env *new_var;
+	
+	if (*value != '\0' || *(value - 1) == '\0')
+		new_var = create_env_lst(key, value);
+	else
+		new_var = create_env_lst(key, NULL);
+	add_env(&(get_core()->env_list), new_var);
 }

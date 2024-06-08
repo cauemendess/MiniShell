@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 20:05:57 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/06 19:35:54 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/07 22:08:35 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ char	**env_to_matrix(void)
 	int		i;
 
 	env_list = get_core()->env_list;
-	if (env_list == NULL)
-		return (NULL);
 	env_matrix = malloc((env_list_lenght(env_list) + 1) * sizeof(char *));
 	if (env_matrix == NULL)
 		return (NULL);
@@ -58,8 +56,7 @@ char	**env_to_matrix(void)
 	{
 		if (env_list->value != NULL)
 		{
-			env_matrix[i] = malloc((ft_strlen(env_list->key) \
-				+ ft_strlen(env_list->value) + 2) * sizeof(char *));
+			env_matrix[i] = malloc(get_size_to_malloc(env_list->key, env_list->value));
 			if (env_matrix[i] == NULL)
 			{
 				ft_free_matrice(env_matrix);
