@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 12:12:48 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 15:57:38 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ t_cmd	*create_cmd_table(void)
 		commands[nb_of_cmds - 1].cmd = NULL;
 		commands[nb_of_cmds - 1].args = NULL;
 		commands[nb_of_cmds - 1].envp = NULL;
+		commands[nb_of_cmds - 1].redir_in = NULL;
+		commands[nb_of_cmds - 1].redir_out = NULL;
 		commands[nb_of_cmds - 1].fork_pid = 0;
 		commands[nb_of_cmds - 1].is_builtin = FALSE;
-		// t_redir_in	*redir_in;
-		// t_redir_out	*redir_out;
 		nb_of_cmds--;
 	}
 	return (commands);
@@ -57,6 +57,9 @@ void	fill_cmd_table(void)
 	ptr_temp = get_core()->token;
 	while (i < nb_of_cmds)
 	{
+		handle_redirects(&cmd_table[i]);
+		ft_print_stack();
+		print_redirects(&cmd_table[i]);
 		cmd_table[i].cmd = ft_strdup(ptr_temp->str);
 		cmd_table[i].args = cmd_to_matrix(&ptr_temp);
 		cmd_table[i].envp = env_to_matrix();
