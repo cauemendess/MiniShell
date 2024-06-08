@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:32:43 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/04/17 12:56:08 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/08 11:57:25 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	echo(char **argv)
+{
+	int	argc;
+	int	flag;
+	int	i;
+
+	argc = count_args(argv);
+	flag = 0;
+	i = 1;
+	while (argv[i] && is_flag(argv[i]))
+	{
+		flag = 1;
+		i++;
+	}
+	while (i < argc)
+	{
+		printf("%s", argv[i]);
+		if (i < argc - 1)
+			printf(" ");
+		i++;
+	}
+	if (!flag)
+		printf("\n");
+}
 
 static int	count_args(char **argv)
 {
@@ -41,29 +66,4 @@ static int	is_flag(char *str)
 		i++;
 	}
 	return (flag);
-}
-
-void	echo(char **argv)
-{
-	int	argc;
-	int	flag;
-	int	i;
-
-	argc = count_args(argv);
-	flag = 0;
-	i = 1;
-	while (argv[i] && is_flag(argv[i]))
-	{
-		flag = 1;
-		i++;
-	}
-	while (i < argc)
-	{
-		printf("%s", argv[i]);
-		if (i < argc - 1)
-			printf(" ");
-		i++;
-	}
-	if (!flag)
-		printf("\n");
 }

@@ -6,39 +6,16 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:08:54 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/02 15:49:51 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 11:56:02 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_bool	is_path(char *path)
-{
-	struct stat	path_stat;
-
-	if (access(path, F_OK) == -1)
-	{
-		error("cd: No such file or directory", 1, 1);
-		return (FALSE);
-	}
-	if (lstat(path, &path_stat) == 0)
-	{
-		if (S_ISDIR(path_stat.st_mode))
-			return (TRUE);
-		else
-		{
-			error("cd: Not a directory", 1, 1);
-			return (FALSE);
-		}
-	}
-	return (FALSE);
-}
-
 void	cd(char **argv)
 {
 	char	*path;
 	//char	*oldpwd;
-
 	if (matrice_len(argv) > 2)
 	{
 		error("cd: too many arguments", 1, 1);
@@ -66,3 +43,26 @@ void	cd(char **argv)
 		path = argv[0];
 	chdir(path);
 }
+
+t_bool	is_path(char *path)
+{
+	struct stat	path_stat;
+
+	if (access(path, F_OK) == -1)
+	{
+		error("cd: No such file or directory", 1, 1);
+		return (FALSE);
+	}
+	if (lstat(path, &path_stat) == 0)
+	{
+		if (S_ISDIR(path_stat.st_mode))
+			return (TRUE);
+		else
+		{
+			error("cd: Not a directory", 1, 1);
+			return (FALSE);
+		}
+	}
+	return (FALSE);
+}
+

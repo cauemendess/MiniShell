@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/07 22:07:55 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 12:13:11 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ char				**env_to_matrix(void);
 int					env_list_lenght(t_env *env_list);
 void				copy_env_matrix(char *env_matrix, t_env	*env_list);
 int					cmd_count(void);
-int					get_size_to_malloc(char *key, char *value);
+int					malloc_len(char *key, char *value);
 
 // operators
 void				capture_heredoc(void);
@@ -196,14 +196,28 @@ void				clear_cmd_table(t_cmd *cmd_table);
 void				close_fds(void);
 
 // builtins
-void				env(char **argv);
-void				exit_shell(void);
-void				unset(char **argv);
-void				pwd(char **argv);
-void				unset(char **argv);
 void				cd(char **argv);
+void				pwd(char **argv);
 void				echo(char **argv);
+void				env(char **argv);
 void				export(char **argv);
+void				unset(char **argv);
+void				exit_shell(void);
+
+// builtins utils
+t_bool				is_path(char *path);
+static int			count_args(char **argv);
+static int			is_flag(char *str);
+void				check_and_insert_vars(char **argv);
+char				*valid_sintax_key_and_value_position(char *str);
+t_env				*get_node_with_key_equal_to(char *argv);
+void				replace_var_value(t_env *var, char *str);
+void				add_new_var(char *key, char *value);
+void				print_export(t_env *var_list);
+void				print_export_error(char *argv);
+int					is_var_name_valid(char *var);
+void				print_unset_error(char *argv);
+void				delete_env(char *key, t_env **head);
 
 // signals
 void				signal_handler(void);

@@ -1,8 +1,6 @@
 # Valgrind flags
 #  valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children-skip=''*/bin/*,*/sbin/*'' --suppressions=suppressions.supp ./minishell
 
-
-
 # Pode haver um problema em organizar os elementos quando tem um pipe.
 # Para entender melhor, vamos quebrar os outputs em 2 momentos, para 2 built-ins diferentes.
 
@@ -23,3 +21,11 @@ echo -n  oi | wc
 # - Qualquer comando com aspas que não fecham
 
 cat file | grep bla | more
+
+-------------------------------------------------------------------------------------
+# Norma:
+# - verificar cd.c: função com mais de 25 linhas
+# - verificar tokenizer.c: tem uma função a mais
+# - verificar expansion.c: tem uma função a mais
+# - verificar syntax_error.c: tem uma função a mais
+# - verificar operators: work in progress

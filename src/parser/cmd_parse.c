@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/07 22:07:30 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 12:12:48 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	cmd_count(void)
 	return (i);
 }
 
-int	get_size_to_malloc(char *key, char *value)
+int	malloc_len(char *key, char *value)
 {
-	return((ft_strlen(key) + ft_strlen(value) + 2) * sizeof(char *));
+	return ((ft_strlen(key) + ft_strlen(value) + 2) * sizeof(char *));
 }
