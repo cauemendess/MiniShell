@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 12:13:11 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 12:32:53 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,8 +206,6 @@ void				exit_shell(void);
 
 // builtins utils
 t_bool				is_path(char *path);
-static int			count_args(char **argv);
-static int			is_flag(char *str);
 void				check_and_insert_vars(char **argv);
 char				*valid_sintax_key_and_value_position(char *str);
 t_env				*get_node_with_key_equal_to(char *argv);

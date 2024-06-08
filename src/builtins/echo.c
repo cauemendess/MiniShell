@@ -6,11 +6,14 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:32:43 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 11:57:25 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 12:32:35 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	is_flag(char *str);
+static int	count_args(char **argv);
 
 void	echo(char **argv)
 {
@@ -37,16 +40,6 @@ void	echo(char **argv)
 		printf("\n");
 }
 
-static int	count_args(char **argv)
-{
-	int	i;
-
-	i = 0;
-	while (argv[i])
-		i++;
-	return (i);
-}
-
 static int	is_flag(char *str)
 {
 	int	i;
@@ -66,4 +59,14 @@ static int	is_flag(char *str)
 		i++;
 	}
 	return (flag);
+}
+
+static int	count_args(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[i])
+		i++;
+	return (i);
 }

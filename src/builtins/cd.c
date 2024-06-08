@@ -6,11 +6,13 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:08:54 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 11:56:02 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 12:42:50 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_bool	is_path(char *path);
 
 void	cd(char **argv)
 {
