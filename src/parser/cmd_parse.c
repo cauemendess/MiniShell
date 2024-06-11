@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 12:12:48 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/08 15:57:38 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,61 @@ t_cmd	*create_cmd_table(void)
 		commands[nb_of_cmds - 1].cmd = NULL;
 		commands[nb_of_cmds - 1].args = NULL;
 		commands[nb_of_cmds - 1].envp = NULL;
+		commands[nb_of_cmds - 1].redir_in = NULL;
+		commands[nb_of_cmds - 1].redir_out = NULL;
 		commands[nb_of_cmds - 1].fork_pid = 0;
 		commands[nb_of_cmds - 1].is_builtin = FALSE;
-		// t_redir_in	*redir_in;
-		// t_redir_out	*redir_out;
 		nb_of_cmds--;
 	}
 	return (commands);
 }
+
+void save_last_redir_in(t_redir_in **redir)
+{
+    t_redir_in *cur;
+	t_redir_in *next;
+    if (!redir || !*redir) return;
+    cur = *redir;
+    while (cur->next)
+    {
+        next = cur->next;
+        if (cur->tkn_type == HEREDOC)
+        {
+            close(cur->fd);
+            unlink("heredoc_tmp");
+        }
+        else if (cur->tkn_type == TRUNC)
+        {
+            close(cur->fd);
+        }
+        free(cur->file_name);
+        free(cur);
+        cur = next;
+    }
+    *redir = cur;
+}
+
+void save_last_redir_out(t_redir_out **redir)
+{
+    t_redir_out *cur;
+	t_redir_out *next;
+    if (!redir || !*redir) return;
+    cur = *redir;
+    while (cur->next)
+    {
+        next = cur->next;
+        if (cur->tkn_type == REDIRECT || cur->tkn_type == APPEND)
+        {
+			unlink(cur->file_name);
+            close(cur->fd);
+            free(cur->file_name);
+            free(cur);
+        }
+        cur = next;
+    }
+    *redir = cur;
+}
+
 
 void	fill_cmd_table(void)
 {
@@ -53,10 +100,14 @@ void	fill_cmd_table(void)
 	cmd_table = get_core()->cmd_table;
 	if (cmd_table == NULL)
 		return ;
-	// Redirects ???
 	ptr_temp = get_core()->token;
 	while (i < nb_of_cmds)
 	{
+		handle_redirects(&cmd_table[i]);
+		// ft_print_stack();
+		save_last_redir_in(&cmd_table[i].redir_in);
+		save_last_redir_out(&cmd_table[i].redir_out);
+		// print_redirects(&cmd_table[i]);
 		cmd_table[i].cmd = ft_strdup(ptr_temp->str);
 		cmd_table[i].args = cmd_to_matrix(&ptr_temp);
 		cmd_table[i].envp = env_to_matrix();
