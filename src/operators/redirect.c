@@ -20,7 +20,12 @@ void	print_redirects(t_cmd *cmd)
 {
 	t_redir_in *redir_in;
 	t_redir_out *redir_out;
-	
+	if(cmd == NULL)
+	{
+		printf("AI PAPAI\n");
+		return ;
+	}
+
 	printf("======== REDIR_IN LIST =============\n");
 	redir_in = cmd->redir_in;
 	while(redir_in)

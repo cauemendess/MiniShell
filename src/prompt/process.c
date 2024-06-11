@@ -21,7 +21,7 @@ void	process(void)
 		return ;
 	if (tokenizer(core->input))
 		return ;
-	//capture_heredoc();
+	capture_heredoc();
 	handle_cmd_number();
 }
 
