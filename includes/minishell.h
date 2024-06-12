@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/11 16:57:30 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/12 18:16:49 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ void				echo(char **argv);
 void				env(char **argv);
 void				export(char **argv);
 void				unset(char **argv);
-void				exit_shell(void);
+void				exit_shell(char **argv);
 
 // builtins utils
 t_bool				is_path(char *path);
