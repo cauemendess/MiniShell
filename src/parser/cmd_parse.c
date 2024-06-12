@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 15:57:38 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/12 18:28:54 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void save_last_redir_in(t_redir_in **redir)
 {
     t_redir_in *cur;
 	t_redir_in *next;
-    if (!redir || !*redir) return;
+    if (!redir || !*redir)
+		return;
     cur = *redir;
     while (cur->next)
     {
@@ -53,9 +54,7 @@ void save_last_redir_in(t_redir_in **redir)
             unlink("heredoc_tmp");
         }
         else if (cur->tkn_type == TRUNC)
-        {
             close(cur->fd);
-        }
         free(cur->file_name);
         free(cur);
         cur = next;
@@ -67,14 +66,14 @@ void save_last_redir_out(t_redir_out **redir)
 {
     t_redir_out *cur;
 	t_redir_out *next;
-    if (!redir || !*redir) return;
+    if (!redir || !*redir)
+		return;
     cur = *redir;
     while (cur->next)
     {
         next = cur->next;
         if (cur->tkn_type == REDIRECT || cur->tkn_type == APPEND)
         {
-			unlink(cur->file_name);
             close(cur->fd);
             free(cur->file_name);
             free(cur);
@@ -104,10 +103,8 @@ void	fill_cmd_table(void)
 	while (i < nb_of_cmds)
 	{
 		handle_redirects(&cmd_table[i]);
-		// ft_print_stack();
 		save_last_redir_in(&cmd_table[i].redir_in);
 		save_last_redir_out(&cmd_table[i].redir_out);
-		// print_redirects(&cmd_table[i]);
 		cmd_table[i].cmd = ft_strdup(ptr_temp->str);
 		cmd_table[i].args = cmd_to_matrix(&ptr_temp);
 		cmd_table[i].envp = env_to_matrix();
