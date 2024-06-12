@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:15:19 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/12 18:26:19 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/12 19:41:16 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ void	exec_builtins(t_cmd *cmd)
 	else if (ft_strncmp("export", core->token->str, 7) == 0)
 		export(cmd->args, fd);
 	else if (ft_strncmp("exit", core->token->str, 4) == 0)
-		exit_shell();
+		exit_shell(cmd->args);
 }

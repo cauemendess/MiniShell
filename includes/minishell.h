@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/12 18:57:02 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/12 19:04:03 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,7 @@ char				*valid_sintax_key_and_value_position(char *str);
 t_env				*get_node_with_key_equal_to(char *argv);
 void				replace_var_value(t_env *var, char *str);
 void				add_new_var(char *key, char *value);
-void				print_export(t_env *var_list);
+void				print_export(t_env *var_list, int fd);
 void				print_export_error(char *argv);
 int					is_var_name_valid(char *var);
 void				print_unset_error(char *argv);
