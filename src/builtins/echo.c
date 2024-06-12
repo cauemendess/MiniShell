@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:32:43 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 12:32:35 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:12:26 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	is_flag(char *str);
 static int	count_args(char **argv);
 
-void	echo(char **argv)
+void	echo(char **argv, int fd)
 {
 	int	argc;
 	int	flag;
@@ -31,13 +31,13 @@ void	echo(char **argv)
 	}
 	while (i < argc)
 	{
-		printf("%s", argv[i]);
+		ft_putstr_fd(argv[i], fd);
 		if (i < argc - 1)
-			printf(" ");
+			write(fd, " ", 1);
 		i++;
 	}
 	if (!flag)
-		printf("\n");
+		write(fd, "\n", 1);
 }
 
 static int	is_flag(char *str)

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:53 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/06 19:32:27 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/12 16:04:53 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	env(char **argv)
+void	env(char **argv, int fd)
 {
 	t_env	*stack;
 
@@ -27,9 +27,9 @@ void	env(char **argv)
 	{
 		if (stack->value != NULL)
 		{
-			ft_putstr_fd(stack->key, STDOUT_FILENO);
-			ft_putstr_fd("=", STDOUT_FILENO);
-			ft_putendl_fd(stack->value, STDOUT_FILENO);
+			ft_putstr_fd(stack->key, fd);
+			ft_putstr_fd("=", fd);
+			ft_putendl_fd(stack->value, fd);
 		}
 		stack = stack->next;
 	}
