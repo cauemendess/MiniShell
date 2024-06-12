@@ -3,42 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:08:59 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 11:50:19 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/12 18:25:23 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	export(char **argv)
+void	export(char **argv, int fd)
 {
 	t_env	*var_list;
 
 	if (matrice_len(argv) == 1)
 	{
 		var_list = get_core()->env_list;
-		print_export(var_list);
+		print_export(var_list, fd);
 	}
 	else
 		check_and_insert_vars(argv);
 }
 
-void	print_export(t_env *var_list)
+void	print_export(t_env *var_list, int fd)
 {
 	while (var_list)
 	{
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putstr_fd(var_list->key, STDOUT_FILENO);
+		ft_putstr_fd("declare -x ", fd);
+		ft_putstr_fd(var_list->key, fd);
 		if (var_list->value != NULL)
 		{
-			ft_putstr_fd("=", STDOUT_FILENO);
-			ft_putstr_fd("\"", STDOUT_FILENO);
-			ft_putstr_fd(var_list->value, STDOUT_FILENO);
-			ft_putstr_fd("\"", STDOUT_FILENO);
+			ft_putstr_fd("=", fd);
+			ft_putstr_fd("\"", fd);
+			ft_putstr_fd(var_list->value, fd);
+			ft_putstr_fd("\"", fd);
 		}
-		ft_putstr_fd("\n", STDOUT_FILENO);
+		ft_putstr_fd("\n", fd);
 		var_list = var_list->next;
 	}
 	get_core()->exit_status = 0;

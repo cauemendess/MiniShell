@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:19 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/08 16:44:54 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/12 15:42:24 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	exec_one_cmd(t_cmd *cmd_table)
 	int	fork_pid;
 
 	if (cmd_table->is_builtin == TRUE)
-		exec_builtins(cmd_table->args);
+		exec_builtins(cmd_table);
 	else
 	{	
 		fork_pid = fork();

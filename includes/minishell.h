@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/11 16:57:30 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/12 18:25:45 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ t_bool				validate_redir_out_file(char *file);
 
 // exec
 void				handle_cmd_number(void);
-void				exec_builtins(char **args);
+void				exec_builtins(t_cmd *cmd);
 void				check_redirects(t_cmd *cmd);
 void				exec_one_cmd(t_cmd *cmd_table);
 void				exec_mult_cmd(int cmd_number);
@@ -206,10 +206,10 @@ void				close_fds(void);
 
 // builtins
 void				cd(char **argv);
-void				pwd(char **argv);
-void				echo(char **argv);
-void				env(char **argv);
-void				export(char **argv);
+void				pwd(char **argv, int fd);
+void				echo(char **argv, int fd);
+void				env(char **argv, int fd);
+void				export(char **argv, int fd);
 void				unset(char **argv);
 void				exit_shell(void);
 
