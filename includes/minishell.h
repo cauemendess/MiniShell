@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/12 19:04:03 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/13 16:53:28 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,7 @@ void				delete_env(char *key, t_env **head);
 
 // signals
 void				signal_handler(void);
+void				execution_signals(int pid);
 
 // utils
 int					matrice_len(char **matrice);

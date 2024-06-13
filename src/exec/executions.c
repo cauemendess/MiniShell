@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:19 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/12 15:42:24 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:52:19 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	exec_one_cmd(t_cmd *cmd_table)
 	else
 	{	
 		fork_pid = fork();
+		execution_signals(fork_pid);
 		if (fork_pid == 0)
 		{
 			check_redirects(cmd_table);
@@ -61,6 +62,7 @@ void	exec_mult_cmd(int cmd_number)
 		if (i < cmd_number - 1)
 			pipe(pipes);
 		cmd_table[i].fork_pid = fork();
+		execution_signals(cmd_table[i].fork_pid);
 		if (cmd_table[i].fork_pid == 0)
 		{
 			if (i < cmd_number - 1)
