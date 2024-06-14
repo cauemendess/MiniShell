@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:19 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/13 16:52:19 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/14 19:47:07 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exec_one_cmd(t_cmd *cmd_table)
 	if (cmd_table->is_builtin == TRUE)
 		exec_builtins(cmd_table);
 	else
-	{	
+	{
 		fork_pid = fork();
 		execution_signals(fork_pid);
 		if (fork_pid == 0)
@@ -91,20 +91,23 @@ void	check_exec(t_cmd *cmd_table)
 
 	if (cmd_table->cmd == NULL)
 	{
-		write(2, "A utility to be executed was not found.\n", 40);
+		write(2, "Command not found\n", 19);
+		exit(127);
+	}
+	if (access(cmd_table->cmd, F_OK) != 0)
+	{
+		write(2, "No such file or directory\n", 27);
 		exit(127);
 	}
 	stat(cmd_table->cmd, &cmd_is_dir);
 	if (S_ISDIR(cmd_is_dir.st_mode) != 0)
 	{
-		write(2, "A file to be executed was found, " \
-			"but it was not an executable utility.\n", 71);
+		write(2, "Is a directory\n", 16);
 		exit(126);
 	}
 	if (access(cmd_table->cmd, X_OK) != 0)
 	{
-		write(2, "A file to be executed was found, " \
-			"but it was not an executable utility.\n", 71);
+		write(2, "Permission denied\n", 19);
 		exit(126);
 	}
 }

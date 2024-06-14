@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:53 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 16:07:10 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/14 19:48:04 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	env(char **argv, int fd)
 
 	if (matrice_len(argv) > 1)
 	{
-		ft_putendl_fd("env: too many arguments", STDERR_FILENO);
+		ft_putendl_fd("env: too many arguments", 2);
 		get_core()->exit_status = 127;
 		return ;
 	}

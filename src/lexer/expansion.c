@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 21:16:11 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/14 19:52:07 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,6 @@ void	parsing_vars(void)
 		{
 			if (mult_dollar(cur->str, &var))
 				garbage_collect(var = find_var(cur->str, i));
-			// printf("str é : %s\n", cur->str);
-			// printf("var é : %s\n", var);
-			// printf("env_var é : %s\n", my_get_env(var + 1));
-			// printf("i é : %d\n", i);
 			cur->str = ft_replace_index(cur->str, var, my_get_env(var + 1), i);
 			cur->token = VAR;
 			continue ;

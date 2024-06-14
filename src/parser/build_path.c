@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 19:44:29 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/06 16:02:21 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/14 18:39:25 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*build_path(char *cmd)
 	split_env = split_env_path();
 	cmd_path = NULL;
 	i = 0;
-	while (split_env[i] != NULL)
+	while (cmd[0] != '\0' && split_env[i] != NULL)
 	{
 		cmd_path = malloc(
 				(ft_strlen(split_env[i]) + ft_strlen(cmd) + 2) * sizeof(char));

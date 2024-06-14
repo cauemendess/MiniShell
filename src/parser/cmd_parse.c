@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 19:10:56 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/14 18:25:12 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ t_bool	is_builtin(char *cmd)
 	};
 
 	i = 0;
+	if (cmd[i] == '\0')
+		return (FALSE);
 	while (builtins[i] != NULL)
 	{
 		if (ft_strncmp(cmd, builtins[i], ft_strlen(cmd)) == 0)
