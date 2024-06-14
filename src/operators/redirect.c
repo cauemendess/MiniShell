@@ -3,43 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:28:19 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 17:28:45 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/13 19:30:22 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 void	handle_heredoc(t_token *token, t_redir_in **redir_list);
 void	handle_redir_out(t_token *token, t_redir_out **redir_list);
 
-void	print_redirects(t_cmd *cmd)
+void	print_redirects(t_cmd *cmd) // TO DELETE
 {
-	t_redir_in *redir_in;
-	t_redir_out *redir_out;
-	if(cmd == NULL)
+	t_redir_in	*redir_in;
+	t_redir_out	*redir_out;
+
+	if (cmd == NULL)
 	{
 		printf("AI PAPAI\n");
 		return ;
 	}
-
 	printf("======== REDIR_IN LIST =============\n");
 	redir_in = cmd->redir_in;
-	while(redir_in)
+	while (redir_in)
 	{
 		printf("file name: %s\n", redir_in->file_name);
 		printf("type: %d\n", redir_in->tkn_type);
 		printf("fd: %d\n", redir_in->fd);
 		printf("=========================\n");
-
 		redir_in = redir_in->next;
 	}
 	printf("======== REDIR_OUT LIST ============\n");
 	redir_out = cmd->redir_out;
-	while(redir_out)
+	while (redir_out)
 	{
 		printf("file name: %s\n", redir_out->file_name);
 		printf("type: %d\n", redir_out->tkn_type);
@@ -48,7 +46,6 @@ void	print_redirects(t_cmd *cmd)
 		redir_out = redir_out->next;
 	}	
 }
-
 
 t_bool	is_redir_token(t_token *token)
 {
@@ -62,7 +59,8 @@ t_bool	is_redir_token(t_token *token)
 void	handle_redirects(t_cmd *cmd)
 {
 	t_token	*current;
-	t_token *next;
+	t_token	*next;
+
 	current = get_core()->token;
 	if (current->token == PIPE)
 		remove_token(&get_core()->token, current);
@@ -70,7 +68,7 @@ void	handle_redirects(t_cmd *cmd)
 	while (current && current->token != PIPE)
 	{
 		next = current->next;
-		if(is_redir_token(current))
+		if (is_redir_token(current))
 		{
 			if (current->token == HEREDOC)
 				handle_heredoc(current, &cmd->redir_in);
@@ -121,7 +119,6 @@ void	open_redir_out(t_redir_out *redir)
 		redir->fd = open(redir->file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (redir->tkn_type == REDIRECT)
 		redir->fd = open(redir->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		
 }
 
 void	handle_redir_out(t_token *token, t_redir_out **redir_list)

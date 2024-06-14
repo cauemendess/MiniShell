@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 16:53:28 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:13:41 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,11 +158,11 @@ int					env_list_lenght(t_env *env_list);
 void				copy_env_matrix(char *env_matrix, t_env	*env_list);
 int					cmd_count(void);
 int					malloc_len(char *key, char *value);
+void				save_last_redir_in(t_redir_in **redir);
+void				save_last_redir_out(t_redir_out **redir);
 
 // operators
-
 void				print_redirects(t_cmd *cmd);
-
 void				capture_heredoc(void);
 void				handle_redirects(t_cmd *cmd);
 void				handle_heredoc(t_token *token, t_redir_in **redir_list);
@@ -191,8 +191,6 @@ void				clear_and_exit_child(void);
 // clenup
 void				clear_redir_in(t_redir_in **redir);
 void				clear_redir_out(t_redir_out **redir);
-
-
 void				clear_tkn_lst(t_token **token);
 void				clear_env_lst(t_env **env);
 void				garbage_collect(void *ptr);

@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:33 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/02 15:01:14 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:32:47 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,48 +119,5 @@ void	lexing(char *input)
 			}
 			start = i + 1;
 		}
-	}
-}
-
-void	ft_translate_type(int type, int i) // Print Function (TO DELETE)
-{
-	printf("| Type [%d]:", i);
-	if (type == 1)
-		printf("WORD \n");
-	else if (type == 2)
-		printf("REDIRECT \n");
-	else if (type == 3)
-		printf("APPEND \n");
-	else if (type == 4)
-		printf("PIPE \n");
-	else if (type == 5)
-		printf("HEREDOC \n");
-	else if (type == 6)
-		printf("SPACES \n");
-	else if (type == 7)
-		printf("VAR\n");
-	else if (type == 8)
-		printf("TRUNC \n");
-	else if (type == 9)
-		printf("END \n");
-}
-
-void	ft_print_stack(void) // Print Function (TO DELETE)
-{
-	int		i;
-	t_token	*stack;
-
-	stack = get_core()->token;
-	i = 0;
-	while (stack)
-	{
-		printf("-----------------------------\n");
-		printf("| Token[%d]:%s.\n", i, stack->str);
-		ft_translate_type(stack->token, i);
-		printf("| Next [%d]:%p\n", i, stack->next);
-		printf("| Prev [%d]:%p\n", i, stack->prev);
-		printf("-----------------------------\n");
-		i++;
-		stack = stack->next;
 	}
 }

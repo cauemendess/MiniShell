@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:42:43 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 16:35:39 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:18:44 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	prompt_loop(void)
 		if (!core->input)
 		{
 			clear_garbage();
-			break;
+			break ;
 		}
 		if (core->input[0] == '\0')
 			continue ;

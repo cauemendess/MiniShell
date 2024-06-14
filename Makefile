@@ -47,6 +47,7 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(EXEC)check_redirects.c \
 			$(SRCDIR)$(PARSER)cmd_parse.c \
 			$(SRCDIR)$(PARSER)cmd_parse_utils.c \
+			$(SRCDIR)$(PARSER)cmd_parse_redir.c \
 			$(SRCDIR)$(PARSER)build_path.c \
 			$(SRCDIR)$(OPERATORS)redirect.c \
 			$(SRCDIR)$(OPERATORS)heredoc.c \

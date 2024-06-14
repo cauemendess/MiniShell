@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:21 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/06 20:23:47 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:16:16 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,23 +82,4 @@ void	get_env_vars(t_core *core)
 	core->env = env;
 	split_env_vars();
 	ft_free_matrice(env);
-}
-
-void	ft_print_env(void) // Print Function (TO DELETE)
-{
-	int		i;
-	t_env	*stack;
-
-	stack = get_core()->env_list;
-	i = 0;
-	while (stack)
-	{
-		printf("-----------------------------\n");
-		printf("| Key  [%d]:%s.\n", i, stack->key);
-		printf("| Value[%d]:%s.\n", i, stack->value);
-		printf("| Next [%d]:%p\n", i, stack->next);
-		printf("-----------------------------\n");
-		i++;
-		stack = stack->next;
-	}
 }

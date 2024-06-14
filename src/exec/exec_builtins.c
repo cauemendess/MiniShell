@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:15:19 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 15:32:07 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:22:27 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void	exec_builtins(t_cmd *cmd)
 {
 	int		fd;
-	
-	if(cmd->redir_out != NULL)
+
+	if (cmd->redir_out != NULL)
 		fd = cmd->redir_out->fd;
 	else
 		fd = 1;

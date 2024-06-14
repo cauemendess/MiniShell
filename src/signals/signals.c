@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:24:34 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 17:29:23 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/13 19:23:37 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ void	execution_signals(int pid)
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGPIPE, SIG_IGN);
 }
+
 void	handler_exec(int signal)
 {
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0 * signal);	
+	rl_replace_line("", 0 * signal);
 }
 
 void	handler_init(int signum, siginfo_t *info, void *context)
