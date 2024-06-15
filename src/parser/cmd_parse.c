@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/14 18:25:12 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/15 18:40:59 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,26 @@ void	fill_cmd_table(void)
 	ptr_temp = get_core()->token;
 	while (i < nb_of_cmds)
 	{
-		handle_redirects(&cmd_table[i]);
+		ptr_temp = handle_redirects(&cmd_table[i], ptr_temp);
 		save_last_redir_in(&cmd_table[i].redir_in);
 		save_last_redir_out(&cmd_table[i].redir_out);
-		cmd_table[i].cmd = ft_strdup(ptr_temp->str);
-		cmd_table[i].args = cmd_to_matrix(&ptr_temp);
-		cmd_table[i].envp = env_to_matrix();
-		cmd_table[i].is_builtin = is_builtin(cmd_table[i].cmd);
+		if (ptr_temp != NULL && ptr_temp->token != (int)PIPE && ptr_temp->token != (int)END)
+		{
+			cmd_table[i].cmd = ft_strdup(ptr_temp->str);
+			cmd_table[i].args = cmd_to_matrix(&ptr_temp);
+			cmd_table[i].envp = env_to_matrix();
+			cmd_table[i].is_builtin = is_builtin(cmd_table[i].cmd);
+		}
 		i++;
 	}
 }
 
 t_bool	is_builtin(char *cmd)
 {
-	int			i;
-	const char	*builtins[] = {
-		"echo", "exit", "pwd", "unset", "export", "env", "cd", NULL
-	};
+	int	i;
 
+	const char *builtins[] = {
+		"echo", "exit", "pwd", "unset", "export", "env", "cd", NULL};
 	i = 0;
 	if (cmd[i] == '\0')
 		return (FALSE);
