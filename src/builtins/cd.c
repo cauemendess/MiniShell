@@ -12,59 +12,57 @@
 
 #include "minishell.h"
 
-t_bool	is_path(char *path);
+void	set_var(char *key, char *value)
+{
+	t_env	*var;
+
+	var = get_core()->env_list;
+	while (var)
+	{
+		if (ft_strcmp(var->key, key) == 0)
+		{
+			var->value = ft_replace(var->value, var->value, value);
+			return ;
+		}
+		var = var->next;
+	}
+}
+
+void	cd_error_process(char *cur)
+{
+	ft_putstr_fd("cd: ", 2);
+	ft_putendl_fd(strerror(errno), 2);
+	free(cur);
+	get_core()->exit_status = 2;
+}
 
 void	cd(char **argv)
 {
-	char	*path;
-	//char	*oldpwd;
+	char	*new_path;
+	char	*old_path;
+
+	get_core()->exit_status = 0;
 	if (matrice_len(argv) > 2)
 	{
-		error("cd: too many arguments", 1, 1);
+		error("cd: too many arguments", 1, 2);
 		return ;
 	}
-	else if (argv[0] == NULL || argv[0][0] == '~')
-	{
-		garbage_collect(path = my_get_env("HOME"));
-		if (path[0] == '\0')
-		{
-			error("cd: HOME not set", 1, 1);
-			return ;
-		}
-	}
-	else if (argv[0][0] == '-')
-	{
-		garbage_collect(path = my_get_env("OLDPWD"));
-		if (path[0] == '\0')
-		{
-			error("cd: OLDPWD not set", 1, 1);
-			return ;
-		}
-	}
+	if (matrice_len(argv) == 1 || argv[1][0] == '~')
+		garbage_collect(new_path = my_get_env("HOME"));
 	else
-		path = argv[0];
-	chdir(path);
-}
-
-t_bool	is_path(char *path)
-{
-	struct stat	path_stat;
-
-	if (access(path, F_OK) == -1)
+		garbage_collect(new_path = ft_strdup(argv[1]));
+	old_path = getcwd(NULL, 0);
+	if (!new_path)
 	{
-		error("cd: No such file or directory", 1, 1);
-		return (FALSE);
+		error("cd: HOME not set", 1, 2);
+		free(old_path);
+		return ;
 	}
-	if (lstat(path, &path_stat) == 0)
+	if (chdir(new_path) == -1)
+		cd_error_process(old_path);
+	else
 	{
-		if (S_ISDIR(path_stat.st_mode))
-			return (TRUE);
-		else
-		{
-			error("cd: Not a directory", 1, 1);
-			return (FALSE);
-		}
+		set_var("OLDPWD", old_path);
+		set_var("PWD", getcwd(NULL, 0));
 	}
-	return (FALSE);
 }
-
