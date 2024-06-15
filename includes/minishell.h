@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 19:13:41 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/15 16:54:59 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void				save_last_redir_out(t_redir_out **redir);
 // operators
 void				print_redirects(t_cmd *cmd);
 void				capture_heredoc(void);
-void				handle_redirects(t_cmd *cmd);
+t_token				*handle_redirects(t_cmd *cmd, t_token *current);
 void				handle_heredoc(t_token *token, t_redir_in **redir_list);
 void				handle_redir_in(t_token *token, t_redir_in **redir_list);
 void				add_redir_in(t_redir_in **redir, t_redir_in *new);
@@ -228,6 +228,7 @@ void				delete_env(char *key, t_env **head);
 // signals
 void				signal_handler(void);
 void				execution_signals(int pid);
+void				signal_heredoc(int pid);
 
 // utils
 int					matrice_len(char **matrice);
