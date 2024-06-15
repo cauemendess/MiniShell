@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/15 16:54:59 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/15 19:18:02 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,6 @@ void				dup_pipes_backup(int pipes_backup);
 void				update_pipes_backup(int *pipes, int *pipes_backup);
 void				wait_child(t_cmd *cmd_table, int cmd_number);
 void				child_exec(t_cmd *cmd_table, int pipes_backup);
-void				clear_and_exit_child(void);
 
 // clenup
 void				clear_redir_in(t_redir_in **redir);
@@ -199,7 +198,7 @@ void				clear_garbage(void);
 void				ft_free_matrice(char **matrice);
 void				remove_token(t_token **list, t_token *target);
 void				clear_child(void);
-void				clear_child_exec(void);
+void				clear_and_exit_child(int status);
 void				clear_cmd_table(t_cmd *cmd_table);
 void				close_fds(void);
 

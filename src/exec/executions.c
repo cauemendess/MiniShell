@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:19 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/15 18:09:34 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/15 19:19:22 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,13 @@ void	exec_one_cmd(t_cmd *cmd_table)
 		if (fork_pid == 0)
 		{
 			if (cmd_table->cmd == NULL)
-			{
-				clear_and_exit_child();
-				//exit_shell((char*[]){"exit", NULL});
-			}
+				clear_and_exit_child(0);
 			check_redirects(cmd_table);
 			
 			cmd_table->cmd = build_path(cmd_table->cmd);
 			check_exec(cmd_table);
 			execve(cmd_table->cmd, cmd_table->args, cmd_table->envp);
-			clear_and_exit_child();
-			exit(1);
+			clear_and_exit_child(1);
 		}
 		waitpid(fork_pid, &get_core()->exit_status, 0);
 		get_core()->exit_status = WEXITSTATUS(get_core()->exit_status);

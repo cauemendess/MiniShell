@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 11:33:24 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/02 16:09:18 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/15 19:15:29 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,11 @@ void	wait_child(t_cmd *cmd_table, int cmd_number)
 	get_core()->exit_status = WEXITSTATUS(get_core()->exit_status);
 }
 
-void	clear_and_exit_child(void)
+void	clear_and_exit_child(int status)
 {
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	clear_child_exec();
+	get_core()->exit_status = status;
 	exit(get_core()->exit_status);
 }
