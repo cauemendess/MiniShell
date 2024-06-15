@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:24:34 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 19:23:37 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/15 18:40:22 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,18 @@ void	handler_init(int signum, siginfo_t *info, void *context)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+void ctrl_c_heredoc(int signal)
+{
+	(void)signal;
+	ft_putstr_fd("\n", 1);
+}
+
+void signal_heredoc(int pid)
+{
+	signal(SIGQUIT, SIG_IGN);
+	if(pid == 0)
+		signal(SIGINT, SIG_DFL);
+	else
+		signal(SIGINT, ctrl_c_heredoc);	
 }
