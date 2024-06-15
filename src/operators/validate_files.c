@@ -20,7 +20,7 @@ t_bool	validate_redir_in_file(char *file)
 {
 	if (!file_exists(file))
 	{
-		error("No such file or directory REDIRIN", 1, 2);
+		error("No such file or directory", 1, 2);
 		return (FALSE);
 	}
 	if (!file_readable(file))
