@@ -70,6 +70,8 @@ void	clear_cmd_table(t_cmd *cmd_table)
 		free(cmd_table[i].cmd);
 		ft_free_matrice(cmd_table[i].args);
 		ft_free_matrice(cmd_table[i].envp);
+		clear_redir_in(&cmd_table[i].redir_in);
+		clear_redir_out(&cmd_table[i].redir_out);
 		i++;
 	}
 	free(cmd_table);
