@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:28:19 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 19:30:22 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/15 16:54:31 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,32 +56,37 @@ t_bool	is_redir_token(t_token *token)
 	return (FALSE);
 }
 
-void	handle_redirects(t_cmd *cmd)
+t_token	*handle_redirects(t_cmd *cmd, t_token *current)
 {
-	t_token	*current;
+	t_token	*start_bkp;
 	t_token	*next;
 
-	current = get_core()->token;
-	if (current->token == PIPE)
-		remove_token(&get_core()->token, current);
-	current = get_core()->token;
-	while (current && current->token != PIPE)
+	start_bkp = current;
+	//if (current->token == PIPE)
+	//	remove_token(&get_core()->token, current);
+	//current = get_core()->token;
+	while ((current) && (current)->token != PIPE)
 	{
-		next = current->next;
-		if (is_redir_token(current))
+		next = (current)->next;
+		if (is_redir_token((current)))
 		{
-			if (current->token == HEREDOC)
-				handle_heredoc(current, &cmd->redir_in);
-			else if (current->token == APPEND || current->token == REDIRECT)
-				handle_redir_out(current, &cmd->redir_out);
-			else if (current->token == TRUNC)
-				handle_redir_in(current, &cmd->redir_in);
-			next = current->next->next;
-			remove_token(&get_core()->token, current->next);
-			remove_token(&get_core()->token, current);
+			if ((current)->token == HEREDOC)
+				handle_heredoc((current), &cmd->redir_in);
+			else if ((current)->token == APPEND || (current)->token == REDIRECT)
+				handle_redir_out((current), &cmd->redir_out);
+			else if ((current)->token == TRUNC)
+				handle_redir_in((current), &cmd->redir_in);
+			next = (current)->next->next;
+			remove_token(&get_core()->token, (current)->next);
+			remove_token(&get_core()->token, (current));
+			if (start_bkp == current)
+				start_bkp = next;
 		}
-		current = next;
+		(current) = next;
 	}
+	//start_bkp = (current);
+	current = start_bkp;
+	return(start_bkp);
 }
 
 void	handle_heredoc(t_token *token, t_redir_in **redir_list)
