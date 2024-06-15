@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:42:56 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 15:31:51 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:06:41 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	child_process(int doc_fd, char *limiter)
 	pid_t	pid;
 
 	pid = fork();
+	signal_heredoc(pid);
 	if (pid == 0)
 		prompt_heredoc(doc_fd, limiter);
 	else
