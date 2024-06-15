@@ -21,6 +21,7 @@ void	echo(char **argv, int fd)
 	int	flag;
 	int	i;
 
+	get_core()->exit_status = 0;
 	argc = count_args(argv);
 	flag = 0;
 	i = 1;
