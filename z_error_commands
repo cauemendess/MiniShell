@@ -9,16 +9,21 @@
 # 1 - Exemplo que gera o erro
 echo < nao_existe < arquivo_invalido mensagem do echo # Está executando o echo
 cat < nao_existe < arquivo_invalido < Makefile # Está executando o cat com o Makefile como input (sendo que não era para executar)
-
 # Resolução
 No momento que tiver um erro em qualquer redirect (que está sendo validado em um único comando), não valido os outros, apenas para de validar os redirects.
 ---> Se parar de validar, continuar removendo todos os redirects do comando de qualquer forma (porque o resto do código depende disso)
 ---> Se parar de validar, não dar free e deixar a struct com o valor do fd sendo -1 (facilita para não executar o comando)
-
 # Sugestão
 Fazer a função que valida o redir retornar um int/t_bool pra saber se deu bom
 Depois checar se vai dar leak, pois a verificação de fds dos redirects que eu add no exec_one_cmd só da "return" em caso de erro
 
+2 - Variável vazia seguida de comando válido
+$jdfhsjdfh echo oi
+output mini: Command not found
+output bash: oi
+
+Teste:
+https://github.com/LucasKuhn/minishell_tester
 
 #--------------------------------------------------------------------------------
 # PRINTS AUXILIARES:
