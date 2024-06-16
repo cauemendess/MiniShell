@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/15 18:40:59 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:57:19 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,23 +59,27 @@ void	fill_cmd_table(void)
 		ptr_temp = handle_redirects(&cmd_table[i], ptr_temp);
 		save_last_redir_in(&cmd_table[i].redir_in);
 		save_last_redir_out(&cmd_table[i].redir_out);
-		if (ptr_temp != NULL && ptr_temp->token != (int)PIPE && ptr_temp->token != (int)END)
-		{
-			cmd_table[i].cmd = ft_strdup(ptr_temp->str);
-			cmd_table[i].args = cmd_to_matrix(&ptr_temp);
-			cmd_table[i].envp = env_to_matrix();
-			cmd_table[i].is_builtin = is_builtin(cmd_table[i].cmd);
-		}
+		if (ptr_temp != NULL && ptr_temp->token != (int)PIPE
+			&& ptr_temp->token != (int)END)
+			filling_with_value(&cmd_table[i], ptr_temp);
 		i++;
 	}
 }
 
+void	filling_with_value(t_cmd *cmd_table, t_token *ptr_temp)
+{
+	cmd_table->cmd = ft_strdup(ptr_temp->str);
+	cmd_table->args = cmd_to_matrix(&ptr_temp);
+	cmd_table->envp = env_to_matrix();
+	cmd_table->is_builtin = is_builtin(cmd_table->cmd);
+}
+
 t_bool	is_builtin(char *cmd)
 {
-	int	i;
-
-	const char *builtins[] = {
+	int			i;
+	const char	*builtins[] = {
 		"echo", "exit", "pwd", "unset", "export", "env", "cd", NULL};
+
 	i = 0;
 	if (cmd[i] == '\0')
 		return (FALSE);
@@ -86,24 +90,6 @@ t_bool	is_builtin(char *cmd)
 		i++;
 	}
 	return (FALSE);
-}
-
-int	cmd_count(void)
-{
-	t_token	*list;
-	int		i;
-
-	list = get_core()->token;
-	if (list == NULL)
-		return (0);
-	i = 1;
-	while (list != NULL)
-	{
-		if (list->token == (int)PIPE)
-			i++;
-		list = list->next;
-	}
-	return (i);
 }
 
 int	malloc_len(char *key, char *value)

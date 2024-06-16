@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/15 19:18:02 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/16 01:54:36 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,44 +109,50 @@ typedef struct s_core
 t_core				*get_core(void);
 void				prompt_loop(void);
 void				process(void);
-void				ft_translate_type(int type, int i);
-void				ft_print_stack(void);
 void				error(char *msg, int status, int fd);
 t_env				*create_env_lst(char *key, char *value);
 void				add_env(t_env **env, t_env *new);
 
-//tokenizer
+// syntax errors
+t_bool				syntax_errors(void);
+t_bool				only_spaces(void);
+t_bool				check_start_pipe(void);
+t_bool				check_op_op(void);
+t_bool				check_end_op(void);
+t_bool				forbiden_token(void);
+t_bool				check_close_quotes(void);
+char				*get_error_message(char token);
+void				split_quotes(char *str, int *i);
+int					ft_quotes_status(char c, int status);
+void				remove_quote(char *str);
+
+// env list
+t_env				*create_env_lst(char *key, char *value);
+void				add_env(t_env **env, t_env *new);
+void				split_env_vars(void);
+void				get_env_vars(t_core *core);
+
+// tokenizer
 t_token				*create_tkn_lst(char *str, int type);
-void				lexing(char *input);
 void				add_token(t_token **token, t_token *new);
 void				save_words(char *input, int start, int end);
 void				save_separator(char *input, int pos, int type);
 int					check_token(char *str);
+void				lexing(char *input);
 t_bool				tokenizer(char *input);
 
-// syntax errors
-t_bool				syntax_errors(void);
-t_bool				only_spaces(void);
-t_bool				check_end_op(void);
-t_bool				forbiden_token(void);
-t_bool				check_close_quotes(void);
-t_bool				check_start_pipe(void);
-t_bool				check_op_op(void);
-void				split_quotes(char *str, int *i);
-void				remove_quote(char *str);
-
 // parser
-void				parsing_vars(void);
-void				ft_print_env(void);
-void				get_env_vars(t_core *core);
-void				split_quotes(char *str, int *i);
-int					ft_quotes_status(char c, int status);
-char				*my_get_env(char *key);
 char				*find_var(char *str, int j);
+char				*my_get_env(char *key);
+void				parsing_vars(void);
+t_bool				have_dollar(char *str, int *i, int *status);
+t_bool				mult_dollar(char *str, char **var);
+void				replace_invalid(t_token *cur, char c);
 
 // command table
 t_cmd				*create_cmd_table(void);
 void				fill_cmd_table(void);
+void				filling_with_value(t_cmd *cmd_table, t_token *ptr_temp);
 int					cmd_has_path(char *cmd);
 char				*build_path(char *cmd);
 void				copy_cmd_path(char *cmd, char *cmd_path, char *split_path);
@@ -188,20 +194,6 @@ void				update_pipes_backup(int *pipes, int *pipes_backup);
 void				wait_child(t_cmd *cmd_table, int cmd_number);
 void				child_exec(t_cmd *cmd_table, int pipes_backup);
 
-// clenup
-void				clear_redir_in(t_redir_in **redir);
-void				clear_redir_out(t_redir_out **redir);
-void				clear_tkn_lst(t_token **token);
-void				clear_env_lst(t_env **env);
-void				garbage_collect(void *ptr);
-void				clear_garbage(void);
-void				ft_free_matrice(char **matrice);
-void				remove_token(t_token **list, t_token *target);
-void				clear_child(void);
-void				clear_and_exit_child(int status);
-void				clear_cmd_table(t_cmd *cmd_table);
-void				close_fds(void);
-
 // builtins
 void				cd(char **argv);
 void				pwd(char **argv, int fd);
@@ -227,10 +219,28 @@ void				delete_env(char *key, t_env **head);
 // signals
 void				signal_handler(void);
 void				execution_signals(int pid);
+void				handler_exec(int signal);
+void				handler_init(int signum, siginfo_t *info, void *context);
 void				signal_heredoc(int pid);
+void				ctrl_c_heredoc(int signal);
 
 // utils
 int					matrice_len(char **matrice);
+
+// clenup
+void				clear_redir_in(t_redir_in **redir);
+void				clear_redir_out(t_redir_out **redir);
+void				clear_tkn_lst(t_token **token);
+void				clear_env_lst(t_env **env);
+void				garbage_collect(void *ptr);
+void				clear_garbage(void);
+void				ft_free_matrice(char **matrice);
+void				remove_token(t_token **list, t_token *target);
+void				clear_child(void);
+void				clear_and_exit_child(int status);
+void				clear_child_exec(void);
+void				clear_cmd_table(t_cmd *cmd_table);
+void				close_fds(void);
 
 // colors
 # define COLOR_PINK "\001\x1B[1;35m\002"

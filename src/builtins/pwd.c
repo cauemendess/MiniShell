@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:57 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/14 19:03:03 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/16 01:33:21 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	pwd(char **argv, int fd)
 	free(cwd);
 	get_core()->exit_status = 0;
 }
+
 void	print_pwd_error(char *argv)
 {
 	char	*message;

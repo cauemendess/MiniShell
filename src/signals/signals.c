@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:24:34 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/15 18:40:22 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/16 00:49:50 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	handler_init(int signum, siginfo_t *info, void *context);
-void	handler_exec(int signal);
 
 void	signal_handler(void)
 {
@@ -26,7 +23,6 @@ void	signal_handler(void)
 	act.sa_sigaction = handler_init;
 	sigaction(SIGQUIT, &ign, NULL);
 	sigaction(SIGINT, &act, NULL);
-	sigaction(SIGPIPE, &ign, NULL);
 }
 
 void	execution_signals(int pid)
@@ -36,7 +32,6 @@ void	execution_signals(int pid)
 	else
 		signal(SIGINT, handler_exec);
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGPIPE, SIG_IGN);
 }
 
 void	handler_exec(int signal)
@@ -55,18 +50,4 @@ void	handler_init(int signum, siginfo_t *info, void *context)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-}
-void ctrl_c_heredoc(int signal)
-{
-	(void)signal;
-	ft_putstr_fd("\n", 1);
-}
-
-void signal_heredoc(int pid)
-{
-	signal(SIGQUIT, SIG_IGN);
-	if(pid == 0)
-		signal(SIGINT, SIG_DFL);
-	else
-		signal(SIGINT, ctrl_c_heredoc);	
 }

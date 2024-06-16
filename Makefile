@@ -21,6 +21,7 @@ EXEC	=	exec/
 
 SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(LEXER)tokenizer.c \
+			$(SRCDIR)$(LEXER)tokenizer_checker.c \
 			$(SRCDIR)$(LEXER)syntax_error.c \
 			$(SRCDIR)$(CLEAR)clear.c \
 			$(SRCDIR)$(CLEAR)error.c \
@@ -28,6 +29,7 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(CLEAR)clear_aux.c \
 			$(SRCDIR)$(INIT)init_env.c \
 			$(SRCDIR)$(LEXER)expansion.c \
+			$(SRCDIR)$(LEXER)expansion_utils.c \
 			$(SRCDIR)$(LEXER)quotes.c \
 			$(SRCDIR)$(BUILTINS)env.c \
 			$(SRCDIR)$(BUILTINS)unset.c \
@@ -40,6 +42,7 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(PROMPT)prompt_loop.c \
 			$(SRCDIR)$(PROMPT)process.c \
 			$(SRCDIR)$(SIGNALS)signals.c \
+			$(SRCDIR)$(SIGNALS)signals_heredoc.c \
 			$(SRCDIR)$(OPERATORS)validate_files.c \
 			$(SRCDIR)$(EXEC)executions.c \
 			$(SRCDIR)$(EXEC)executions_utils.c \

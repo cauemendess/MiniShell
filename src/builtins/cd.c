@@ -6,35 +6,15 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:08:54 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 12:42:50 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/16 02:19:19 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_var(char *key, char *value)
-{
-	t_env	*var;
-
-	var = get_core()->env_list;
-	while (var)
-	{
-		if (ft_strcmp(var->key, key) == 0)
-		{
-			var->value = ft_replace(var->value, var->value, value);
-			return ;
-		}
-		var = var->next;
-	}
-}
-
-void	cd_error_process(char *cur)
-{
-	ft_putstr_fd("cd: ", 2);
-	ft_putendl_fd(strerror(errno), 2);
-	free(cur);
-	get_core()->exit_status = 2;
-}
+void	set_var(char *key, char *value);
+void	set_new_pwd(char *old_path);
+void	cd_error_process(char *cur);
 
 void	cd(char **argv)
 {
@@ -61,8 +41,34 @@ void	cd(char **argv)
 	if (chdir(new_path) == -1)
 		cd_error_process(old_path);
 	else
+		set_new_pwd(old_path);
+}
+
+void	set_var(char *key, char *value)
+{
+	t_env	*var;
+
+	var = get_core()->env_list;
+	while (var)
 	{
-		set_var("OLDPWD", old_path);
-		set_var("PWD", getcwd(NULL, 0));
+		if (ft_strcmp(var->key, key) == 0)
+		{
+			var->value = ft_replace(var->value, var->value, value);
+			return ;
+		}
+		var = var->next;
 	}
+}
+
+void	cd_error_process(char *cur)
+{
+	perror("cd");
+	free(cur);
+	get_core()->exit_status = 1;
+}
+
+void	set_new_pwd(char *old_path)
+{
+	set_var("OLDPWD", old_path);
+	set_var("PWD", getcwd(NULL, 0));
 }

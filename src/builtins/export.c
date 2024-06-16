@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:08:59 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/12 18:25:23 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:35:31 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,6 @@ void	export(char **argv, int fd)
 	}
 	else
 		check_and_insert_vars(argv);
-}
-
-void	print_export(t_env *var_list, int fd)
-{
-	while (var_list)
-	{
-		ft_putstr_fd("declare -x ", fd);
-		ft_putstr_fd(var_list->key, fd);
-		if (var_list->value != NULL)
-		{
-			ft_putstr_fd("=", fd);
-			ft_putstr_fd("\"", fd);
-			ft_putstr_fd(var_list->value, fd);
-			ft_putstr_fd("\"", fd);
-		}
-		ft_putstr_fd("\n", fd);
-		var_list = var_list->next;
-	}
-	get_core()->exit_status = 0;
 }
 
 void	check_and_insert_vars(char **argv)
@@ -108,4 +89,23 @@ char	*valid_sintax_key_and_value_position(char *str)
 	else
 		print_export_error(str);
 	return (&str[i]);
+}
+
+void	print_export(t_env *var_list, int fd)
+{
+	while (var_list)
+	{
+		ft_putstr_fd("declare -x ", fd);
+		ft_putstr_fd(var_list->key, fd);
+		if (var_list->value != NULL)
+		{
+			ft_putstr_fd("=", fd);
+			ft_putstr_fd("\"", fd);
+			ft_putstr_fd(var_list->value, fd);
+			ft_putstr_fd("\"", fd);
+		}
+		ft_putstr_fd("\n", fd);
+		var_list = var_list->next;
+	}
+	get_core()->exit_status = 0;
 }

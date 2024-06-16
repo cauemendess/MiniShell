@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 19:44:29 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/14 18:39:25 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/16 01:58:49 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,22 @@ char	**split_env_path(void)
 	split_return = ft_split(path_value, ':');
 	free (path_value);
 	return (split_return);
+}
+
+int	cmd_count(void)
+{
+	t_token	*list;
+	int		i;
+
+	list = get_core()->token;
+	if (list == NULL)
+		return (0);
+	i = 1;
+	while (list != NULL)
+	{
+		if (list->token == (int)PIPE)
+			i++;
+		list = list->next;
+	}
+	return (i);
 }

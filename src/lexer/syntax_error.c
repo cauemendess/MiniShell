@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:37 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/02 15:30:59 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/16 01:15:49 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,6 @@ t_bool	check_end_op(void)
 		return (TRUE);
 	}
 	return (FALSE);
-}
-
-char	*get_error_message(char token)
-{
-	if (token == '&')
-		return ("syntax error: near unexpected token `&`");
-	else if (token == '\\')
-		return ("syntax error: near unexpected token `\\`");
-	else if (token == ';')
-		return ("syntax error: near unexpected token `;`");
-	else
-		return (NULL);
 }
 
 t_bool	forbiden_token(void)

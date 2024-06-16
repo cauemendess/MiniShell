@@ -1,13 +1,33 @@
-# Valgrind flags
-#  valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children-skip=''*/bin/*,*/sbin/*'' --suppressions=suppressions.supp ./minishell
+# VALGRIND FLAGS:
+# valgrind --trace-children=yes --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children-skip=''*/bin/*,*/sbin/*'' --suppressions=suppressions.supp ./minishell
+#-------------------------------------------------------------------------------
+# TO DO:
+# 1 - ambiguous redirect
 
-# Funções auxiliares para imprimir:
+#-------------------------------------------------------------------------------
+# ERROS:
+# 1 - Exemplo que gera o erro
+echo < nao_existe < arquivo_invalido mensagem do echo # Está executando o echo
+cat < nao_existe < arquivo_invalido < Makefile # Está executando o cat com o Makefile como input (sendo que não era para executar)
 
-# void	ft_print_env(void) // Print Function (TO DELETE)
+# Resolução
+No momento que tiver um erro em qualquer redirect (que está sendo validado em um único comando), não valido os outros, apenas para de validar os redirects.
+---> Se parar de validar, continuar removendo todos os redirects do comando de qualquer forma (porque o resto do código depende disso)
+---> Se parar de validar, não dar free e deixar a struct com o valor do fd sendo -1 (facilita para não executar o comando)
+
+# Sugestão
+Fazer a função que valida o redir retornar um int/t_bool pra saber se deu bom
+Depois checar se vai dar leak, pois a verificação de fds dos redirects que eu add no exec_one_cmd só da "return" em caso de erro
+
+
+#--------------------------------------------------------------------------------
+# PRINTS AUXILIARES:
+
+# ENV STACK
+# void	ft_print_env(void)
 # {
 # 	int		i;
 # 	t_env	*stack;
-
 # 	stack = get_core()->env_list;
 # 	i = 0;
 # 	while (stack)
@@ -22,7 +42,8 @@
 # 	}
 # }
 
-# void	ft_translate_type(int type, int i) // Print Function (TO DELETE)
+# TOKEN TYPE
+# void	ft_translate_type(int type, int i)
 # {
 # 	printf("| Type [%d]:", i);
 # 	if (type == 1)
@@ -45,11 +66,11 @@
 # 		printf("END \n");
 # }
 
-# void	ft_print_stack(void) // Print Function (TO DELETE)
+# TOKEN STACK
+# void	ft_print_stack(void)
 # {
 # 	int		i;
 # 	t_token	*stack;
-
 # 	stack = get_core()->token;
 # 	i = 0;
 # 	while (stack)
@@ -65,6 +86,7 @@
 # 	}
 # }
 
+# CMD TABLE
 # void	print_cmd_table(void)
 # {
 # 	int		i = 0;
@@ -79,10 +101,10 @@
 # 		printf("Builtin? %d\n", temp[i].is_builtin);
 # 		printf("---------------\n\n\n\n");
 # 		i++;
-# 	}
-	
+# 	}	
 # }
 
+# MATRIX
 # void print_matrix(char **matrix)
 # {
 # 	for(int i = 0; matrix[i] != NULL; i++)
@@ -90,6 +112,7 @@
 # 	printf("NULLLLLLLLL\n\n");
 # }
 
+# ENV LIST
 # void print_env_list()
 # {
 # 	t_env *env_temp;

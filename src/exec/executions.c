@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:19 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/15 19:19:22 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/16 01:36:51 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,19 @@ void	handle_cmd_number(void)
 	if (cmd_number == 1)
 		exec_one_cmd(get_core()->cmd_table);
 	else if (cmd_number > 1)
+	{
 		exec_mult_cmd(cmd_number);
+		wait_child(get_core()->cmd_table, cmd_number);
+	}
 }
 
 void	exec_one_cmd(t_cmd *cmd_table)
 {
 	int	fork_pid;
 
+	if ((cmd_table->redir_in != NULL && cmd_table->redir_in->fd < 0)
+		|| (cmd_table->redir_out != NULL && cmd_table->redir_out->fd < 0))
+		return ;
 	if (cmd_table->is_builtin == TRUE)
 		exec_builtins(cmd_table);
 	else
@@ -39,7 +45,6 @@ void	exec_one_cmd(t_cmd *cmd_table)
 			if (cmd_table->cmd == NULL)
 				clear_and_exit_child(0);
 			check_redirects(cmd_table);
-			
 			cmd_table->cmd = build_path(cmd_table->cmd);
 			check_exec(cmd_table);
 			execve(cmd_table->cmd, cmd_table->args, cmd_table->envp);
@@ -77,7 +82,6 @@ void	exec_mult_cmd(int cmd_number)
 		if (i < cmd_number - 1)
 			update_pipes_backup(pipes, &pipes_backup);
 	}
-	wait_child(cmd_table, cmd_number);
 }
 
 void	child_exec(t_cmd *cmd_table, int pipes_backup)
@@ -85,7 +89,7 @@ void	child_exec(t_cmd *cmd_table, int pipes_backup)
 	if (pipes_backup != STDIN_FILENO)
 		dup_pipes_backup(pipes_backup);
 	exec_one_cmd(cmd_table);
-	clear_and_exit_child();
+	clear_and_exit_child(get_core()->exit_status);
 }
 
 void	check_exec(t_cmd *cmd_table)
@@ -95,23 +99,22 @@ void	check_exec(t_cmd *cmd_table)
 	if (cmd_table->cmd == NULL)
 	{
 		write(2, "Command not found\n", 19);
-		close(STDIN_FILENO);
-		exit_shell((char *[]){"exit", "127", NULL});
+		clear_and_exit_child(127);
 	}
 	if (access(cmd_table->cmd, F_OK) != 0)
 	{
 		write(2, "No such file or directory\n", 27);
-		exit(127);
+		clear_and_exit_child(127);
 	}
 	stat(cmd_table->cmd, &cmd_is_dir);
 	if (S_ISDIR(cmd_is_dir.st_mode) != 0)
 	{
 		write(2, "Is a directory\n", 16);
-		exit(126);
+		clear_and_exit_child(126);
 	}
 	if (access(cmd_table->cmd, X_OK) != 0)
 	{
 		write(2, "Permission denied\n", 19);
-		exit(126);
+		clear_and_exit_child(126);
 	}
 }

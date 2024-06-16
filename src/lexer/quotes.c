@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:43 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/05/18 17:06:43 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:17:15 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@ int	ft_quotes_status(char c, int status)
 	else if (c == '"' && status == 1)
 		status = 0;
 	return (status);
+}
+
+void	split_quotes(char *str, int *i)
+{
+	char	quote;
+
+	quote = str[*i];
+	(*i)++;
+	while (str[*i] && str[*i] != quote)
+		(*i)++;
 }
 
 void	remove_quote(char *str)
@@ -46,14 +56,4 @@ void	remove_quote(char *str)
 		else
 			str++;
 	}
-}
-
-void	split_quotes(char *str, int *i)
-{
-	char	quote;
-
-	quote = str[*i];
-	(*i)++;
-	while (str[*i] && str[*i] != quote)
-		(*i)++;
 }

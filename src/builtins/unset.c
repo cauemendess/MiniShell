@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 12:23:09 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/08 11:53:46 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/16 01:34:22 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,6 @@ int	is_var_name_valid(char *var)
 	return (1);
 }
 
-void	print_unset_error(char *argv)
-{
-	char	*message;
-
-	message = malloc((ft_strlen(argv) + 35 + 1) * sizeof(char));
-	if (message == NULL)
-		return ;
-	ft_strlcpy(message, "unset: `", 9);
-	ft_strlcpy(&message[ft_strlen(message)], argv, ft_strlen(argv) + 1);
-	ft_strlcpy(&message[ft_strlen(message)], "': not a valid identifier\n", 29);
-	write(2, message, ft_strlen(message));
-	free(message);
-	get_core()->exit_status = 1;
-}
-
 void	delete_env(char *key, t_env **head)
 {
 	t_env	*env;
@@ -83,4 +68,19 @@ void	delete_env(char *key, t_env **head)
 	free(env->key);
 	free(env->value);
 	free(env);
+}
+
+void	print_unset_error(char *argv)
+{
+	char	*message;
+
+	message = malloc((ft_strlen(argv) + 35 + 1) * sizeof(char));
+	if (message == NULL)
+		return ;
+	ft_strlcpy(message, "unset: `", 9);
+	ft_strlcpy(&message[ft_strlen(message)], argv, ft_strlen(argv) + 1);
+	ft_strlcpy(&message[ft_strlen(message)], "': not a valid identifier\n", 29);
+	write(2, message, ft_strlen(message));
+	free(message);
+	get_core()->exit_status = 1;
 }

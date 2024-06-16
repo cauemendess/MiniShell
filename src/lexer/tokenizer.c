@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:33 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 19:32:47 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/16 01:19:06 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,26 +72,6 @@ void	save_separator(char *input, int pos, int type)
 		add_token(&core->token, create_tkn_lst(str, type));
 		free(str);
 	}
-}
-
-int	check_token(char *str)
-{
-	if (!ft_strncmp(str, ">>", 2))
-		return (APPEND);
-	else if (!ft_strncmp(str, "<<", 2))
-		return (HEREDOC);
-	else if (!ft_strncmp(str, ">", 1))
-		return (REDIRECT);
-	else if (!ft_strncmp(str, "<", 1))
-		return (TRUNC);
-	else if (!ft_strncmp(str, "|", 1))
-		return (PIPE);
-	else if (!ft_strncmp(str, " ", 1))
-		return (SPACES);
-	else if (!ft_strncmp(str, "\0", 1))
-		return (END);
-	else
-		return (0);
 }
 
 void	lexing(char *input)
