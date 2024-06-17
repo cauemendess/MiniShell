@@ -12,17 +12,11 @@
 
 #include "minishell.h"
 
-void	signal_heredoc(int pid)
-{
-	signal(SIGQUIT, SIG_IGN);
-	if (pid == 0)
-		signal(SIGINT, SIG_DFL);
-	else
-		signal(SIGINT, ctrl_c_heredoc);
-}
-
 void	ctrl_c_heredoc(int signal)
 {
 	(void)signal;
 	ft_putstr_fd("\n", 1);
+	clear_child();
+	get_core()->exit_status = 130;
+
 }

@@ -12,42 +12,45 @@
 
 #include "minishell.h"
 
-void	child_process(int doc_fd, char *limiter);
+void	child_process(char *limiter);
 void	wait_child_heredoc(pid_t pid);
-void	prompt_heredoc(int doc_fd, char *limiter);
+void	prompt_heredoc(char *limiter);
 char	*expand_on_heredoc(char *line);
 
 void	capture_heredoc(void)
 {
 	char	*limiter;
 	t_token	*cur;
-	int		doc_fd;
 
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	cur = get_core()->token;
 	while (cur)
 	{
 		if (cur->token == HEREDOC && cur->next->token == WORD)
 		{
-			doc_fd = open("heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			get_core()->doc_fd = open("heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			limiter = cur->next->str;
 			if (get_core()->is_heredoc == FALSE)
-				child_process(doc_fd, limiter);
+				child_process(limiter);
 		}
 		cur = cur->next;
 	}
 }
 
-void	child_process(int doc_fd, char *limiter)
+void	child_process(char *limiter)
 {
 	pid_t	pid;
 
 	pid = fork();
-	signal_heredoc(pid);
 	if (pid == 0)
-		prompt_heredoc(doc_fd, limiter);
+	{
+		signal(SIGINT, ctrl_c_heredoc);
+		prompt_heredoc(limiter);
+	}
 	else
 		wait_child_heredoc(pid);
-	close(doc_fd);
+	close(get_core()->doc_fd);
 }
 
 void	wait_child_heredoc(pid_t pid)
@@ -70,7 +73,7 @@ void	wait_child_heredoc(pid_t pid)
 	}
 }
 
-void	prompt_heredoc(int doc_fd, char *limiter)
+void	prompt_heredoc(char *limiter)
 {
 	char	*line;
 
@@ -84,10 +87,10 @@ void	prompt_heredoc(int doc_fd, char *limiter)
 		}
 		else if (ft_strcmp(line, "$"))
 			line = expand_on_heredoc(line);
-		ft_putendl_fd(line, doc_fd);
+		ft_putendl_fd(line, get_core()->doc_fd);
 		free(line);
 	}
-	close(doc_fd);
+	close(get_core()->doc_fd);
 	clear_child();
 }
 

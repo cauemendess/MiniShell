@@ -103,6 +103,7 @@ typedef struct s_core
 	char			invalid;
 	t_cmd			*cmd_table;
 	int				cmd_table_len;
+	int				doc_fd;
 }					t_core;
 
 // core
