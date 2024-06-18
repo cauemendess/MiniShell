@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/16 01:57:19 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/17 21:02:21 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	fill_cmd_table(void)
 	int		nb_of_cmds;
 	int		i;
 
-	i = 0;
+	i = -1;
 	nb_of_cmds = cmd_count();
 	if (nb_of_cmds == 0)
 		return ;
@@ -54,22 +54,23 @@ void	fill_cmd_table(void)
 	if (cmd_table == NULL)
 		return ;
 	ptr_temp = get_core()->token;
-	while (i < nb_of_cmds)
+	while (++i < nb_of_cmds)
 	{
 		ptr_temp = handle_redirects(&cmd_table[i], ptr_temp);
 		save_last_redir_in(&cmd_table[i].redir_in);
 		save_last_redir_out(&cmd_table[i].redir_out);
 		if (ptr_temp != NULL && ptr_temp->token != (int)PIPE
 			&& ptr_temp->token != (int)END)
-			filling_with_value(&cmd_table[i], ptr_temp);
-		i++;
+			filling_with_value(&cmd_table[i], &ptr_temp);
+		else if (ptr_temp->token == (int)(PIPE))
+			ptr_temp = ptr_temp->next;
 	}
 }
 
-void	filling_with_value(t_cmd *cmd_table, t_token *ptr_temp)
+void	filling_with_value(t_cmd *cmd_table, t_token **ptr_temp)
 {
-	cmd_table->cmd = ft_strdup(ptr_temp->str);
-	cmd_table->args = cmd_to_matrix(&ptr_temp);
+	cmd_table->cmd = ft_strdup((*ptr_temp)->str);
+	cmd_table->args = cmd_to_matrix(ptr_temp);
 	cmd_table->envp = env_to_matrix();
 	cmd_table->is_builtin = is_builtin(cmd_table->cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/16 01:54:36 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/17 21:05:14 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,8 @@ t_bool				check_close_quotes(void);
 char				*get_error_message(char token);
 void				split_quotes(char *str, int *i);
 int					ft_quotes_status(char c, int status);
-void				remove_quote(char *str);
+void				remove_expansions_to_nothing(void);
+void				remove_quote(char *str, t_token *cur);
 
 // env list
 t_env				*create_env_lst(char *key, char *value);
@@ -153,7 +154,7 @@ void				replace_invalid(t_token *cur, char c);
 // command table
 t_cmd				*create_cmd_table(void);
 void				fill_cmd_table(void);
-void				filling_with_value(t_cmd *cmd_table, t_token *ptr_temp);
+void				filling_with_value(t_cmd *cmd_table, t_token **ptr_temp);
 int					cmd_has_path(char *cmd);
 char				*build_path(char *cmd);
 void				copy_cmd_path(char *cmd, char *cmd_path, char *split_path);

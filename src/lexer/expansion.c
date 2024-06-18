@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 00:56:50 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/16 01:38:32 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/17 20:58:39 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,19 @@ char	*my_get_env(char *key)
 	return (ft_strdup(""));
 }
 
+void	remove_expansions_to_nothing(void)
+{
+	t_token	*current;
+
+	current = get_core()->token;
+	while (current)
+	{
+		if (current->token == VAR && current->str[0] == '\0')
+			remove_token(&get_core()->token, current);
+		current = current->next;
+	}
+}
+
 void	parsing_vars(void)
 {
 	t_token		*cur;
@@ -70,7 +83,8 @@ void	parsing_vars(void)
 		replace_invalid(cur, get_core()->invalid);
 		i = 0;
 		status = 0;
-		remove_quote(cur->str);
+		remove_quote(cur->str, cur);
 		cur = cur->next;
 	}
+	remove_expansions_to_nothing();
 }
