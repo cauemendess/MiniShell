@@ -76,7 +76,7 @@ void	parsing_vars(void)
 		{
 			if (mult_dollar(cur->str, &var))
 				garbage_collect(var = find_var(cur->str, i));
-			cur->str = ft_replace_index(cur->str, var, my_get_env(var + 1), i);
+			cur->str = ft_replace(cur->str, var, my_get_env(var + 1));
 			cur->token = VAR;
 			continue ;
 		}
