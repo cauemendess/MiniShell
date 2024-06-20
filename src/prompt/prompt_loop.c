@@ -20,6 +20,8 @@ void	prompt_loop(void)
 	while (1)
 	{
 		signal_handler();
+		ft_bzero(&core->error.cmd_error, 4096);
+		ft_bzero(&core->error.file_error, 4096);
 		core->input = readline(COLOR_PINK "MINI_SHELL$" COLOR_RESET " ");
 		garbage_collect(core->input);
 		if (!core->input)
