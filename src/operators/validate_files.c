@@ -16,28 +16,28 @@ t_bool	file_exists(char *file);
 t_bool	file_readable(char *file);
 t_bool	file_writable(char *file);
 
-t_bool	validate_redir_in_file(char *file)
+t_bool	validate_redir_in_file(char *file, int index)
 {
 	if (!file_exists(file))
 	{
-		error("No such file or directory", 1, 2);
+		file_error(file, "No such file or directory", 1, index);
 		return (FALSE);
 	}
 	if (!file_readable(file))
 	{
-		error("Permission denied", 1, 2);
+		file_error(file, "Permission denied", 1, index);
 		return (FALSE);
 	}
 	return (TRUE);
 }
 
-t_bool	validate_redir_out_file(char *file)
+t_bool	validate_redir_out_file(char *file, int index)
 {
 	if (file_exists(file))
 	{
 		if (!file_writable(file))
 		{
-			error("Permission denied", 1, 2);
+			file_error(file,"Permission denied", 1, index);
 			return (FALSE);
 		}
 	}

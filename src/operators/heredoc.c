@@ -62,7 +62,7 @@ void	wait_child_heredoc(pid_t pid)
 	if (WIFEXITED(wstatus))
 	{
 		exit_status = WEXITSTATUS(wstatus);
-		if (exit_status != 0)
+		if (exit_status == 130)
 		{
 			if (get_core()->exit_status != 130)
 				get_core()->is_heredoc = TRUE;
