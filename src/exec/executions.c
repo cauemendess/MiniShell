@@ -31,9 +31,6 @@ void	exec_one_cmd(t_cmd *cmd_table)
 {
 	int	fork_pid;
 
-	if ((cmd_table->redir_in != NULL && cmd_table->redir_in->fd < 0)
-		|| (cmd_table->redir_out != NULL && cmd_table->redir_out->fd < 0))
-		return ;
 	if (cmd_table->is_builtin == TRUE)
 		exec_builtins(cmd_table);
 	else
@@ -42,8 +39,8 @@ void	exec_one_cmd(t_cmd *cmd_table)
 		execution_signals(fork_pid);
 		if (fork_pid == 0)
 		{
-			if (cmd_table->cmd == NULL)
-				clear_and_exit_child(0);
+			if (cmd_table->cmd == NULL || get_core()->error.cmd_error[cmd_table->index])
+				clear_and_exit_child(1);
 			check_redirects(cmd_table);
 			cmd_table->cmd = build_path(cmd_table->cmd);
 			check_exec(cmd_table);
