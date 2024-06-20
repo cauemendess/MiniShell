@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:24:34 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/16 00:49:50 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/20 17:39:19 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	handle_quit(int sig)
+{
+	(void)sig;
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd("Quit (core dumped)\n", 1);
+	get_core()->exit_status = 131;
+}
 
 void	signal_handler(void)
 {
@@ -28,10 +36,15 @@ void	signal_handler(void)
 void	execution_signals(int pid)
 {
 	if (pid == 0)
+	{
+		signal(SIGQUIT, handle_quit);
 		signal(SIGINT, SIG_DFL);
+	}
 	else
+	{
 		signal(SIGINT, handler_exec);
-	signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
 }
 
 void	handler_exec(int signal)
