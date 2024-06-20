@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:19 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/16 01:36:51 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/20 17:43:36 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	exec_one_cmd(t_cmd *cmd_table)
 {
 	int	fork_pid;
 
+	signal(SIGQUIT, SIG_DFL);
 	if (cmd_table->is_builtin == TRUE)
 		exec_builtins(cmd_table);
 	else
@@ -39,13 +40,14 @@ void	exec_one_cmd(t_cmd *cmd_table)
 		execution_signals(fork_pid);
 		if (fork_pid == 0)
 		{
-			if (cmd_table->cmd == NULL || get_core()->error.cmd_error[cmd_table->index])
-				clear_and_exit_child(1);
+			if (cmd_table->cmd == NULL
+				|| get_core()->error.cmd_error[cmd_table->index])
+				clear_and_exit_child(get_core()->exit_status);
 			check_redirects(cmd_table);
 			cmd_table->cmd = build_path(cmd_table->cmd);
 			check_exec(cmd_table);
 			execve(cmd_table->cmd, cmd_table->args, cmd_table->envp);
-			clear_and_exit_child(1);
+			clear_and_exit_child(get_core()->exit_status);
 		}
 		waitpid(fork_pid, &get_core()->exit_status, 0);
 		get_core()->exit_status = WEXITSTATUS(get_core()->exit_status);
