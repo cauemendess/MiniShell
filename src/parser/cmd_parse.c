@@ -16,7 +16,9 @@ t_cmd	*create_cmd_table(void)
 {
 	t_cmd	*commands;
 	int		nb_of_cmds;
+	int		i;
 
+	i = 0;
 	nb_of_cmds = cmd_count();
 	if (nb_of_cmds == 0)
 		return (NULL);
@@ -24,16 +26,17 @@ t_cmd	*create_cmd_table(void)
 	commands = malloc(nb_of_cmds * sizeof(t_cmd));
 	if (commands == NULL)
 		return (NULL);
-	while (nb_of_cmds > 0)
+	while (i < nb_of_cmds)
 	{
-		commands[nb_of_cmds - 1].cmd = NULL;
-		commands[nb_of_cmds - 1].args = NULL;
-		commands[nb_of_cmds - 1].envp = NULL;
-		commands[nb_of_cmds - 1].redir_in = NULL;
-		commands[nb_of_cmds - 1].redir_out = NULL;
-		commands[nb_of_cmds - 1].fork_pid = 0;
-		commands[nb_of_cmds - 1].is_builtin = FALSE;
-		nb_of_cmds--;
+		commands[i].cmd = NULL;
+		commands[i].args = NULL;
+		commands[i].envp = NULL;
+		commands[i].redir_in = NULL;
+		commands[i].redir_out = NULL;
+		commands[i].fork_pid = 0;
+		commands[i].index = i;
+		commands[i].is_builtin = FALSE;
+		i++;
 	}
 	return (commands);
 }
@@ -47,18 +50,18 @@ void	fill_cmd_table(void)
 
 	i = -1;
 	nb_of_cmds = cmd_count();
-	if (nb_of_cmds == 0)
-		return ;
 	get_core()->cmd_table = create_cmd_table();
 	cmd_table = get_core()->cmd_table;
-	if (cmd_table == NULL)
+	if (cmd_table == NULL || nb_of_cmds == 0)
 		return ;
 	ptr_temp = get_core()->token;
 	while (++i < nb_of_cmds)
 	{
-		ptr_temp = handle_redirects(&cmd_table[i], ptr_temp);
+		ptr_temp = handle_redirects(&cmd_table[i], ptr_temp, i);
 		save_last_redir_in(&cmd_table[i].redir_in);
 		save_last_redir_out(&cmd_table[i].redir_out);
+		if (get_core()->error.file_error[i])
+			get_core()->error.cmd_error[i] = TRUE;
 		if (ptr_temp != NULL && ptr_temp->token != (int)PIPE
 			&& ptr_temp->token != (int)END)
 			filling_with_value(&cmd_table[i], &ptr_temp);
