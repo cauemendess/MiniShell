@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/17 21:05:14 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/20 17:32:46 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,7 @@ void				signal_handler(void);
 void				execution_signals(int pid);
 void				handler_exec(int signal);
 void				handler_init(int signum, siginfo_t *info, void *context);
+void				handle_quit(int signal);
 void				signal_heredoc(int pid);
 void				ctrl_c_heredoc(int signal);
 
