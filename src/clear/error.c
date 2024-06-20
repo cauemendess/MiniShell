@@ -18,6 +18,21 @@ void	error(char *msg, int status, int fd)
 	get_core()->exit_status = status;
 }
 
+void	file_error(char *file_name, char *str, int status, int index)
+{
+	t_core	*core;
+
+	core = get_core();
+	if (core->error.file_error[index] == TRUE)
+		return ;
+	core->error.file_error[index] = TRUE;
+	ft_putstr_fd(file_name, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(str, 2);
+	unlink("heredoc_tmp");
+	core->exit_status = status;
+}
+
 char	*get_error_message(char token)
 {
 	if (token == '&')
