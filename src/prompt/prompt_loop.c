@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt_loop.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:42:43 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 19:18:44 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/20 16:13:47 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	prompt_loop(void)
 		signal_handler();
 		ft_bzero(&core->error.cmd_error, 4096);
 		ft_bzero(&core->error.file_error, 4096);
+		core->is_heredoc = FALSE;
 		core->input = readline(COLOR_PINK "MINI_SHELL$" COLOR_RESET " ");
 		garbage_collect(core->input);
 		if (!core->input)

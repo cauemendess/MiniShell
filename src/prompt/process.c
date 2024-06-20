@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:48:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/14 18:14:32 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/20 16:07:47 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	process(void)
 	if (tokenizer(core->input))
 		return ;
 	capture_heredoc();
+	if(core->is_heredoc == TRUE)
+		return ;
 	handle_cmd_number();
 }
 
