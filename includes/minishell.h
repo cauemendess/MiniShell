@@ -39,11 +39,18 @@ typedef enum e_type
 	END
 }					t_type;
 
+
 typedef enum e_bool
 {
 	FALSE,
 	TRUE
 }					t_bool;
+
+typedef struct s_error
+{
+	t_bool			file_error[4096];
+	t_bool			cmd_error[4096];
+}					t_error;
 
 typedef struct s_token
 {
@@ -81,6 +88,7 @@ typedef struct s_redir_out
 typedef struct s_cmd
 {
 	int				fork_pid;
+	int				index;
 	char			*cmd;
 	char			**args;
 	char			**envp;
@@ -104,6 +112,7 @@ typedef struct s_core
 	t_cmd			*cmd_table;
 	int				cmd_table_len;
 	int				doc_fd;
+	t_error			error;
 }					t_core;
 
 // core
@@ -111,6 +120,7 @@ t_core				*get_core(void);
 void				prompt_loop(void);
 void				process(void);
 void				error(char *msg, int status, int fd);
+void				file_error(char *file_name, char *str, int status, int index);
 t_env				*create_env_lst(char *key, char *value);
 void				add_env(t_env **env, t_env *new);
 
@@ -173,15 +183,15 @@ void				save_last_redir_out(t_redir_out **redir);
 // operators
 void				print_redirects(t_cmd *cmd);
 void				capture_heredoc(void);
-t_token				*handle_redirects(t_cmd *cmd, t_token *current);
+t_token				*handle_redirects(t_cmd *cmd, t_token *current, int index);
 void				handle_heredoc(t_token *token, t_redir_in **redir_list);
-void				handle_redir_in(t_token *token, t_redir_in **redir_list);
+void				handle_redir_in(t_token *token, t_redir_in **redir_list, int index);
 void				add_redir_in(t_redir_in **redir, t_redir_in *new);
 void				add_redir_out(t_redir_out **redir, t_redir_out *new);
 t_redir_in			*create_redir_in_list(char *file_name, t_type token_type);
 t_redir_out			*create_redir_out_list(char *file_name, t_type token_type);
-t_bool				validate_redir_in_file(char *file);
-t_bool				validate_redir_out_file(char *file);
+t_bool				validate_redir_in_file(char *file, int index);
+t_bool				validate_redir_out_file(char *file, int index);
 
 // exec
 void				handle_cmd_number(void);
