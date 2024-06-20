@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:42:56 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/15 15:06:41 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:04:03 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	wait_child_heredoc(pid_t pid)
 		exit_status = WEXITSTATUS(wstatus);
 		if (exit_status == 130)
 		{
-			if (get_core()->exit_status != 130)
+			if (get_core()->exit_status == 130)
 				get_core()->is_heredoc = TRUE;
 			get_core()->exit_status = exit_status;
 		}
