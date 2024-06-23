@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:08:59 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/16 01:35:31 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/23 10:03:48 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	check_and_insert_vars(char **argv)
 	while (str_key != NULL)
 	{
 		str_val = valid_sintax_key_and_value_position(str_key);
-		if (*str_val == '=' || *str_val == '\0')
+		if (str_val != NULL && (*str_val == '=' || *str_val == '\0'))
 		{
 			if (*str_val == '=')
 			{
@@ -47,7 +47,7 @@ void	check_and_insert_vars(char **argv)
 			var = get_node_with_key_equal_to(str_key);
 			if ((var != NULL) && (*str_val != '\0' || str_val[0 - 1] == '\0'))
 				replace_var_value(var, str_val);
-			else
+			else if (var == NULL)
 				add_new_var(str_key, str_val);
 		}
 		str_key = argv[++i];
@@ -61,7 +61,7 @@ t_env	*get_node_with_key_equal_to(char *argv)
 	env = get_core()->env_list;
 	while (env)
 	{
-		if (ft_strncmp(argv, env->key, ft_strlen(env->key)) == 0)
+		if (ft_strcmp(argv, env->key) == 0 || ft_strcmp(argv, env->key) == '=')
 			return (env);
 		env = env->next;
 	}
@@ -87,7 +87,10 @@ char	*valid_sintax_key_and_value_position(char *str)
 		}
 	}
 	else
+	{
 		print_export_error(str);
+		return (NULL);
+	}
 	return (&str[i]);
 }
 

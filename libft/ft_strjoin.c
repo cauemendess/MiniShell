@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:33:28 by csilva-m          #+#    #+#             */
-/*   Updated: 2023/08/18 15:07:36 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/23 09:55:30 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	dest_i = 0;
 	i = 0;
-	while (s1[i])
+	while (s1 && s1[i])
 	{
 		dest[dest_i] = s1[i];
 		i++;
 		dest_i++;
 	}
 	i = 0;
-	while (s2[i])
+	while (s2 && s2[i])
 	{
 		dest[dest_i] = s2[i];
 		i++;
