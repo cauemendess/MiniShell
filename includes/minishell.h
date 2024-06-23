@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/23 15:25:50 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:38:52 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,6 +241,7 @@ void					print_unset_error(char *argv);
 void					delete_env(char *key, t_env **head);
 
 // signals
+void					teste(int s);
 void					signal_handler(void);
 void					execution_signals(int pid);
 void					handler_exec(int signal);

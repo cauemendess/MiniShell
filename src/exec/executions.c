@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:19 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/23 14:16:42 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:25:14 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ void	handle_cmd_number(void)
 	cmd_number = cmd_count();
 	fill_cmd_table();
 	if (cmd_number == 1)
+	{
+        signal(SIGQUIT, teste); // Mudança forçada no pai pra fazer funcionar com 1 comando
+        signal(SIGINT, teste); // Idem ao de cima
 		exec_one_cmd(get_core()->cmd_table);
+	}
 	else if (cmd_number > 1)
 	{
 		exec_mult_cmd(cmd_number);
@@ -27,31 +31,44 @@ void	handle_cmd_number(void)
 	}
 }
 
-void	exec_one_cmd(t_cmd *cmd_table)
+void    exec_one_cmd(t_cmd *cmd_table)
 {
-	int	fork_pid;
+    int    fork_pid;
 
-	signal(SIGQUIT, SIG_DFL);
-	if (cmd_table->is_builtin == TRUE)
-		exec_builtins(cmd_table);
-	else
-	{
-		fork_pid = fork();
-		execution_signals(fork_pid);
-		if (fork_pid == 0)
-		{
-			if (cmd_table->cmd == NULL
-				|| get_core()->error.cmd_error[cmd_table->index])
-				clear_and_exit_child(get_core()->exit_status);
-			check_redirects(cmd_table);
-			cmd_table->cmd = build_path(cmd_table->cmd);
-			check_exec(cmd_table);
-			execve(cmd_table->cmd, cmd_table->args, cmd_table->envp);
-			clear_and_exit_child(get_core()->exit_status);
-		}
-		waitpid(fork_pid, &get_core()->exit_status, 0);
-		get_core()->exit_status = WEXITSTATUS(get_core()->exit_status);
-	}
+    if (cmd_table->is_builtin == TRUE)
+        exec_builtins(cmd_table);
+    else
+    {
+        fork_pid = fork();
+        execution_signals(fork_pid);
+        if (fork_pid == 0)
+        {
+            if (cmd_table->cmd == NULL
+                || get_core()->error.cmd_error[cmd_table->index])
+                clear_and_exit_child(get_core()->exit_status);
+            check_redirects(cmd_table);
+            cmd_table->cmd = build_path(cmd_table->cmd);
+            check_exec(cmd_table);
+            execve(cmd_table->cmd, cmd_table->args, cmd_table->envp);
+            clear_and_exit_child(get_core()->exit_status);
+        }
+        waitpid(fork_pid, &get_core()->exit_status, 0);
+        // Aqui é onde o trabalho aconteceu
+        if (WIFSIGNALED(get_core()->exit_status) ) // Pergunto se saiu com algum sinal
+        {
+            if (__WCOREDUMP(get_core()->exit_status)) // Pergunto se o sinal foi o SIGQUIT
+            {
+                get_core()->exit_status = 131;
+                return ; // Como o exit status já foi setado na mão, apenas retorno.
+            }
+            else if (WTERMSIG(get_core()->exit_status) == SIGINT) // Pergunto se foi SIGINT
+            {
+                get_core()->exit_status = 130;
+                return ; // Como o exit status já foi setado na mão, apenas retorno.
+            }
+        }
+        get_core()->exit_status = WEXITSTATUS(get_core()->exit_status);
+    }
 }
 
 void	exec_mult_cmd(int cmd_number)
