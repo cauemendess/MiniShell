@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:39:50 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/20 16:24:50 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/23 15:41:44 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	check_redirects(t_cmd *cmd)
 	}
 	if (cmd->redir_out != NULL)
 	{
-		printf("entrou\n");
 		dup2(cmd->redir_out->fd, STDOUT_FILENO);
 		close(cmd->redir_out->fd);
 	}

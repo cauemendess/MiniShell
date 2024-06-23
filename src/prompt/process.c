@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:48:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/20 16:07:47 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/23 15:06:36 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	process(void)
 	if (tokenizer(core->input))
 		return ;
 	capture_heredoc();
-	if(core->is_heredoc == TRUE)
+	if (core->is_heredoc == TRUE)
 		return ;
 	handle_cmd_number();
 }
@@ -33,6 +33,7 @@ t_bool	tokenizer(char *input)
 	if (check_op_op())
 		return (TRUE);
 	parsing_vars();
+	remove_expansions_to_nothing();
 	return (FALSE);
 }
 

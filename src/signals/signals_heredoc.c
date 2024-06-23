@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 00:44:45 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/20 16:19:09 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/23 15:05:56 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,4 @@ void	ctrl_c_heredoc(int signal)
 	get_core()->is_heredoc = TRUE;
 	get_core()->exit_status = 130;
 	clear_child();
-
 }

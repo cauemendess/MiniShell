@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_files.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 15:45:11 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/15 19:54:34 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/23 15:17:57 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_bool	validate_redir_out_file(char *file, int index)
 	{
 		if (!file_writable(file))
 		{
-			file_error(file,"Permission denied", 1, index);
+			file_error(file, "Permission denied", 1, index);
 			return (FALSE);
 		}
 	}

@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 15:15:53 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 19:24:34 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/23 15:26:12 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_bool	is_redir_token(t_token *token)
+{
+	if (token->token == REDIRECT || token->token == APPEND
+		|| token->token == TRUNC || token->token == HEREDOC)
+		return (TRUE);
+	return (FALSE);
+}
 
 t_redir_in	*create_redir_in_list(char *file_name, t_type token_type)
 {

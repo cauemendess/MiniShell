@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 18:24:34 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/23 10:20:11 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/23 11:30:26 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void	handle_quit(int sig)
 {
 	(void)sig;
-	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("Quit (core dumped)\n", 1);
+	ft_putstr_fd("Quit (core dumped)\n", 2);
 	get_core()->exit_status = 131;
 }
 
@@ -43,7 +42,7 @@ void	execution_signals(int pid)
 	else
 	{
 		signal(SIGINT, handler_exec);
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, handle_quit);
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:28:19 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/16 01:38:17 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/23 15:26:03 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,6 @@
 
 void	handle_heredoc(t_token *token, t_redir_in **redir_list);
 void	handle_redir_out(t_token *token, t_redir_out **redir_list, int index);
-
-t_bool	is_redir_token(t_token *token)
-{
-	if (token->token == REDIRECT || token->token == APPEND
-		|| token->token == TRUNC
-		|| token->token == HEREDOC)
-		return (TRUE);
-	return (FALSE);
-}
 
 t_token	*handle_redirects(t_cmd *cmd, t_token *current, int index)
 {
@@ -69,7 +60,8 @@ void	handle_redir_in(t_token *token, t_redir_in **redir_list, int index)
 {
 	t_redir_in	*cur_redir;
 
-	if (!validate_redir_in_file(token->next->str, index) || get_core()->error.file_error[index])
+	if (!validate_redir_in_file(token->next->str, index)
+		|| get_core()->error.file_error[index])
 	{
 		clear_redir_in(redir_list);
 		return ;
@@ -94,7 +86,8 @@ void	handle_redir_out(t_token *token, t_redir_out **redir_list, int index)
 {
 	t_redir_out	*cur_redir;
 
-	if (!validate_redir_out_file(token->next->str, index) || get_core()->error.file_error[index])
+	if (!validate_redir_out_file(token->next->str, index)
+		|| get_core()->error.file_error[index])
 	{
 		clear_redir_out(redir_list);
 		return ;

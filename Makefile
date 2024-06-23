@@ -54,6 +54,7 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(PARSER)build_path.c \
 			$(SRCDIR)$(OPERATORS)redirect.c \
 			$(SRCDIR)$(OPERATORS)heredoc.c \
+			$(SRCDIR)$(OPERATORS)heredoc_expansion.c \
 			$(SRCDIR)$(OPERATORS)redirect_utils.c \
 
 OBJDIR	=	bin/

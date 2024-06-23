@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 00:56:50 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/17 20:58:39 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/23 15:05:28 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,14 @@ void	remove_expansions_to_nothing(void)
 	}
 }
 
+void	process_token(t_token *cur, int *i, int *status)
+{
+	replace_invalid(cur, get_core()->invalid);
+	*i = 0;
+	*status = 0;
+	remove_quote(cur->str, cur);
+}
+
 void	parsing_vars(void)
 {
 	t_token		*cur;
@@ -72,6 +80,11 @@ void	parsing_vars(void)
 	cur = get_core()->token;
 	while (cur)
 	{
+		if (cur->token == HEREDOC)
+		{
+			cur = cur->next->next;
+			continue ;
+		}
 		if (have_dollar(cur->str, &i, &status))
 		{
 			if (mult_dollar(cur->str, &var))
@@ -80,11 +93,7 @@ void	parsing_vars(void)
 			cur->token = VAR;
 			continue ;
 		}
-		replace_invalid(cur, get_core()->invalid);
-		i = 0;
-		status = 0;
-		remove_quote(cur->str, cur);
+		process_token(cur, &i, &status);
 		cur = cur->next;
 	}
-	remove_expansions_to_nothing();
 }
