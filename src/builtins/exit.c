@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 17:07:01 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/16 02:26:21 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/23 14:42:56 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int		is_valid_number(char **argv);
 void	print_exit_error(char *msg, char *argv);
 void	clear_exit_shell(int status);
+t_bool	check_max_min(char *arg);
 
 void	exit_shell(char **argv)
 {
@@ -25,19 +26,19 @@ void	exit_shell(char **argv)
 		number = get_core()->exit_status;
 	else if (argv[0] != NULL && argv[1] != NULL)
 	{
-		if (is_valid_number(argv) == 1)
+		if (check_max_min(argv[1]) == FALSE && is_valid_number(argv) == 1)
 		{
 			number = ft_atoi(argv[1]);
 			if (argv[2] != NULL)
 			{
-				print_exit_error("too many arguments\n", NULL);
+				print_exit_error("too many arguments", NULL);
 				get_core()->exit_status = 1;
 				return ;
 			}
 		}
 		else
 		{
-			print_exit_error("numeric argument required\n", argv[1]);
+			print_exit_error("numeric argument required ", argv[1]);
 			number = 2;
 		}
 	}
@@ -72,6 +73,7 @@ void	print_exit_error(char *msg, char *argv)
 	ft_strlcpy(&message[ft_strlen(message)], msg, ft_strlen(msg) + 1);
 	ft_strlcpy(&message[ft_strlen(message)], argv, ft_strlen(argv) + 1);
 	write(2, message, ft_strlen(message));
+	write(2, "\n", 1);
 	free(message);
 }
 
@@ -85,4 +87,17 @@ void	clear_exit_shell(int status)
 	unlink("heredoc_tmp");
 	clear_garbage();
 	exit(status);
+}
+
+t_bool	check_max_min(char *arg)
+{
+	while (arg && *arg == '0')
+		arg++;
+	if (ft_strlen(arg) == 19 && ft_strcmp(arg, "9223372036854775807") > 0)
+		return (TRUE);
+	else if (ft_strlen(arg) == 20 && ft_strcmp(arg, "-9223372036854775808") > 0)
+		return (TRUE);
+	else if (ft_strlen(arg) > 20)
+		return (TRUE);
+	return (FALSE);
 }
