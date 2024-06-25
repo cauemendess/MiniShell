@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/28 15:11:02 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/24 19:22:52 by dfrade           ###   ########.fr       */
+/*   Created: 2024/06/24 19:29:52 by dfrade            #+#    #+#             */
+/*   Updated: 2024/06/24 19:30:28 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	signal_handler(void)
 {
-	if (!s)
-		return ;
-	write(fd, s, ft_strlen(s));
+	struct sigaction	act;
+	struct sigaction	ign;
+
+	ft_memset(&act, 0, sizeof(act));
+	ft_memset(&ign, 0, sizeof(act));
+	ign.sa_handler = SIG_IGN;
+	act.sa_sigaction = handler_init;
+	sigaction(SIGQUIT, &ign, NULL);
+	sigaction(SIGINT, &act, NULL);
 }
