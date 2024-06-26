@@ -42,10 +42,12 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(PROMPT)prompt_loop.c \
 			$(SRCDIR)$(PROMPT)process.c \
 			$(SRCDIR)$(SIGNALS)signals.c \
+			$(SRCDIR)$(SIGNALS)signal_handler.c \
 			$(SRCDIR)$(SIGNALS)signals_heredoc.c \
 			$(SRCDIR)$(OPERATORS)validate_files.c \
 			$(SRCDIR)$(EXEC)executions.c \
 			$(SRCDIR)$(EXEC)executions_utils.c \
+			$(SRCDIR)$(EXEC)exit_status_executions.c \
 			$(SRCDIR)$(EXEC)exec_builtins.c \
 			$(SRCDIR)$(EXEC)check_redirects.c \
 			$(SRCDIR)$(PARSER)cmd_parse.c \

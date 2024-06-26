@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/26 16:18:09 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 16:51:45 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,7 @@ void					exec_builtins(t_cmd *cmd);
 void					check_redirects(t_cmd *cmd);
 void					exec_one_cmd(t_cmd *cmd_table);
 void					exec_mult_cmd(int cmd_number);
+void					return_exit_status(void);
 void					check_exec(t_cmd *cmd_table);
 void					pipe_redirect(int *pipes);
 void					dup_pipes_backup(int pipes_backup);
@@ -245,6 +246,7 @@ void					print_unset_error(char *argv);
 void					delete_env(char *key, t_env **head);
 
 // signals
+void					print_quit_or_int(int s);
 void					signal_handler(void);
 void					execution_signals(int pid);
 void					handler_exec(int signal);
