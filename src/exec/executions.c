@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:19 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/23 14:16:42 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:36:36 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	exec_one_cmd(t_cmd *cmd_table)
 	int	fork_pid;
 
 	signal(SIGQUIT, SIG_DFL);
+	if (get_core()->error.cmd_error[cmd_table->index])
+		return ;
 	if (cmd_table->is_builtin == TRUE)
 		exec_builtins(cmd_table);
 	else
@@ -40,8 +42,7 @@ void	exec_one_cmd(t_cmd *cmd_table)
 		execution_signals(fork_pid);
 		if (fork_pid == 0)
 		{
-			if (cmd_table->cmd == NULL
-				|| get_core()->error.cmd_error[cmd_table->index])
+			if (cmd_table->cmd == NULL)
 				clear_and_exit_child(get_core()->exit_status);
 			check_redirects(cmd_table);
 			cmd_table->cmd = build_path(cmd_table->cmd);
