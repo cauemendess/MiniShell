@@ -56,6 +56,8 @@ SRCS	=	$(SRCDIR)main.c \
 			$(SRCDIR)$(OPERATORS)heredoc.c \
 			$(SRCDIR)$(OPERATORS)heredoc_expansion.c \
 			$(SRCDIR)$(OPERATORS)redirect_utils.c \
+			$(SRCDIR)$(OPERATORS)validate_files_utils.c 
+
 
 OBJDIR	=	bin/
 OBJS	=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
