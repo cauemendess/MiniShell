@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:28:19 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/23 15:26:03 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:49:10 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,11 @@ void	handle_redir_out(t_token *token, t_redir_out **redir_list, int index)
 	else
 		add_redir_out(redir_list, cur_redir);
 	open_redir_out(cur_redir);
+	if (cur_redir->fd == -1)
+	{
+		*redir_list = create_redir_out_list(token->next->str, token->token);
+		get_core()->error.file_error[index] = TRUE;
+		perror(cur_redir->file_name);
+		clear_redir_out(redir_list);
+	}
 }

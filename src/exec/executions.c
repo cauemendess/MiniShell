@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:19 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/26 16:22:47 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:29:41 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	exec_one_cmd(t_cmd *cmd_table)
 {
 	int	fork_pid;
 
-	signal(SIGQUIT, SIG_DFL);
 	if (get_core()->error.cmd_error[cmd_table->index])
 		return ;
 	if (cmd_table->is_builtin == TRUE)

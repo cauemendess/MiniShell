@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 15:59:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/26 16:36:44 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:19:49 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_bool	is_dir(char *file)
 	struct stat	statbuf;
 	char		*last_slash;
 	int			i;
+
 	i = ft_strrchr(file, '/') - file;
 	last_slash = ft_substr(file, 0, i);
 	if (stat(last_slash, &statbuf) == -1)
