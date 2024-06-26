@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:10:40 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 19:20:38 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/26 15:33:12 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	clear_redir_out(t_redir_out **redir)
 		free(cur);
 		cur = tmp;
 	}
+	*redir = NULL;
 }
 
 void	clear_redir_in(t_redir_in **redir)
@@ -48,4 +49,5 @@ void	clear_redir_in(t_redir_in **redir)
 		free(cur);
 		cur = tmp;
 	}
+	*redir = NULL;
 }
