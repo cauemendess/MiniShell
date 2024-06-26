@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:28:19 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/26 18:49:10 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:06:54 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_token	*handle_redirects(t_cmd *cmd, t_token *current, int index)
 				handle_redir_out((current), &cmd->redir_out, index);
 			else if ((current)->token == TRUNC)
 				handle_redir_in((current), &cmd->redir_in, index);
+			// Se o fd do redir é -1, dar free em todos os nós de redirects desse comando e ir para o próximo
 			next = (current)->next->next;
 			remove_token(&get_core()->token, (current)->next);
 			remove_token(&get_core()->token, (current));

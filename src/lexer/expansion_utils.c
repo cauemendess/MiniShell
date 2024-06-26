@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:32:38 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/26 18:03:54 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:06:04 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ t_bool	have_dollar(char *str, int *i, int *status)
 		if (str[(*i)] == '$' && ((*status) == 0 || (*status) == 1)
 			&& ft_isalpha(str[(*i) + 1]))
 			return (TRUE);
-		if (str[(*i)] == '$' && str[(*i) + 1] == '?' && ((*status) == 0
-				|| (*status) == 1))
+		if (str[(*i)] == '$' && str[(*i) + 1] == '?'
+			&& (*status == 0 || *status == 1))
 			return (TRUE);
 		(*i)++;
 	}

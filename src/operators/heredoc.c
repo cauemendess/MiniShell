@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:42:56 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/26 15:40:03 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:06:43 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	capture_heredoc(void)
 	flag = FALSE;
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
+	core = get_core();
 	cur = get_core()->token;
 	while (cur)
 	{
