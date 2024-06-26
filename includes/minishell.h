@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/26 19:03:38 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/26 19:21:26 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,9 +199,9 @@ void					handle_redir_in(t_token *token, t_redir_in **redir_list,
 void					add_redir_in(t_redir_in **redir, t_redir_in *new);
 void					add_redir_out(t_redir_out **redir, t_redir_out *new);
 t_redir_in				*create_redir_in_list(char *file_name,
-									t_type token_type);
+							t_type token_type);
 t_redir_out				*create_redir_out_list(char *file_name,
-									t_type token_type);
+							t_type token_type);
 t_bool					validate_redir_in_file(char *file, int index);
 t_bool					validate_redir_out_file(char *file, int index);
 t_bool					file_exists(char *file);

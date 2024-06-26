@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:10:40 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/26 15:57:10 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:15:03 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	clear_redir_in(t_redir_in **redir)
 	}
 	*redir = NULL;
 }
+
 void	file_error_ambiguous(char *str, int status, int index)
 {
 	t_core	*core;
