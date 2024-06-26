@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 00:56:50 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/23 15:05:28 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:02:53 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ void	remove_expansions_to_nothing(void)
 	current = get_core()->token;
 	while (current)
 	{
-		if (current->token == VAR && current->str[0] == '\0')
+		if (current->token == VAR && current->str[0] == '\0'
+			&& current->prev->token != REDIRECT
+			&& current->prev->token != APPEND && current->prev->token != TRUNC)
 			remove_token(&get_core()->token, current);
 		current = current->next;
 	}
