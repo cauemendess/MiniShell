@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/26 14:39:41 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:42:24 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,14 @@ void	fill_cmd_table(void)
 	int		i;
 
 	i = -1;
+	i = -1;
 	nb_of_cmds = cmd_count();
 	get_core()->cmd_table = create_cmd_table();
 	cmd_table = get_core()->cmd_table;
 	if (cmd_table == NULL || nb_of_cmds == 0)
 		return ;
 	ptr_temp = get_core()->token;
+	while (++i < nb_of_cmds)
 	while (++i < nb_of_cmds)
 	{
 		ptr_temp = handle_redirects(&cmd_table[i], ptr_temp, i);
@@ -67,11 +69,17 @@ void	fill_cmd_table(void)
 			filling_with_value(&cmd_table[i], &ptr_temp);
 		else if (ptr_temp->token == (int)(PIPE))
 			ptr_temp = ptr_temp->next;
+			filling_with_value(&cmd_table[i], &ptr_temp);
+		else if (ptr_temp->token == (int)(PIPE))
+			ptr_temp = ptr_temp->next;
 	}
 }
 
 void	filling_with_value(t_cmd *cmd_table, t_token **ptr_temp)
+void	filling_with_value(t_cmd *cmd_table, t_token **ptr_temp)
 {
+	cmd_table->cmd = ft_strdup((*ptr_temp)->str);
+	cmd_table->args = cmd_to_matrix(ptr_temp);
 	cmd_table->cmd = ft_strdup((*ptr_temp)->str);
 	cmd_table->args = cmd_to_matrix(ptr_temp);
 	cmd_table->envp = env_to_matrix();

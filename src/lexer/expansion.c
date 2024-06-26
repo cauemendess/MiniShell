@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 00:56:50 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/26 12:02:53 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:39:26 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,5 @@ void	parsing_vars(void)
 		process_token(cur, &i, &status);
 		cur = cur->next;
 	}
+	remove_expansions_to_nothing();
 }
