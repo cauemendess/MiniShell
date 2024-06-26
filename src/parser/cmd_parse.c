@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 17:32:03 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/17 21:02:21 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/26 14:39:41 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ t_bool	is_builtin(char *cmd)
 		return (FALSE);
 	while (builtins[i] != NULL)
 	{
-		if (ft_strncmp(cmd, builtins[i], ft_strlen(cmd)) == 0)
+		if (ft_strncmp(cmd, builtins[i], ft_strlen(builtins[i])) == 0 && cmd[ft_strlen(builtins[i])] == '\0')
 			return (TRUE);
 		i++;
 	}
