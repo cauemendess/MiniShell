@@ -6,7 +6,7 @@
 /*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:42:43 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/23 15:38:36 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/28 17:51:33 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,35 @@ void	clear_prompt(void)
 	clear_cmd_table(get_core()->cmd_table);
 }
 
+void	transform_all_tabs_to_remove_in_spaces(char *input)
+{
+	int		i;
+	char	quote;
+
+	i = 0;
+	if (input == NULL)
+		return ;
+	while (input[i] != '\0')
+	{
+		if (input[i] == '\'' || input[i] == '"')
+		{
+			quote = input[i];
+			i++;
+			while (input[i] != quote && input[i] != '\0')
+				i++;
+			if (input[i] == quote)
+				i++;
+		}
+		else if (input[i] == '\t')
+		{
+			input[i] = ' ';
+			i++;
+		}
+		else
+			i++;
+	}
+}
+
 void	prompt_loop(void)
 {
 	t_core	*core;
@@ -40,6 +69,7 @@ void	prompt_loop(void)
 		ft_bzero(&core->error.file_error, 4096);
 		core->is_heredoc = FALSE;
 		core->input = readline(COLOR_PINK "MINI_SHELL$" COLOR_RESET " ");
+		transform_all_tabs_to_remove_in_spaces(core->input);
 		garbage_collect(core->input);
 		if (!core->input)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:42:56 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/26 19:16:16 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/28 17:52:08 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,21 @@ void	wait_child_heredoc(pid_t pid);
 void	prompt_heredoc(char *limiter, t_bool flag);
 char	*expand_on_heredoc(char *line);
 
-
 t_bool	has_quote(char *str)
 {
-	int i = 0;
-	while(str[i])
+	int	i;
+
+	i = 0;
+	while (str[i])
 	{
-		if(str[i] == '"' || str[i] == '\'')
-			return(TRUE);
+		if (str[i] == '"' || str[i] == '\'')
+			return (TRUE);
 		i++;
 	}
-	return(FALSE);
+	return (FALSE);
 }
 
-void	capture_heredoc(void)
+void	capture_heredoc(t_core *core)
 {
 	char	*limiter;
 	t_token	*cur;
@@ -39,20 +40,20 @@ void	capture_heredoc(void)
 	flag = FALSE;
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	cur = get_core()->token;
+	cur = core->token;
 	while (cur)
 	{
 		if (cur->token == HEREDOC && cur->next->token == WORD)
 		{
-			if(has_quote(cur->next->str))
+			if (has_quote(cur->next->str))
 			{
 				flag = TRUE;
 				remove_quote(cur->next->str, cur);
 			}
-			get_core()->doc_fd = open("heredoc_tmp",
+			core->doc_fd = open("heredoc_tmp",
 					O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			limiter = cur->next->str;
-			if (get_core()->is_heredoc == FALSE)
+			if (core->is_heredoc == FALSE)
 				child_process(limiter, flag);
 		}
 		cur = cur->next;

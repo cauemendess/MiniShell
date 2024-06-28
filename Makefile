@@ -92,14 +92,6 @@ fclean: clean
 	$(HIDE)make -C libft fclean
 	$(HIDE)$(RM) $(NAME)
 
-valgrind: all 
-	@valgrind -s -q --leak-check=full \
-	--show-reachable=yes \
-	--show-leak-kinds=all \
-	--track-origins=yes \
-	--track-fds=yes \
-	--suppressions=./suppressions.supp ./$(NAME)
-
 re: fclean all
 
 .PHONY: all bonus clean fclean re

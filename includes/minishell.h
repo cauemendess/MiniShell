@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/26 19:21:26 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/28 17:52:50 by csilva-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,8 @@ void					replace_invalid(t_token *cur, char c);
 // command table
 t_cmd					*create_cmd_table(void);
 void					fill_cmd_table(void);
-void					filling_with_value(t_cmd *cmd_table, t_token **ptr_temp);
+void					filling_with_value(t_cmd *cmd_table,
+							t_token **ptr_temp);
 int						cmd_has_path(char *cmd);
 char					*build_path(char *cmd);
 void					copy_cmd_path(char *cmd, char *cmd_path,
@@ -190,7 +191,7 @@ char					*has_var(char *line);
 char					*search_var(char *str);
 char					*expand_on_heredoc(char *line);
 t_bool					is_redir_token(t_token *token);
-void					capture_heredoc(void);
+void					capture_heredoc(t_core *core);
 t_token					*handle_redirects(t_cmd *cmd, t_token *current,
 							int index);
 void					handle_heredoc(t_token *token, t_redir_in **redir_list);
