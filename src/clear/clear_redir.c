@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 17:10:40 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/13 19:20:38 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/26 19:15:03 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	clear_redir_out(t_redir_out **redir)
 		free(cur);
 		cur = tmp;
 	}
+	*redir = NULL;
 }
 
 void	clear_redir_in(t_redir_in **redir)
@@ -48,4 +49,18 @@ void	clear_redir_in(t_redir_in **redir)
 		free(cur);
 		cur = tmp;
 	}
+	*redir = NULL;
+}
+
+void	file_error_ambiguous(char *str, int status, int index)
+{
+	t_core	*core;
+
+	core = get_core();
+	if (core->error.file_error[index] == TRUE)
+		return ;
+	core->error.file_error[index] = TRUE;
+	ft_putendl_fd(str, 2);
+	unlink("heredoc_tmp");
+	core->exit_status = status;
 }

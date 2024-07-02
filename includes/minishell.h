@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 11:31:47 by csilva-m          #+#    #+#             */
-/*   Updated: 2024/06/23 15:25:50 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:21:26 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void					process(void);
 void					error(char *msg, int status, int fd);
 void					file_error(char *file_name, char *str, int status,
 							int index);
+void					file_error_ambiguous(char *str, int status, int index);
 t_env					*create_env_lst(char *key, char *value);
 void					add_env(t_env **env, t_env *new);
 void					save_tty(int tty_fd);
@@ -166,8 +167,7 @@ void					replace_invalid(t_token *cur, char c);
 // command table
 t_cmd					*create_cmd_table(void);
 void					fill_cmd_table(void);
-void					filling_with_value(t_cmd *cmd_table,
-							t_token **ptr_temp);
+void					filling_with_value(t_cmd *cmd_table, t_token **ptr_temp);
 int						cmd_has_path(char *cmd);
 char					*build_path(char *cmd);
 void					copy_cmd_path(char *cmd, char *cmd_path,
@@ -204,6 +204,10 @@ t_redir_out				*create_redir_out_list(char *file_name,
 							t_type token_type);
 t_bool					validate_redir_in_file(char *file, int index);
 t_bool					validate_redir_out_file(char *file, int index);
+t_bool					file_exists(char *file);
+t_bool					file_readable(char *file);
+t_bool					file_writable(char *file);
+t_bool					is_dir(char *file);
 
 // exec
 void					handle_cmd_number(void);
@@ -211,6 +215,7 @@ void					exec_builtins(t_cmd *cmd);
 void					check_redirects(t_cmd *cmd);
 void					exec_one_cmd(t_cmd *cmd_table);
 void					exec_mult_cmd(int cmd_number);
+void					return_exit_status(void);
 void					check_exec(t_cmd *cmd_table);
 void					pipe_redirect(int *pipes);
 void					dup_pipes_backup(int pipes_backup);
@@ -241,6 +246,7 @@ void					print_unset_error(char *argv);
 void					delete_env(char *key, t_env **head);
 
 // signals
+void					print_quit_or_int(int s);
 void					signal_handler(void);
 void					execution_signals(int pid);
 void					handler_exec(int signal);

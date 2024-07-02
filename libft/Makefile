@@ -72,7 +72,7 @@ $(NAME): $(OBJECTS)
 	@ar -rcs $(NAME) $?
 
 $(OBJ_PATH)%.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@ -I $(HEADER)
+	@$(CC) $(CFLAGS) -c $< -o $@
 	
 $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)

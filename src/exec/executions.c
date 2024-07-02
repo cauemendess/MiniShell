@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 11:12:19 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/23 14:16:42 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:04:42 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@ void	handle_cmd_number(void)
 	cmd_number = cmd_count();
 	fill_cmd_table();
 	if (cmd_number == 1)
+	{
+		signal(SIGQUIT, print_quit_or_int);
+		signal(SIGINT, print_quit_or_int);
 		exec_one_cmd(get_core()->cmd_table);
+	}
 	else if (cmd_number > 1)
 	{
 		exec_mult_cmd(cmd_number);
@@ -31,7 +35,8 @@ void	exec_one_cmd(t_cmd *cmd_table)
 {
 	int	fork_pid;
 
-	signal(SIGQUIT, SIG_DFL);
+	if (get_core()->error.cmd_error[cmd_table->index])
+		return ;
 	if (cmd_table->is_builtin == TRUE)
 		exec_builtins(cmd_table);
 	else
@@ -40,8 +45,7 @@ void	exec_one_cmd(t_cmd *cmd_table)
 		execution_signals(fork_pid);
 		if (fork_pid == 0)
 		{
-			if (cmd_table->cmd == NULL
-				|| get_core()->error.cmd_error[cmd_table->index])
+			if (cmd_table->cmd == NULL)
 				clear_and_exit_child(get_core()->exit_status);
 			check_redirects(cmd_table);
 			cmd_table->cmd = build_path(cmd_table->cmd);
@@ -50,7 +54,7 @@ void	exec_one_cmd(t_cmd *cmd_table)
 			clear_and_exit_child(get_core()->exit_status);
 		}
 		waitpid(fork_pid, &get_core()->exit_status, 0);
-		get_core()->exit_status = WEXITSTATUS(get_core()->exit_status);
+		return_exit_status();
 	}
 }
 

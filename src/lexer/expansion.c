@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csilva-m <csilva-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 00:56:50 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/23 15:05:28 by csilva-m         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:18:14 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*my_get_env(char *key)
 		return (NULL);
 	while (env)
 	{
-		if (!ft_strncmp(env->key, key, ft_strlen(key)))
+		if (!ft_strncmp(env->key, key, ft_strlen(env->key)))
 			return (ft_strdup(env->value));
 		if (!ft_strncmp(key, "?", 2))
 			return (ft_itoa(get_core()->exit_status));
@@ -56,7 +56,13 @@ void	remove_expansions_to_nothing(void)
 	current = get_core()->token;
 	while (current)
 	{
-		if (current->token == VAR && current->str[0] == '\0')
+		if (current->token == VAR && current->str[0] == '\0'
+			&& current->prev == NULL)
+			remove_token(&get_core()->token, current);
+		else if (current->token == VAR && current->str[0] == '\0'
+			&& current->prev != NULL
+			&& current->prev->token != REDIRECT
+			&& current->prev->token != APPEND && current->prev->token != TRUNC)
 			remove_token(&get_core()->token, current);
 		current = current->next;
 	}
@@ -96,4 +102,5 @@ void	parsing_vars(void)
 		process_token(cur, &i, &status);
 		cur = cur->next;
 	}
+	remove_expansions_to_nothing();
 }

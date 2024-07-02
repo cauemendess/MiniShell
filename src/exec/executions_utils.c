@@ -6,7 +6,7 @@
 /*   By: dfrade <dfrade@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 11:33:24 by dfrade            #+#    #+#             */
-/*   Updated: 2024/06/15 19:15:29 by dfrade           ###   ########.fr       */
+/*   Updated: 2024/06/24 19:21:45 by dfrade           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,26 @@ void	update_pipes_backup(int *pipes, int *pipes_backup)
 void	wait_child(t_cmd *cmd_table, int cmd_number)
 {
 	int	i;
+	int	status_backup;
 
 	i = 0;
 	while (i < cmd_number)
 	{
 		waitpid(cmd_table[i].fork_pid, &(get_core()->exit_status), 0);
+		status_backup = WEXITSTATUS(get_core()->exit_status);
+		if (status_backup == 130 || status_backup == 131)
+		{
+			if (status_backup == 131)
+				ft_putstr_fd("\nQuit (core dumped)\n", 2);
+			else
+				ft_putstr_fd("\n", 2);
+			i++;
+			while (i < cmd_number)
+			{
+				waitpid(cmd_table[i].fork_pid, NULL, 0);
+				i++;
+			}
+		}
 		i++;
 	}
 	get_core()->exit_status = WEXITSTATUS(get_core()->exit_status);
